@@ -42,7 +42,7 @@ php artisan key:generate
 php artisan migrate
 
 # Run in development
-php artisan migrate
+php artisan serve
 npm run dev
 
 http://127.0.0.1:8000/
