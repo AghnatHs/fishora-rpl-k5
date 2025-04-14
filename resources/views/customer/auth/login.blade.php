@@ -13,7 +13,8 @@
         {{-- Email --}}
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" placeholder="you@example.com" required
+            <input type="email" name="email" id="email" placeholder="you@example.com" value="{{ old('email') }}"
+                required
                 class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2">
         </div>
 
