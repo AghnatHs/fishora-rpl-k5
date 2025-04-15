@@ -43,16 +43,16 @@ class EmailVerificationController extends Controller
     public function resend(Request $request)
     {
         $customer = auth('customer')->user();
-        $key = 'resend-verification:' . $customer->id . '|' . $customer->ip;
+        $throttleKey = 'resend-verification:' . $customer->id . '|' . $customer->ip;
 
-        if (RateLimiter::tooManyAttempts($key, 3)) {
+        if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
             return back()->with(
                 'error',
                 'Too many requests. Please wait before trying again.'
             );
         }
 
-        RateLimiter::hit($key, 60);
+        RateLimiter::hit($throttleKey, 60);
 
         $link = $customer->generateVerificationUrl();
         Mail::to($customer->email)->send(new CustomerVerifyEmail($link));
