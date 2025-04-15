@@ -43,7 +43,7 @@ class EmailVerificationController extends Controller
     public function resend(Request $request)
     {
         $customer = auth('customer')->user();
-        $key = 'resend-verification:' . $customer->id;
+        $key = 'resend-verification:' . $customer->id . '|' . $customer->ip;
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             return back()->with(
