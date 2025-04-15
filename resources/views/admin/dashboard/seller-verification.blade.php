@@ -20,7 +20,7 @@
             @if (session('success'))
                 <div x-data="{ show: true }" x-show="show" x-transition
                     class="mb-4 flex items-center justify-between bg-green-100 border border-green-300 text-green-800 text-sm rounded p-3">
-                    <span>{{ session('status') }}</span>
+                    <span>{{ session('success') }}</span>
                     <button @click="show = false" class="text-green-700 hover:text-green-900 font-bold px-2">
                         &times;
                     </button>
@@ -42,7 +42,7 @@
                                 @if (!$seller->admin_verified_at)
                                     <div class="flex space-x-4">
                                         <form
-                                            action="{{ route('admin.dashboard.seller-verification', ['seller' => $seller]) }}"
+                                            action="{{ route('admin.dashboard.seller-verification.post', ['seller' => $seller]) }}"
                                             method="POST" class="mt-2">
                                             @csrf
                                             <input type="hidden" name="action" value="approve">
@@ -52,7 +52,7 @@
                                             </button>
                                         </form>
                                         <form
-                                            action="{{ route('admin.dashboard.seller-verification', ['seller' => $seller]) }}"
+                                            action="{{ route('admin.dashboard.seller-verification.post', ['seller' => $seller]) }}"
                                             method="POST" class="mt-2">
                                             @csrf
                                             <input type="hidden" name="action" value="reject">

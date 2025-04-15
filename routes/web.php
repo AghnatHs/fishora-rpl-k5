@@ -22,8 +22,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth.custom:admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/dashboard/overview', [AdminDashboardController::class, 'overview'])->name('dashboard.overview');
+
+        Route::post('/dashboard/seller-verification/{seller}', [AdminDashboardController::class, 'verifySeller'])->name('dashboard.seller-verification.post');;
         Route::get('/dashboard/seller-verification', [AdminDashboardController::class, 'sellerVerification'])->name('dashboard.seller-verification');
-        Route::post('/dashboard/seller-verification/{seller}', [AdminDashboardController::class, 'verifySeller'])->name('dashboard.seller-verification');;
     });
 });
 
