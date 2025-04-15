@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 // auth.custom
 class EnsureUserIsAuthenticated
@@ -18,16 +18,19 @@ class EnsureUserIsAuthenticated
                 return $next($request);
             }
 
-            switch ($guard) {
-                case 'customer':
-                    $loginRoute = 'customer.login';
-                    break;
-                default:
-                    $loginRoute = 'customer.login';
-                    break;
+            foreach (array_diff(array_keys(config('auth.guards')), [$guard]) as $otherGuard) {
+                if (Auth::guard($otherGuard)->check()) {
+                    return abort(403, 'Unauthorized access.');
+                }
             }
 
-            return redirect()->route($loginRoute);
+            switch ($guard) {
+                case 'admin':
+                    return redirect()->route('admin.login');
+                case 'customer':
+                default:
+                    return redirect()->route('customer.login');
+            }
         }
 
         return abort(403);
