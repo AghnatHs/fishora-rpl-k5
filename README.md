@@ -42,6 +42,9 @@ php artisan key:generate
 # Configure your DB in .env then run:
 php artisan migrate
 
+# Seed the db
+php artisan db:seed
+
 # Run in development
 php artisan serve
 npm run dev
