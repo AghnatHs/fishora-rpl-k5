@@ -4,7 +4,6 @@
 
         <div class="space-y-2 text-gray-700">
             <p><span class="font-medium">Email:</span> {{ Auth::guard('admin')->user()->email }}</p>
-            <p><span class="font-medium">Phone:</span> {{ Auth::guard('admin')->user()->telephone }}</p>
         </div>
 
         <form action="{{ route('admin.logout') }}" method="POST" class="mt-6">
