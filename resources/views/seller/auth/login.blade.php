@@ -1,15 +1,7 @@
 <x-guest-layout>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Seller Login</h2>
 
-    @if (session('success'))
-        <div x-data="{ show: true }" x-show="show" x-transition
-            class="mb-4 flex items-center justify-between bg-green-100 border border-green-300 text-green-800 text-sm rounded p-3">
-            <span>{{ session('success') }}</span>
-            <button @click="show = false" class="text-green-700 hover:text-green-900 font-bold px-2">
-                &times;
-            </button>
-        </div>
-    @endif
+    @include('components.modals.status')
 
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -23,8 +15,8 @@
         {{-- Email --}}
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" placeholder="you@example.com"
-                value="{{ old('email') }}" required
+            <input type="email" name="email" id="email" placeholder="you@example.com" value="{{ old('email') }}"
+                required
                 class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-4 py-2">
         </div>
 
