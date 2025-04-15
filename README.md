@@ -46,6 +46,8 @@ php artisan migrate
 php artisan db:seed
 
 # Run in development
+composer run dev
+# or
 php artisan serve
 npm run dev
 
