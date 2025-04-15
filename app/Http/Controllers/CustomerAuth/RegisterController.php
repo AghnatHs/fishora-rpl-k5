@@ -4,9 +4,11 @@ namespace App\Http\Controllers\CustomerAuth;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Mail\CustomerVerifyEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -27,7 +29,10 @@ class RegisterController extends Controller
 
         $customer = Customer::create($validated);
 
-        Auth::guard('customer')->login($customer);
+        $link = $customer->generateVerificationUrl();
+        Mail::to($customer->email)->send(new CustomerVerifyEmail($link));
+
+        return redirect()->route('customer.login')->with('success', 'Please check your email and proceed your verification');
 
         return redirect()->route('customer.dashboard');
     }

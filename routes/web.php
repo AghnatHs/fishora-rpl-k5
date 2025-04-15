@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\Customer;
 use App\Http\Controllers\AdminAuth;
-use App\Http\Controllers\CustomerAuth;
 use App\Http\Controllers\SellerAuth;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\CustomerDashboardController;
-use App\Http\Controllers\SellerDashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerAuth;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\SellerDashboardController;
+use App\Http\Controllers\CustomerDashboardController;
 
 Route::get('/', function () {
     return redirect(route('customer.login'));
@@ -42,6 +43,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('dashboard');
     });
 });
+
+# Customer Email Verification
+Route::get('/verify/customer/email', [CustomerAuth\EmailVerificationController::class, 'verify'])->name('customer.verify.email');
 
 Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('guest.custom')->group(function () {

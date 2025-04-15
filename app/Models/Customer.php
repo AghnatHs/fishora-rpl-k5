@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,6 +54,18 @@ class Customer extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function generateVerificationUrl()
+    {
+        return URL::temporarySignedRoute(
+            'customer.verify.email',
+            Carbon::now()->addMinutes(60),
+            [
+                'id' => $this->id,
+                'email' => $this->email,
+            ]
+        );
+    }
 
     protected function casts(): array
     {

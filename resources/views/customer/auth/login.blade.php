@@ -1,6 +1,7 @@
 <x-guest-layout>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Customer Login</h2>
 
+    @include('components.modals.status')
     @include('components.modals.errors')
 
     <form method="POST" action="{{ route('customer.login') }}" class="space-y-6">
