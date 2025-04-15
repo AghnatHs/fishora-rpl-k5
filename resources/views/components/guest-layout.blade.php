@@ -14,7 +14,7 @@
 
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
     <x-app-logo></x-app-logo>
-    <div class="w-full max-w-md p-6 bg-white shadow-md rounded-xl">
+    <div class="w-full max-w-lg p-6 bg-white shadow-md rounded-xl">
         @isset($header)
             <div class="mb-4 text-xl font-semibold text-center text-gray-800">
                 {{ $header }}

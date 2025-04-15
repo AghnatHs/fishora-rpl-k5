@@ -72,9 +72,13 @@
         </div>
     </form>
 
-    <p class="mt-6 text-center text-sm text-gray-600">
+    <p class="mt-3 text-center text-sm text-gray-600">
         Already have an account?
         <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login here</a>
+    </p>
+    <p class="mt-3 text-center text-sm text-gray-600">
+        Login as customer?
+        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Here</a>
     </p>
 </x-guest-layout>
 

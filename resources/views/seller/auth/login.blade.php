@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Customer Login</h2>
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Seller Login</h2>
 
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -7,7 +7,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('customer.login') }}" class="space-y-6">
+    <form method="POST" action="{{ route('seller.login') }}" class="space-y-6">
         @csrf
 
         {{-- Email --}}
@@ -52,11 +52,11 @@
 
     <p class="mt-3 text-center text-sm text-gray-600">
         Don’t have an account?
-        <a href="{{ route('customer.register') }}" class="text-blue-600 hover:underline font-medium">Register here</a>
+        <a href="{{ route('seller.register') }}" class="text-blue-600 hover:underline font-medium">Register here</a>
     </p>
     <p class="mt-3 text-center text-sm text-gray-600">
-        You are a Seller?
-        <a href="{{ route('seller.login') }}" class="text-blue-600 hover:underline font-medium">Login as Seller</a>
+        Not a seller?
+        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login as Customer</a>
     </p>
 </x-guest-layout>
 
