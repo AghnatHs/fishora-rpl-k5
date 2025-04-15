@@ -13,7 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth.custom' => \App\Http\Middleware\EnsureUserIsAuthenticated::class,
-            'guest.custom' => \App\Http\Middleware\RedirectIfAuthenticated::class
+            'customer.verified' => \App\Http\Middleware\EnsureCustomerEmailIsVerified::class,
+            'customer.unverified' => \App\Http\Middleware\RedirectIfCustomerEmailIsVerified::class,
+            'guest.custom' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {})->create();
