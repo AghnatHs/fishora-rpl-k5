@@ -77,8 +77,8 @@
         <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login here</a>
     </p>
     <p class="mt-3 text-center text-sm text-gray-600">
-        Login as customer?
-        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Here</a>
+        Login as seller?
+        <a href="{{ route('seller.login') }}" class="text-blue-600 hover:underline font-medium">Here</a>
     </p>
 </x-guest-layout>
 

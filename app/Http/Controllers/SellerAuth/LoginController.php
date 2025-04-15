@@ -26,9 +26,16 @@ class LoginController extends Controller
         $throttleKey = Str::lower($request->input('email')) . '|' . $request->ip();
 
         $seller = Seller::where('email', $request->input('email'))->first();
-        if (!$seller->admin_verified_at) {
-            RateLimiter::hit($throttleKey, 60);
-            return redirect()->back()->withErrors(['email' => 'Seller is not verified by Administrator yet.']);
+        if ($seller) {
+            if (!$seller->admin_verified_at) {
+                RateLimiter::hit($throttleKey, 60);
+                return redirect()->back()->withErrors(['email' => 'Seller is not verified by Administrator yet. please check your email']);
+            } else {
+                if ($seller->admin_verified_accepted === 'reject') {
+                    RateLimiter::hit($throttleKey, 60);
+                    return redirect()->back()->withErrors(['email' => 'Seller verification is not accepted by Administrator.']);
+                }
+            }
         }
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {

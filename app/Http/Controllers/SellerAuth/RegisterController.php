@@ -26,10 +26,24 @@ class RegisterController extends Controller
             'address_city' => 'required|string|max:255',
             'address_province' => 'required|string|max:255',
             'address_zipcode' => 'required|integer',
+            'ktp' => 'required|mimes:jpeg,jpg,png|max:5120',
+            'proof_of_business' => 'required|mimes:jpeg,jpg,png|max:5120',
         ]);
         $validated['password'] = Hash::make($validated['password']);
 
-        $customer = Seller::create($validated);
+        if ($request->hasFile('ktp')) {
+            $file = $request->file('ktp');
+            $validated['ktp'] = file_get_contents($file->getRealPath());
+            $validated['ktp_mime'] = $file->getMimeType();
+        }
+
+        if ($request->hasFile('proof_of_business')) {
+            $file = $request->file('proof_of_business');
+            $validated['proof_of_business'] = file_get_contents($file->getRealPath());
+            $validated['proof_of_business_mime'] = $file->getMimeType();
+        }
+
+        $seller = Seller::create($validated);
 
         return redirect()->route('seller.dashboard');
     }
