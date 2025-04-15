@@ -9,6 +9,54 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * 
+ *
+ * @property string $id
+ * @property string $email
+ * @property string $password
+ * @property string $shop_name
+ * @property string $telephone
+ * @property string $address_street
+ * @property string $address_city
+ * @property string $address_province
+ * @property int $address_zipcode
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $admin_verified_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $ktp
+ * @property string|null $ktp_mime
+ * @property string|null $proof_of_business
+ * @property string|null $proof_of_business_mime
+ * @property string|null $admin_verified_accepted
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAddressCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAddressProvince($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAddressStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAddressZipcode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAdminVerifiedAccepted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereAdminVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereKtp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereKtpMime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereProofOfBusiness($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereProofOfBusinessMime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereShopName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereTelephone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Seller whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Seller extends Authenticatable
 {
     use HasUlids, Notifiable;

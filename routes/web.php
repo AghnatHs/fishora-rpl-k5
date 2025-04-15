@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\Customer;
 use App\Http\Controllers\AdminAuth;
-use App\Http\Controllers\CustomerAuth;
 use App\Http\Controllers\SellerAuth;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\CustomerDashboardController;
-use App\Http\Controllers\SellerDashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerAuth;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\SellerDashboardController;
+use App\Http\Controllers\CustomerDashboardController;
 
 Route::get('/', function () {
     return redirect(route('customer.login'));
@@ -38,10 +39,22 @@ Route::prefix('customer')->name('customer.')->group(function () {
     });
     Route::post('/logout', [CustomerAuth\LoginController::class, 'logout'])->name('logout');
 
-    Route::middleware('auth.custom:customer')->group(function () {
+    Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('dashboard');
     });
 });
+
+# Customer Email Verification
+Route::get('/verify/customer/email', [CustomerAuth\EmailVerificationController::class, 'verify'])->name('customer.verify.email');
+
+Route::get('/customer/verify-email/notice', [CustomerAuth\EmailVerificationController::class, 'notice'])
+    ->middleware(['auth.custom:customer', 'customer.unverified'])
+    ->name('customer.verify.notice');
+
+Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificationController::class, 'resend'])
+    ->middleware(['auth.custom:customer', 'customer.unverified'])
+    ->name('customer.verification.resend');
+
 
 Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
