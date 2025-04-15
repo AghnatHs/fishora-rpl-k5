@@ -20,6 +20,8 @@ class RedirectIfAuthenticated
                         return redirect()->route('admin.dashboard');
                     case 'customer':
                         return redirect()->route('customer.dashboard');
+                    case 'seller':
+                        return redirect()->route('seller.dashboard');
                     default:
                         return redirect('/'); // fallback
                 }

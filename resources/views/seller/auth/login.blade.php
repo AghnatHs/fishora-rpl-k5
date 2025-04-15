@@ -1,9 +1,12 @@
 <x-guest-layout>
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Seller Login</h2>
+
+    @include('components.modals.status')
 
     @include('components.modals.errors')
 
-    <form method="POST" action="{{ route('admin.login') }}" class="space-y-6">
+
+    <form method="POST" action="{{ route('seller.login') }}" class="space-y-6">
         @csrf
 
         {{-- Email --}}
@@ -45,6 +48,15 @@
             </button>
         </div>
     </form>
+
+    <p class="mt-3 text-center text-sm text-gray-600">
+        Don’t have an account?
+        <a href="{{ route('seller.register') }}" class="text-blue-600 hover:underline font-medium">Register here</a>
+    </p>
+    <p class="mt-3 text-center text-sm text-gray-600">
+        Not a seller?
+        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login as Customer</a>
+    </p>
 </x-guest-layout>
 
 <script>

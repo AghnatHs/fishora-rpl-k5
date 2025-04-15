@@ -28,6 +28,9 @@ class EnsureUserIsAuthenticated
                 case 'admin':
                     return redirect()->route('admin.login');
                 case 'customer':
+                    return redirect()->route('customer.login');
+                case 'seller':
+                    return redirect()->route('seller.login');
                 default:
                     return redirect()->route('customer.login');
             }

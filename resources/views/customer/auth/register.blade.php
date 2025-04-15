@@ -1,11 +1,7 @@
 <x-guest-layout>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Customer Register</h2>
 
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ $errors->first() }}</span>
-        </div>
-    @endif
+    @include('components.modals.errors')
 
     <form method="POST" action="{{ route('customer.register') }}" class="space-y-6">
         @csrf
@@ -72,9 +68,13 @@
         </div>
     </form>
 
-    <p class="mt-6 text-center text-sm text-gray-600">
+    <p class="mt-3 text-center text-sm text-gray-600">
         Already have an account?
         <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login here</a>
+    </p>
+    <p class="mt-3 text-center text-sm text-gray-600">
+        Login as seller?
+        <a href="{{ route('seller.login') }}" class="text-blue-600 hover:underline font-medium">Here</a>
     </p>
 </x-guest-layout>
 
