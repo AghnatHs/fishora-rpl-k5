@@ -34,6 +34,7 @@ npm install && npm run dev
 
 # Copy .env and set your config
 cp .env.example .env
+set DB, set Admin Seeder credentials
 
 # Generate app key
 php artisan key:generate
