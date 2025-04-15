@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('customer')->logout();
+        Auth::guard('admin')->logout();
         return redirect('/');
     }
 }
