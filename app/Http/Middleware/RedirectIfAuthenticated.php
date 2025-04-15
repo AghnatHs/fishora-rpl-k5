@@ -11,15 +11,17 @@ class RedirectIfAuthenticated
 {
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        $guards = empty($guards) ? [null] : $guards;
+        $guards = $guards ?: array_keys(config('auth.guards')); // check all guards if none specified
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 switch ($guard) {
+                    case 'admin':
+                        return redirect()->route('admin.dashboard');
                     case 'customer':
                         return redirect()->route('customer.dashboard');
                     default:
-                        return redirect('/customer.dashboard');
+                        return redirect('/'); // fallback
                 }
             }
         }
