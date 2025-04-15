@@ -45,6 +45,6 @@ class RegisterController extends Controller
 
         $seller = Seller::create($validated);
 
-        return redirect()->route('seller.dashboard');
+        return redirect()->route('seller.login')->with('success', 'Account succesfully registered, please wait for admin to verify your account');
     }
 }
