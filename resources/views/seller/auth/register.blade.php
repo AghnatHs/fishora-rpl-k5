@@ -1,13 +1,9 @@
 <x-guest-layout>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Seller Register</h2>
 
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ $errors->first() }}</span>
-        </div>
-    @endif
+    @include('components.modals.errors')
 
-    <form method="POST" action="{{ route('seller.register') }}" class="space-y-6">
+    <form method="POST" action="{{ route('seller.register') }}" class="space-y-6" enctype="multipart/form-data">
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,6 +102,21 @@
             </div>
         </div>
 
+        {{-- KTP Upload --}}
+        <label for="ktp" class="block text-sm font-medium text-gray-700">Upload KTP: png/jpeg, max:5 Mb</label>
+        <div class="mb-4">
+            <input type="file" id="ktp" name="ktp" accept="image/png, image/jpeg, image/jpg"
+                class="bg-[#FAFAFA] border border-gray-200 shadow-sm rounded-md p-2 w-full focus:ring-1 focus:ring-gray-100 focus:shadow-md focus:border-gray-100 focus:outline-none text-gray-700 text-sm">
+        </div>
+
+        {{-- Bukti Usaha Upload --}}
+        <label for="proof_of_business" class="block text-sm font-medium text-gray-700">Upload Bukti Usaha: png/jpeg,
+            max:5 Mb</label>
+        <div class="mb-4">
+            <input type="file" id="proof_of_business" name="proof_of_business" accept="image/png, image/jpeg, image/jpg"
+                class="bg-[#FAFAFA] border border-gray-200 shadow-sm rounded-md p-2 w-full focus:ring-1 focus:ring-gray-100 focus:shadow-md focus:border-gray-100 focus:outline-none text-gray-700 text-sm">
+        </div>
+
         {{-- Submit Button --}}
         <div>
             <button type="submit"
@@ -121,7 +132,8 @@
     </p>
     <p class="mt-3 text-center text-sm text-gray-600">
         Not a seller?
-        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login as Customer</a>
+        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login as
+            Customer</a>
     </p>
 </x-guest-layout>
 

@@ -22,7 +22,12 @@ class Seller extends Authenticatable
         'address_city',
         'address_province',
         'address_zipcode',
-        'admin_verified_at'
+        'admin_verified_at',
+        'admin_verified_status',
+        'ktp',
+        'ktp_mime',
+        'proof_of_business',
+        'proof_of_business_mime'
     ];
 
     protected $hidden = [
