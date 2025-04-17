@@ -6,6 +6,7 @@ use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SellerVerificationAcceptedMail;
+use App\Mail\SellerVerificationRejectedMail;
 
 class AdminDashboardController extends Controller
 {
@@ -54,6 +55,7 @@ class AdminDashboardController extends Controller
             Mail::to($seller->email)->queue(new SellerVerificationAcceptedMail($seller));
         } elseif ($validated['action'] === 'reject') {
             $seller->admin_verified_accepted = 'reject';
+            Mail::to($seller->email)->queue(new SellerVerificationRejectedMail($seller));
         }
 
         $seller->admin_verified_at = now();
