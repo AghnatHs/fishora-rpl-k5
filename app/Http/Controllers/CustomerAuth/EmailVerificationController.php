@@ -53,7 +53,7 @@ class EmailVerificationController extends Controller
         RateLimiter::hit($throttleKey, 60);
 
         $link = $customer->generateVerificationUrl();
-        Mail::to($customer->email)->send(new CustomerVerifyEmail($link));
+        Mail::to($customer->email)->queue(new CustomerVerifyEmail($link));
         return back()->with('status', 'verification-link-sent');
     }
 }

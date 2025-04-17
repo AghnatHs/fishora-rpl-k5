@@ -30,7 +30,7 @@ class LoginController extends Controller
         if ($seller) {
             if (!$seller->admin_verified_at) {
                 RateLimiter::hit($throttleKey, 60);
-                return redirect()->back()->withErrors(['email' => 'Seller is not verified by Administrator yet. please check your email']);
+                return redirect()->back()->withErrors(['email' => 'Seller is not verified by Administrator yet. please wait']);
             } else {
                 if ($seller->admin_verified_accepted === 'reject') {
                     RateLimiter::hit($throttleKey, 60);

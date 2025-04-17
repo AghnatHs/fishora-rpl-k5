@@ -57,5 +57,6 @@ composer run dev
 # or
 php artisan serve
 npm run dev
+php artisan queue:listen OR php artisan queue:work (pick one)
 
 http://127.0.0.1:8000/
