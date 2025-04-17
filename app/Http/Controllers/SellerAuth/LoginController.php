@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SellerAuth;
 
 use App\Models\Seller;
+use App\Constants\Messages;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,7 +42,7 @@ class LoginController extends Controller
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
             return back()->withInput()->withErrors([
-                'email' => "Too many login attempts. Please try again in later."
+                'email' => Messages::TOO_MANY_ATTEMPTS
             ]);
         }
 
@@ -51,7 +52,7 @@ class LoginController extends Controller
         }
 
         RateLimiter::hit($throttleKey, 60);
-        return redirect()->back()->withInput()->withErrors(['email' => 'No credentials record found']);
+        return redirect()->back()->withInput()->withErrors(['email' => Messages::WRONG_CREDENTIALS]);
     }
 
     public function logout(Request $request)

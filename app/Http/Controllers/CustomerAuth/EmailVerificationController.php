@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CustomerAuth;
 
+use App\Constants\Messages;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Mail\CustomerVerifyEmail;
@@ -46,10 +47,7 @@ class EmailVerificationController extends Controller
         $throttleKey = 'resend-verification:' . $customer->id . '|' . $customer->ip;
 
         if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
-            return back()->with(
-                'error',
-                'Too many requests. Please wait before trying again.'
-            );
+            return back()->with('error', Messages::TOO_MANY_ATTEMPTS);
         }
 
         RateLimiter::hit($throttleKey, 60);
