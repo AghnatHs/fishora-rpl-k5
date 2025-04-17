@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Seller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SellerVerificationAcceptedMail;
 
 class AdminDashboardController extends Controller
 {
@@ -49,10 +51,11 @@ class AdminDashboardController extends Controller
 
         if ($validated['action'] === 'approve') {
             $seller->admin_verified_accepted = 'approve';
+            Mail::to($seller->email)->queue(new SellerVerificationAcceptedMail($seller));
         } elseif ($validated['action'] === 'reject') {
             $seller->admin_verified_accepted = 'reject';
         }
-        
+
         $seller->admin_verified_at = now();
         $seller->save();
 
