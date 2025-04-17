@@ -30,7 +30,7 @@ class RegisterController extends Controller
         $customer = Customer::create($validated);
 
         $link = $customer->generateVerificationUrl();
-        Mail::to($customer->email)->send(new CustomerVerifyEmail($link));
+        Mail::to($customer->email)->queue(new CustomerVerifyEmail($link));
 
         return redirect()->route('customer.login')->with('success', 'Please check your email and proceed your verification');
 
