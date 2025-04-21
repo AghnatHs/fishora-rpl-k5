@@ -31,7 +31,7 @@
             <!-- Product Card -->
             @forelse ($products as $product)
                 <div class="bg-gray-100 rounded-lg p-4 shadow-sm mb-4">
-                    <div class="flex items-center space-x-4 mb-4">
+                    <div class="flex items-center space-x-4 mb-2">
                         <div class="w-16 h-16 bg-white rounded overflow-hidden flex items-center justify-center">
                             <img class="object-cover w-full h-full" src="{{ Storage::url($product->image_cover) }}"
                                 alt="Product Image">
@@ -40,6 +40,10 @@
                             <p class="font-semibold">{{ $product->name }}</p>
                             <p class="text-sm text-gray-800">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                             <p class="text-sm text-gray-600">Stok : {{ $product->stock }}</p>
+                            <p class="text-xs text-gray-600">Created At :
+                                {{ $product->created_at }}</p>
+                            <p class="text-xs text-gray-600">Last Updated by You :
+                                {{ $product->updated_at->diffForHumans() }}</p>
 
                             <!-- Kategori Produk -->
                             <div class="mt-1 flex flex-wrap gap-1">
@@ -49,9 +53,9 @@
                                     </span>
                                 @endforeach
                             </div>
+
                         </div>
                     </div>
-
 
                     <div class="flex space-x-1 text-sm">
                         <a href="{{ route('seller.products.edit', compact('product')) }}"
