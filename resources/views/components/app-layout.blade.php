@@ -12,11 +12,12 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 </head>
 
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-    <div class="w-full p-6 shadow-md rounded-xl">
+<body class="min-h-screen flex flex-col items-center justify-center">
+    <div class="w-full p-6 rounded-xl">
 
         @isset($header)
             <div class="mb-4 text-xl font-semibold text-center text-gray-800">
