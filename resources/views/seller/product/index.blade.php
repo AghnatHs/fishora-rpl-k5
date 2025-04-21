@@ -53,14 +53,14 @@
                     </div>
 
 
-                    <div class="flex justify-around text-sm">
+                    <div class="flex space-x-1 text-sm">
+                        <a href="{{ route('seller.products.edit', compact('product')) }}"
+                            class="bg-green-500 px-3 py-1 rounded hover:bg-green-600 text-white">Edit</a>
                         <form method="POST" action="{{ route('seller.products.destroy', compact('product')) }}">
                             @csrf
                             @method('DELETE')
-                            <button class="bg-gray-300 px-3 py-1 rounded hover:bg-red-400">Hapus</button>
+                            <button class="bg-red-500 px-3 py-1 rounded hover:bg-red-600 text-white">Hapus</button>
                         </form>
-                        <a href="{{ route('seller.products.edit', compact('product')) }}"
-                            class="bg-gray-300 px-3 py-1 rounded hover:bg-blue-400">Edit</a>
                     </div>
                 </div>
             @empty
