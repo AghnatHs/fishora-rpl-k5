@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerAuth;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return redirect(route('customer.login'));
@@ -68,5 +69,7 @@ Route::prefix('seller')->name('seller.')->group(function () {
 
     Route::middleware('auth.custom:seller')->group(function () {
         Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('dashboard');
+
+        Route::resource('products', ProductController::class);
     });
 });

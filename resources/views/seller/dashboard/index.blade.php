@@ -47,7 +47,8 @@
         <!-- Menu -->
         <div class="bg-gray-100 p-4 rounded-lg mb-4">
             <div class="grid grid-cols-3 text-center gap-2 text-sm">
-                <a href="" class="flex flex-col items-center hover:text-blue-600 transition">
+                <a href="{{ route('seller.products.index') }}"
+                    class="flex flex-col items-center hover:text-blue-600 transition">
                     <i class="fas fa-box text-xl mb-1"></i>
                     <p>Produk</p>
                 </a>
@@ -57,7 +58,7 @@
                 </a>
                 <a href="" class="flex flex-col items-center hover:text-blue-600 transition">
                     <i class="fas fa-question-circle text-xl mb-1"></i>
-                    <p>Pusat Bantuan</p>
+                    <p>Bantuan</p>
                 </a>
             </div>
         </div>

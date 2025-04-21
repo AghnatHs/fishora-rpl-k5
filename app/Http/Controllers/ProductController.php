@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+
+class ProductController extends Controller
+{
+
+    public function index()
+    {
+        $products = Product::where('seller_id', Auth::guard('seller')->user()->id)->get();
+
+        return view("seller.product.index", compact('products'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view("seller.product.create");
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' =>  'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'price' => 'required|integer|min:0',
+            'description' => 'required|string',
+            'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120'
+        ]);
+
+        $validated['seller_id'] = Auth::guard('seller')->user()->id;
+
+        if ($request->hasFile('image_cover')) {
+            $imagePath = $request->file('image_cover')->store('product_images', 'public');
+            $validated['image_cover'] = $imagePath;
+        }
+
+        Product::create($validated);
+
+        return redirect()->route('seller.products.index')->with('success', 'Product added successfully!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Product $product)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Product $product)
+    {
+        return view('seller.product.edit', compact('product'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'name' =>  'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'price' => 'required|integer|min:0',
+            'description' => 'required|string',
+            'image_cover' => 'sometimes|nullable|mimes:jpeg,jpg,png|max:5120'
+        ]);
+
+        if ($request->hasFile('image_cover')) {
+            Storage::disk('public')->delete($product->image_cover);
+            $imagePath = $request->file('image_cover')->store('product_images', 'public');
+            $validated['image_cover'] = $imagePath;
+        }
+
+        $product->update($validated);
+        return redirect()->route('seller.products.index')->with('success', 'Product ' . $product->name . ' edit successfully!');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully!');
+    }
+}

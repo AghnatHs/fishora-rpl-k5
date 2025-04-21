@@ -16,8 +16,8 @@
 
 </head>
 
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-    <div class="w-full p-6 shadow-md rounded-xl">
+<body class="min-h-screen flex flex-col items-center justify-center">
+    <div class="w-full p-6 rounded-xl">
 
         @isset($header)
             <div class="mb-4 text-xl font-semibold text-center text-gray-800">
