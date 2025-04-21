@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("seller.product.create");
+        $categories = Category::orderBy('name')->get();
+
+        return view("seller.product.create", compact('categories'));
     }
 
     public function store(Request $request)
@@ -33,7 +36,9 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'price' => 'required|integer|min:0',
             'description' => 'required|string',
-            'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120'
+            'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
         ]);
 
         $validated['seller_id'] = Auth::guard('seller')->user()->id;
@@ -43,7 +48,8 @@ class ProductController extends Controller
             $validated['image_cover'] = $imagePath;
         }
 
-        Product::create($validated);
+        $product = Product::create($validated);
+        $product->categories()->attach($validated['categories']);
 
         return redirect()->route('seller.products.index')->with('success', 'Product added successfully!');
     }
@@ -61,7 +67,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('seller.product.edit', compact('product'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('seller.product.edit', compact('categories', 'product'));
     }
 
     /**
@@ -74,7 +82,9 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'price' => 'required|integer|min:0',
             'description' => 'required|string',
-            'image_cover' => 'sometimes|nullable|mimes:jpeg,jpg,png|max:5120'
+            'image_cover' => 'sometimes|nullable|mimes:jpeg,jpg,png|max:5120',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id',
         ]);
 
         if ($request->hasFile('image_cover')) {
@@ -84,6 +94,8 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
+        $product->categories()->sync($validated['categories']);
+
         return redirect()->route('seller.products.index')->with('success', 'Product ' . $product->name . ' edit successfully!');
     }
 

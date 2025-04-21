@@ -60,6 +60,20 @@
                         class="mt-1 p-2 w-full border border-gray-300 rounded-md" required value={{ old('price') }}>
                 </div>
 
+                <!-- Product Categories -->
+                <label class="block mb-2 text-sm font-medium text-gray-700">Kategori</label>
+                <div class="grid grid-cols-2 gap-2">
+                    @foreach ($categories as $category)
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
+                                class="rounded text-blue-600 focus:ring-2 focus:ring-blue-400">
+                            <span class="text-sm text-gray-800">{{ $category->name }}</span>
+                        </label>
+                    @endforeach
+                </div>
+
+
                 <!-- Submit Button -->
                 <div class="mt-6">
                     <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
