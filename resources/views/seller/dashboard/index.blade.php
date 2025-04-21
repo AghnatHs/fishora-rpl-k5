@@ -71,13 +71,16 @@
                 @forelse ($products as $product)
                     <!-- Product card -->
                     <div class="bg-white border rounded-lg overflow-hidden">
-                        <div class="aspect-square bg-gray-200"><img src="{{ Storage::url($product->image_cover) }}"
-                                alt=""></div>
+                        <div class="aspect-square items-center text-center bg-gray-200 flex justify-center">
+                            <img src="{{ Storage::url($product->image_cover) }}" alt=""
+                                class="object-cover w-full h-full">
+                        </div>
                         <div class="p-2">
                             <p class="text-sm font-semibold">{{ $product->name }}</p>
                             <p class="text-sm text-gray-500">Rp{{ $product->price }}</p>
                         </div>
                     </div>
+
                 @empty
                     <div class="text-center text-gray-500 py-10">
                         <i class="fas fa-box-open text-4xl mb-2"></i>
@@ -85,8 +88,8 @@
                         <p class="text-sm">Yuk tambahkan produk pertamamu sekarang!</p>
                     </div>
                 @endforelse
-        </div>
+            </div>
 
-    </div>
+        </div>
 
 </x-app-layout>
