@@ -14,7 +14,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::where('seller_id', Auth::guard('seller')->user()->id)
+        $products = Product::with('images')
+            ->where('seller_id', Auth::guard('seller')->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
 
