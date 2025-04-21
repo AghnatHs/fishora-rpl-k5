@@ -77,7 +77,7 @@
                         </div>
                         <div class="p-2">
                             <p class="text-sm font-semibold">{{ $product->name }}</p>
-                            <p class="text-sm text-gray-500">Rp{{ $product->price }}</p>
+                            <p class="text-sm text-gray-500">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                         </div>
                     </div>
 
