@@ -68,32 +68,23 @@
         <div>
             <h2 class="font-semibold mb-2">Produk Anda</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                <!-- Product card -->
-                <div class="bg-white border rounded-lg overflow-hidden">
-                    <div class="aspect-square bg-gray-200"></div>
-                    <div class="p-2">
-                        <p class="text-sm font-semibold">Nama Produk</p>
-                        <p class="text-sm text-gray-500">RpXX.XXX</p>
+                @forelse ($products as $product)
+                    <!-- Product card -->
+                    <div class="bg-white border rounded-lg overflow-hidden">
+                        <div class="aspect-square bg-gray-200"><img src="{{ Storage::url($product->image_cover) }}"
+                                alt=""></div>
+                        <div class="p-2">
+                            <p class="text-sm font-semibold">{{ $product->name }}</p>
+                            <p class="text-sm text-gray-500">Rp{{ $product->price }}</p>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Repeat this product card -->
-                <div class="bg-white border rounded-lg overflow-hidden">
-                    <div class="aspect-square bg-gray-200"></div>
-                    <div class="p-2">
-                        <p class="text-sm font-semibold">Nama Produk</p>
-                        <p class="text-sm text-gray-500">RpXX.XXX</p>
+                @empty
+                    <div class="text-center text-gray-500 py-10">
+                        <i class="fas fa-box-open text-4xl mb-2"></i>
+                        <p class="text-lg font-medium">Belum ada produk</p>
+                        <p class="text-sm">Yuk tambahkan produk pertamamu sekarang!</p>
                     </div>
-                </div>
-
-                <div class="bg-white border rounded-lg overflow-hidden">
-                    <div class="aspect-square bg-gray-200"></div>
-                    <div class="p-2">
-                        <p class="text-sm font-semibold">Nama Produk</p>
-                        <p class="text-sm text-gray-500">RpXX.XXX</p>
-                    </div>
-                </div>
-            </div>
+                @endforelse
         </div>
 
     </div>
