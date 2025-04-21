@@ -30,13 +30,13 @@
 
             <!-- Product Card -->
             @forelse ($products as $product)
-                <div class="bg-gray-100 rounded-lg p-4 shadow-sm mb-4">
+                <div class="bg-gray-100 items-start rounded-lg p-4 shadow-sm mb-4">
                     <div class="flex items-center space-x-4 mb-2">
-                        <div class="w-16 h-16 bg-white rounded overflow-hidden flex items-center justify-center">
-                            <img class="object-cover w-full h-full" src="{{ Storage::url($product->image_cover) }}"
+                        <div class="bg-white rounded overflow-hidden flex items-center justify-center flex-shrink-0">
+                            <img class="w-16 h-16 object-cover rounded" src="{{ Storage::url($product->image_cover) }}"
                                 alt="Product Image">
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <p class="font-semibold">{{ $product->name }}</p>
                             <p class="text-sm text-gray-800">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                             <p class="text-sm text-gray-600">Stok : {{ $product->stock }}</p>
