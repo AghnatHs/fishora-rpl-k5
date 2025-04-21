@@ -70,16 +70,20 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 @forelse ($products as $product)
                     <!-- Product card -->
-                    <div class="bg-white border rounded-lg overflow-hidden">
-                        <div class="aspect-square items-center text-center bg-gray-200 flex justify-center">
-                            <img src="{{ Storage::url($product->image_cover) }}" alt=""
-                                class="object-cover w-full h-full">
+                    <a href="{{ route('seller.products.edit', $product) }}"
+                        class="block transition-transform transform hover:scale-105">
+                        <div class="bg-white border rounded-lg overflow-hidden">
+                            <div class="aspect-square items-center text-center bg-gray-200 flex justify-center">
+                                <img src="{{ Storage::url($product->image_cover) }}" alt=""
+                                    class="object-cover w-full h-full">
+                            </div>
+                            <div class="p-2">
+                                <p class="text-sm font-semibold">{{ $product->name }}</p>
+                                <p class="text-sm text-gray-500">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                            </div>
                         </div>
-                        <div class="p-2">
-                            <p class="text-sm font-semibold">{{ $product->name }}</p>
-                            <p class="text-sm text-gray-500">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
-                        </div>
-                    </div>
+                    </a>
+
 
                 @empty
                     <div class="text-center text-gray-500 py-10">

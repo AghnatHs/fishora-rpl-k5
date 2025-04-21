@@ -32,6 +32,7 @@
                 <!-- Product Image -->
                 <div class="mb-4">
                     <label for="image_cover" class="block text-sm font-medium text-gray-700">Cover Produk</label>
+                    <img src="{{ Storage::url($product->image_cover) }}" alt="">
                     <p class="text-sm text-red-500">Kosongkan jika tidak ingin mengubah cover produk</p>
                     <input type="file" name="image_cover" id="image_cover"
                         class="mt-1 p-2 w-full border border-gray-300 rounded-md">
