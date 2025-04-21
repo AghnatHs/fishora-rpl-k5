@@ -136,7 +136,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        foreach ($product->images as $image) {
+            Storage::disk('public')->delete($image->filepath);
+            $image->delete();
+        }
         $product->delete();
+
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully!');
     }
 }
