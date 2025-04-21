@@ -38,6 +38,48 @@
                         class="mt-1 p-2 w-full border border-gray-300 rounded-md">
                 </div>
 
+                <!-- Existing Images -->
+                @if ($product->images->isNotEmpty())
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Foto Produk</label>
+                        <div class="grid grid-cols-3 gap-2 mt-2">
+                            @foreach ($product->images as $image)
+                                <div class="relative group">
+                                    <img src="{{ Storage::url($image->filepath) }}"
+                                        class="w-full h-32 object-cover rounded" alt="Product Image">
+
+                                    <label class="absolute top-1 right-1 bg-white p-1 rounded shadow-md cursor-pointer">
+                                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
+                                            class="">
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <p class="text-sm text-red-500 mt-1">Centang untuk menghapus gambar.</p>
+                    </div>
+                @else
+                @endif
+
+
+                <!-- Add new Product Images -->
+                <div x-data="{ images: [null] }" class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Foto Produk</label>
+
+                    <template x-for="(image, index) in images" :key="index">
+                        <div class="flex items-center space-x-2">
+                            <input type="file" :name="'images[]'"
+                                class="block w-full text-sm text-gray-500 border border-gray-300 rounded" />
+                            <button type="button" @click="images.splice(index, 1)"
+                                class="text-red-600 hover:text-red-800 text-sm font-bold">x</button>
+                        </div>
+                    </template>
+
+                    <button type="button" @click="images.push(null)"
+                        class="flex items-center text-sm text-blue-600 hover:underline mt-2">
+                        <span class="text-lg mr-1">+</span> Tambah Foto
+                    </button>
+                </div>
+
                 <!-- Product Name -->
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
