@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    public function canDoAction(Product $product)
+    {
+        if (Auth::guard('seller')->user()->id !== $product->seller_id) {
+            return false;
+        }
+        return true;
+    }
 
     public function index()
     {
@@ -80,6 +87,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        if (!$this->canDoAction($product)) abort(403);
+
         $categories = Category::orderBy('name')->get();
 
         return view('seller.product.edit', compact('categories', 'product'));
@@ -90,6 +99,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if (!$this->canDoAction($product)) abort(403);
+
         $validated = $request->validate([
             'name' =>  'required|string|max:255',
             'stock' => 'required|integer|min:0',
@@ -136,6 +147,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if (!$this->canDoAction($product)) abort(403);
+
         foreach ($product->images as $image) {
             Storage::disk('public')->delete($image->filepath);
             $image->delete();
