@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::where('seller_id', Auth::guard('seller')->user()->id)->get();
+        $products = Product::with('images')
+            ->where('seller_id', Auth::guard('seller')->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view("seller.product.index", compact('products'));
     }
@@ -37,8 +41,10 @@ class ProductController extends Controller
             'price' => 'required|integer|min:0',
             'description' => 'required|string',
             'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120',
-            'categories' => 'required|array',
+            'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
+            'images' => 'sometimes|nullable|array',
+            'images.*' => 'sometimes|nullable|mimes:jpeg,jpg,png|max:5120',
         ]);
 
         $validated['seller_id'] = Auth::guard('seller')->user()->id;
@@ -50,6 +56,13 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
         $product->categories()->attach($validated['categories']);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('product_images', 'public');
+                $product->images()->create(['filepath' => $path]);
+            }
+        }
 
         return redirect()->route('seller.products.index')->with('success', 'Product added successfully!');
     }
@@ -85,12 +98,31 @@ class ProductController extends Controller
             'image_cover' => 'sometimes|nullable|mimes:jpeg,jpg,png|max:5120',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
+            'images' => 'array',
+            'images.*' => 'mimes:jpeg,jpg,png|max:5120',
+            'delete_images' => 'array',
+            'delete_images.*' => 'exists:product_images,id',
         ]);
 
         if ($request->hasFile('image_cover')) {
             Storage::disk('public')->delete($product->image_cover);
             $imagePath = $request->file('image_cover')->store('product_images', 'public');
             $validated['image_cover'] = $imagePath;
+        }
+
+        if ($request->filled('delete_images')) {
+            $imagesToDelete = ProductImage::whereIn('id', $request->delete_images)->get();
+            foreach ($imagesToDelete as $image) {
+                Storage::disk('public')->delete($image->filepath);
+                $image->delete();
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('product_images', 'public');
+                $product->images()->create(['filepath' => $path]);
+            }
         }
 
         $product->update($validated);
@@ -104,7 +136,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        foreach ($product->images as $image) {
+            Storage::disk('public')->delete($image->filepath);
+            $image->delete();
+        }
         $product->delete();
+
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully!');
     }
 }

@@ -10,7 +10,9 @@ class SellerDashboardController extends Controller
 {
     public function dashboard()
     {
-        $products = Product::where('seller_id', Auth::guard('seller')->user()->id)->get();
+        $products = Product::where('seller_id', Auth::guard('seller')->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('seller.dashboard.index', compact('products'));
     }
 }

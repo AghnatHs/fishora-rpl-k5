@@ -54,6 +54,17 @@
                                 @endforeach
                             </div>
 
+                            <p class="mt-2 font-semibold">Foto Produk</p>
+                            <div class="flex flex-wrap gap-1">
+                                @forelse ($product->images as $image)
+                                    <img src="{{ Storage::url($image->filepath) }}" alt="Product Image"
+                                        class="w-24 h-24 object-contain">
+                                @empty
+                                    <p class="text-sm text-red-500">Foto - foto produk belum diunggah.</p>
+                                @endforelse
+                            </div>
+
+
                         </div>
                     </div>
 

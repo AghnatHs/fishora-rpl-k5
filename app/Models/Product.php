@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -21,6 +22,11 @@ class Product extends Model
         'image_cover',
         'seller_id'
     ];
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 
     public function categories(): BelongsToMany
     {
