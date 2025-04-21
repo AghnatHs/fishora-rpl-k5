@@ -54,6 +54,15 @@
                                 @endforeach
                             </div>
 
+                            <p class="mt-2 font-semibold">Foto Produk</p>
+                            <div class="flex flex-wrap gap-1">
+                                @foreach ($product->images as $image)
+                                    <img src="{{ Storage::url($image->filepath) }}" alt="Product Image"
+                                        class="w-24 h-24 object-contain">
+                                @endforeach
+                            </div>
+
+
                         </div>
                     </div>
 
