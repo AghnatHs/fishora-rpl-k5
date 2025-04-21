@@ -41,6 +41,8 @@ class ProductController extends Controller
             'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|mimes:jpeg,jpg,png|max:5120',
         ]);
 
         $validated['seller_id'] = Auth::guard('seller')->user()->id;
@@ -52,6 +54,13 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
         $product->categories()->attach($validated['categories']);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('product_images', 'public');
+                $product->images()->create(['filepath' => $path]);
+            }
+        }
 
         return redirect()->route('seller.products.index')->with('success', 'Product added successfully!');
     }

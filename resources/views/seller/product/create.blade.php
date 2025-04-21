@@ -32,6 +32,25 @@
                         class="mt-1 p-2 w-full border border-gray-300 rounded-md">
                 </div>
 
+                <!-- Product Images -->
+                <div x-data="{ images: [null] }" class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Foto Produk</label>
+
+                    <template x-for="(image, index) in images" :key="index">
+                        <div class="flex items-center space-x-2">
+                            <input type="file" :name="'images[]'"
+                                class="block w-full text-sm text-gray-500 border border-gray-300 rounded" />
+                            <button type="button" @click="images.splice(index, 1)"
+                                class="text-red-600 hover:text-red-800 text-sm font-bold">x</button>
+                        </div>
+                    </template>
+
+                    <button type="button" @click="images.push(null)"
+                        class="flex items-center text-sm text-blue-600 hover:underline mt-2">
+                        <span class="text-lg mr-1">+</span> Tambah Foto
+                    </button>
+                </div>
+
                 <!-- Product Name -->
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
