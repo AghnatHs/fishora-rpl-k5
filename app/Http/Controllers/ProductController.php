@@ -40,7 +40,7 @@ class ProductController extends Controller
             'price' => 'required|integer|min:0',
             'description' => 'required|string',
             'image_cover' => 'required|mimes:jpeg,jpg,png|max:5120',
-            'categories' => 'required|array',
+            'categories' => 'required|array|min:1',
             'categories.*' => 'exists:categories,id',
             'images' => 'required|array|min:1',
             'images.*' => 'required|mimes:jpeg,jpg,png|max:5120',
