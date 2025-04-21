@@ -7,7 +7,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-4">
                 <!-- Back Button -->
-                <a href="{{ route('seller.products.index') }}"
+                <a href="{{ route('seller.dashboard') }}"
                     class="text-sm text-gray-600 hover:text-black flex items-center space-x-1">
                     <i class="fas fa-arrow-left"></i>
                     <span>Kembali</span>
