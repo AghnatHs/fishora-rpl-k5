@@ -41,7 +41,7 @@
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Produk</label>
                     <input type="text" name="name" id="name"
-                        class="mt-1 p-2 w-full border border-gray-300 rounded-md" required value={{ $product->name }}>
+                        class="mt-1 p-2 w-full border border-gray-300 rounded-md" required value="{{ $product->name }}">
                 </div>
 
                 <!-- Product Description -->
