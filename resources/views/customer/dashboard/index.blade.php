@@ -4,9 +4,9 @@
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
             <!-- To Homepage -->
-            <a href=""
+            <a href="{{ route('homepage.index') }}"
                 class="text-sm text-gray-600 hover:text-black flex items-center space-x-1">
-                <i class="fas fa-house"></i>
+                <i class="fas fa-house text-xl"></i>
             </a>
 
             <h1 class="text-xl font-semibold">Akun Saya</h1>
@@ -14,7 +14,7 @@
                 <button><i class="fas fa-comment-dots"></i></button>
             </div>
         </div>
-
+        
         <!-- Profile -->
         <div class="flex items-start space-x-4 mb-4">
             <!-- Avatar -->

@@ -8,10 +8,11 @@ use App\Http\Controllers\CustomerAuth;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return redirect(route('customer.login'));
+    return redirect(route('homepage.index'));
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -56,6 +57,11 @@ Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificati
     ->middleware(['auth.custom:customer', 'customer.unverified'])
     ->name('customer.verification.resend');
 # END------ Customer Email Verification
+
+# Homepage
+Route::prefix('homepage')->name('homepage.')->group(function () {
+    Route::get('/', [HomepageController::class, 'index'])->name('index');
+});
 
 Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
