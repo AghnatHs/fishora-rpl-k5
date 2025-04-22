@@ -17,7 +17,7 @@
 
 </head>
 
-<body class="min-h-screen flex flex-col items-center justify-center">
+<body class="min-h-screen flex flex-col">
     <div class="w-full p-6 rounded-xl">
 
         @isset($header)
