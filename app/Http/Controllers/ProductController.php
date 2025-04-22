@@ -22,7 +22,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with('images')
+        $products = Product::with(['images', 'categories'])
             ->where('seller_id', Auth::guard('seller')->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
