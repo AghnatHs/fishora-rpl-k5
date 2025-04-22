@@ -55,7 +55,7 @@ Route::get('/customer/verify-email/notice', [CustomerAuth\EmailVerificationContr
 Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificationController::class, 'resend'])
     ->middleware(['auth.custom:customer', 'customer.unverified'])
     ->name('customer.verification.resend');
-
+# END------ Customer Email Verification
 
 Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
