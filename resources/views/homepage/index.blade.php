@@ -61,6 +61,9 @@
                 <strong>{{ request('category') }}</strong>
             </p>
         @endif
+        @if (request('search') || request('category'))
+            <a href="{{ route('homepage.index') }}" class="text-sm text-blue-500 mb-4">Reset Filter</a>
+        @endif
 
         <!-- Product Grid -->
         <div class="grid grid-cols-2 gap-4">
