@@ -88,7 +88,7 @@
             <p class="text-sm text-gray-500">
                 Page {{ $products->currentPage() }} of {{ $products->lastPage() }}
             </p>
-            {{ $products->links() }}
+            {{ $products->links('pagination::tailwind') }}
         </div>
     </div>
 </x-app-layout>
