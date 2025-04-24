@@ -28,10 +28,11 @@
 
         <!-- Section Title -->
         {{-- <h2 class="font-semibold text-base mb-2">Direkomendasikan untukmu</h2> --}}
+
+        <!-- Filter helper text -->
         @if (request('search'))
             <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk: <strong>{{ request('search') }}</strong></p>
         @endif
-
 
         <!-- Product Grid -->
         <div class="grid grid-cols-2 gap-4">
