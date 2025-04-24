@@ -2,28 +2,37 @@
     <div class="max-w-md mx-auto p-1 sm:max-w-3xl">
 
         <!-- Search Bar -->
-        <form method="GET" action="{{ route('homepage.index') }}" class="flex items-center gap-2 mb-4">
-            <div class="flex-1 relative">
-                <i class="fas fa-search absolute top-2.5 left-3 text-gray-400"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search"
-                    class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-black" />
+        <!-- Search Bar -->
+        <form method="GET" action="{{ route('homepage.index') }}" class="mb-4 space-y-2">
+            <div class="flex items-center gap-2">
+                <div class="flex-1 relative">
+                    <i class="fas fa-search absolute top-2.5 left-3 text-gray-400"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search"
+                        class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-black" />
+                </div>
+
+                <select name="category" class="text-sm border border-gray-300 rounded-xl py-2 px-3">
+                    <option value="">Semua Kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->name }}"
+                            {{ request('category') == $category->name ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
-            <select name="category" class="text-sm border border-gray-300 rounded-xl py-2 px-3">
-                <option value="">Semua Kategori</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->name }}"
-                        {{ request('category') == $category->name ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
+            <!-- Search button below -->
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                    class="text-sm bg-black text-white py-2 px-4 rounded-xl shadow hover:bg-gray-800 transition">
+                    Search
+                </button>
 
-            <button type="submit"><i class=""></i>Search</button>
-
-            <a><i class="fas fa-comment-dots text-xl"></i></a>
-            <a
-                href="@auth('admin')
+                <div class="flex items-center gap-3">
+                    <a><i class="fas fa-comment-dots text-xl"></i></a>
+                    <a
+                        href="@auth('admin')
                             {{ route('admin.dashboard') }}
                         @elseif(auth('seller')->check())
                             {{ route('seller.dashboard') }}
@@ -32,9 +41,12 @@
                         @else
                             {{ route('customer.login') }}
                         @endauth">
-                <i class="fas fa-house text-xl"></i>
-            </a>
+                        <i class="fas fa-house text-xl"></i>
+                    </a>
+                </div>
+            </div>
         </form>
+
 
 
         <!-- Section Title -->
@@ -45,7 +57,9 @@
             <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk: <strong>{{ request('search') }}</strong></p>
         @endif
         @if (request('category'))
-            <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk kategori: <strong>{{ request('category') }}</strong></p>
+            <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk kategori:
+                <strong>{{ request('category') }}</strong>
+            </p>
         @endif
 
         <!-- Product Grid -->
