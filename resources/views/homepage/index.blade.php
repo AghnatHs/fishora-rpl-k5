@@ -83,5 +83,12 @@
             @endforelse
         </div>
 
+        <!-- Pagination Info and Links -->
+        <div class="flex flex-col items-center mt-8 space-y-2">
+            <p class="text-sm text-gray-500">
+                Page {{ $products->currentPage() }} of {{ $products->lastPage() }}
+            </p>
+            {{ $products->links() }}
+        </div>
     </div>
 </x-app-layout>

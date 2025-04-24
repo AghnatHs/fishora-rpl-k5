@@ -29,8 +29,8 @@ class HomepageController extends Controller
 
         $products = $query
             ->inRandomOrder()
-            ->get();
-
+            ->paginate(12)
+            ->withQueryString();
         $categories = Category::orderBy('name')->get();
 
 
