@@ -68,16 +68,18 @@
         <!-- Product Grid -->
         <div class="grid grid-cols-2 gap-4">
             @forelse ($products as $product)
-                <div>
-                    <div class="aspect-square bg-gray-200 overflow-hidden rounded">
-                        <img src="{{ Storage::url($product->image_cover) }}" alt="Product Image"
-                            class="w-full h-full object-cover" />
+                <a href="{{ route('homepage.show-product', compact('product')) }}">
+                    <div>
+                        <div class="aspect-square bg-gray-200 overflow-hidden rounded">
+                            <img src="{{ Storage::url($product->image_cover) }}" alt="Product Image"
+                                class="w-full h-full object-cover" />
+                        </div>
+                        <p class="text-sm font-medium mt-1">{{ $product->name }}</p>
+                        <p class="text-sm text-gray-700">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                        <p class="text-xs text-gray-400">Stok : {{ $product->stock }}</p>
+                        <p class="text-xs text-gray-400">By : {{ $product->seller->shop_name }}</p>
                     </div>
-                    <p class="text-sm font-medium mt-1">{{ $product->name }}</p>
-                    <p class="text-sm text-gray-700">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
-                    <p class="text-xs text-gray-400">Stok : {{ $product->stock }}</p>
-                    <p class="text-xs text-gray-400">By : {{ $product->seller->shop_name }}</p>
-                </div>
+                </a>
             @empty
                 <p class="text-gray-500">Tidak ada produk ditemukan.</p>
             @endforelse
