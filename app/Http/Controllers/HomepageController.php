@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,28 @@ class HomepageController extends Controller
     {
         $query = Product::with(['categories', 'seller']);
 
-        if ($request->has('search') && $request->search !== '') {
+        $search = $request->input('search');
+        $category = $request->input('category');
+
+        if (!empty($search)) {
             $search = $request->search;
             $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        if (!empty($category)) {
+            $category = $request->category; // name
+            $query->whereHas('categories', function ($catQuery) use ($category) {
+                $catQuery->where('categories.name', $category);
+            });
         }
 
         $products = $query
             ->inRandomOrder()
             ->get();
 
-        return view('homepage.index', compact('products'));
+        $categories = Category::orderBy('name')->get();
+
+
+        return view('homepage.index', compact('products', 'categories'));
     }
 }

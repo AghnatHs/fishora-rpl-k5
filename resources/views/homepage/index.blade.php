@@ -8,6 +8,17 @@
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search"
                     class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-black" />
             </div>
+
+            <select name="category" class="text-sm border border-gray-300 rounded-xl py-2 px-3">
+                <option value="">Semua Kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->name }}"
+                        {{ request('category') == $category->name ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+
             <button type="submit"><i class=""></i>Search</button>
 
             <a><i class="fas fa-comment-dots text-xl"></i></a>
@@ -32,6 +43,9 @@
         <!-- Filter helper text -->
         @if (request('search'))
             <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk: <strong>{{ request('search') }}</strong></p>
+        @endif
+        @if (request('category'))
+            <p class="text-sm text-gray-600 mb-2">Hasil pencarian untuk kategori: <strong>{{ request('category') }}</strong></p>
         @endif
 
         <!-- Product Grid -->
