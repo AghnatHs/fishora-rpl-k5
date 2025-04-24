@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HomepageController extends Controller
 {
@@ -35,5 +36,21 @@ class HomepageController extends Controller
 
 
         return view('homepage.index', compact('products', 'categories'));
+    }
+
+    public function showProduct(Product $product)
+    {
+        $coverImage = [
+            'url' => Storage::url($product->image_cover),
+        ];
+
+        $galleryImages = $product->images->map(function ($img) {
+            return ['url' => Storage::url($img->filepath)];
+        });
+
+        $productImages = collect([$coverImage])->merge($galleryImages);
+
+        $product::with(['categories', 'seller']);
+        return view('homepage.show-product', compact('product', 'productImages'));
     }
 }

@@ -61,6 +61,7 @@ Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificati
 # Homepage
 Route::prefix('homepage')->name('homepage.')->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('index');
+    Route::get('/product/{product}', [HomepageController::class, 'showProduct'])->name('show-product');
 });
 
 Route::prefix('seller')->name('seller.')->group(function () {
