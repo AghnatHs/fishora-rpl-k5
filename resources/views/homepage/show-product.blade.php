@@ -38,7 +38,7 @@
                 <template x-for="(image, index) in images" :key="'dot-' + index">
                     <button @click="active = index"
                         :class="{
-                            'bg-white w-3 h-3 rounded-full': true,
+                            'bg-black w-3 h-3 rounded-full': true,
                             'opacity-100': active === index,
                             'opacity-40': active !== index
                         }"
