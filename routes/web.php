@@ -8,10 +8,11 @@ use App\Http\Controllers\CustomerAuth;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return redirect(route('customer.login'));
+    return redirect(route('homepage.index'));
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -55,7 +56,13 @@ Route::get('/customer/verify-email/notice', [CustomerAuth\EmailVerificationContr
 Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificationController::class, 'resend'])
     ->middleware(['auth.custom:customer', 'customer.unverified'])
     ->name('customer.verification.resend');
+# END------ Customer Email Verification
 
+# Homepage
+Route::prefix('homepage')->name('homepage.')->group(function () {
+    Route::get('/', [HomepageController::class, 'index'])->name('index');
+    Route::get('/product/{product}', [HomepageController::class, 'showProduct'])->name('show-product');
+});
 
 Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
