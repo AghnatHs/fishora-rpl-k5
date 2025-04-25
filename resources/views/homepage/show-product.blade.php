@@ -17,7 +17,7 @@
             <!-- Gambar -->
             <template x-for="(image, index) in images" :key="index">
                 <div x-show="active === index" class="absolute inset-0 transition-opacity duration-300">
-                    <img :src="image.url" class="w-full h-full object-cover" />
+                    <img :src="image.url" class="w-full h-full object-contain" />
                 </div>
             </template>
 
