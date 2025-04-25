@@ -72,7 +72,7 @@
                     <div>
                         <div class="aspect-square bg-gray-200 overflow-hidden rounded">
                             <img src="{{ Storage::url($product->image_cover) }}" alt="Product Image"
-                                class="w-full h-full object-cover" />
+                                class="w-full h-full object-contain" />
                         </div>
                         <p class="text-sm font-medium mt-1">{{ $product->name }}</p>
                         <p class="text-sm text-gray-700">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
