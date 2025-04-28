@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Seller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SellerVerificationAcceptedMail;
@@ -13,6 +14,14 @@ class AdminDashboardController extends Controller
     public function dashboard()
     {
         return view('admin.dashboard.index');
+    }
+
+    public function monitoringView()
+    {
+        $products = Product::with(['images', 'categories', 'seller'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('admin.dashboard.monitoring-index', compact('products'));
     }
 
     public function overview()

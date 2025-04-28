@@ -35,6 +35,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/dashboard/seller-verification/{seller}', [AdminDashboardController::class, 'verifySeller'])->name('dashboard.seller-verification.post');;
         Route::get('/dashboard/seller-verification', [AdminDashboardController::class, 'sellerVerification'])->name('dashboard.seller-verification');
+
+        Route::get('/dashboard/products-monitoring', [AdminDashboardController::class, 'monitoringView'])->name('dashboard.products-monitoring');
     });
 });
 
