@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="min-h-screen flex flex-col justify-between">
+    <div class="max-w-md mx-auto p-4 sm:max-w-3xl">
         <div>
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">
                 Welcome, {{ Auth::guard('admin')->user()->name }}!
