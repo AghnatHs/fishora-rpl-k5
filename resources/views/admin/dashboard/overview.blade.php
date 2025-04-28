@@ -2,6 +2,13 @@
 
     <div class="max-w-md mx-auto p-4 sm:max-w-3xl">
         <div>
+            <!-- Back button -->
+            <div class="p-4">
+                <a href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </a>
+            </div>
+
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">
                 Welcome, {{ Auth::guard('admin')->user()->name }}!
             </h2>
