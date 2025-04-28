@@ -37,6 +37,16 @@
                     </svg>
                     Verifikasi Penjual
                 </a>
+                <a href="{{ route('admin.dashboard.products-monitoring') }}"
+                    class="w-max flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-lg font-medium rounded transition duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zM21 21l-4.35-4.35" />
+                    </svg>
+                    Monitoring Produk
+                </a>
+
             </div>
         </div>
     </div>
