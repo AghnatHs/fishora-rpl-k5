@@ -12,7 +12,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return redirect(route('homepage.index'));
+    return redirect(route('pick-login'));
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -80,3 +80,8 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::resource('products', ProductController::class);
     });
 });
+
+#Route untuk halaman pick-login
+Route::get('/pick-login', function () {
+    return view('splash-screen.pick-login');
+})->name('pick-login');
