@@ -16,15 +16,15 @@
 
             <div class="space-y-4 w-full mt-0">
                 <a href="{{ route('customer.login') }}"
-                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
+                    class="block w-5/6 mx-auto font-serif text-lg font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
                     Log in as Customer
                 </a>
                 <a href="{{ route('seller.login') }}"
-                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
+                    class="block w-5/6 mx-auto font-serif text-lg font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
                     Log in as Seller
                 </a>
                 <a href="{{ route('admin.login') }}"
-                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
+                    class="block w-5/6 mx-auto font-serif text-lg font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
                     Log in as Admin
                 </a>
             </div>
