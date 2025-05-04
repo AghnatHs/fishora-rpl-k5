@@ -2,14 +2,14 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
     
     {{-- Splash Screen --}}
-    <div id="splash-screen" class="flex items-center justify-center min-h-screen" style="background-color: #FAFAFA;">
+    <div id="splash-screen" class="flex items-center justify-center min-h-screen bg-[#FAFAFA]">
         <div class="w-full max-w-md mx-auto flex flex-col items-center justify-center">
             <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" class="w-full max-w-[600px] h-auto object-contain">
         </div>
     </div>
 
     {{-- Role Selection --}}
-    <div id="role-selection" class="hidden min-h-screen flex items-center justify-center" style="background-color: #FAFAFA;">
+    <div id="role-selection" class="hidden min-h-screen flex items-center justify-center bg-[#FAFAFA]">
         <div class="w-full max-w-md mx-auto px-4 flex flex-col items-center justify-center">
             <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" class="w-80 md:w-80 h-auto mb-[0px]">
             
