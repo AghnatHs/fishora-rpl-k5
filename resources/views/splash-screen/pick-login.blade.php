@@ -4,7 +4,7 @@
     {{-- Splash Screen --}}
     <div id="splash-screen" class="flex items-center justify-center min-h-screen" style="background-color: #FAFAFA;">
         <div class="w-full max-w-md mx-auto flex flex-col items-center justify-center">
-            <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" alt="Fishora Logo" class="w-[600px] h-[600px] md:w-[700px] md:h-[800px] lg:w-[1546px] lg:h-[1546px] object-contain">
+            <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" class="w-[600px] h-[600px] md:w-[700px] md:h-[800px] lg:w-[1546px] lg:h-[1546px] object-contain">
         </div>
     </div>
 
