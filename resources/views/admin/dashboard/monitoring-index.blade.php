@@ -12,7 +12,6 @@
         <h2 class="text-2xl font-semibold text-gray-800 mb-2">
             Welcome, {{ Auth::guard('admin')->user()->name }}!
         </h2>
-
         <p class="text-sm text-gray-600 mb-4">
             Email: {{ Auth::guard('admin')->user()->email }}
         </p>
@@ -27,20 +26,22 @@
         </form>
 
         <!-- Tabs -->
-        <div class="flex space-x-4 mb-4 text-sm font-medium border-b border-gray-200">
+        <div class="flex space-x-4 mb-4 text-sm font-medium border-b border-gray-200 overflow-x-auto no-scrollbar">
             @php $tab = request('tab', 'default'); @endphp
             <a href="?tab=default"
-                class="pb-2 {{ $tab === 'default' ? 'border-b-2 border-black font-semibold' : 'text-gray-500' }}">Produk</a>
+                class="pb-2 whitespace-nowrap {{ $tab === 'default' ? 'border-b-2 border-black font-semibold' : 'text-gray-500' }}">
+                Produk
+            </a>
             <a href="?tab=dihapus"
-                class="pb-2 {{ $tab === 'dihapus' ? 'border-b-2 border-black font-semibold' : 'text-gray-500' }}">Produk
-                Dihapus</a>
+                class="pb-2 whitespace-nowrap {{ $tab === 'dihapus' ? 'border-b-2 border-black font-semibold' : 'text-gray-500' }}">
+                Produk Dihapus
+            </a>
         </div>
-
 
         <!-- Filter Form -->
         <div class="mb-4">
             <form method="GET" action="{{ route('admin.dashboard.products-monitoring') }}"
-                class="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                class="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <input type="hidden" name="tab" value="{{ $tab }}">
 
                 <!-- Search Input -->
@@ -68,67 +69,55 @@
             </form>
         </div>
 
-        <!-- Produk Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
-                    <tr>
-                        <th class="px-4 py-2">Cover</th>
-                        <th class="px-4 py-2">Nama Produk</th>
-                        <th class="px-4 py-2">Penjual</th>
+        <!-- Produk Cards -->
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse ($products as $product)
+                <div class="border rounded-lg shadow-sm p-4 bg-white flex flex-col">
+                    <!-- Product Image -->
+                    <img src="{{ Storage::url($product->image_cover) }}" alt="{{ $product->name }}"
+                        class="w-full h-40 object-cover rounded-md mb-4">
+
+                    <!-- Product Info -->
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg text-gray-800 mb-1">{{ $product->name }}</h3>
+                        <p class="text-sm text-gray-600 mb-1">
+                            Penjual: {{ $product->seller->shop_name ?? '-' }}
+                        </p>
+
                         @if ($tab === 'dihapus')
-                            <th class="px-4 py-2">Alasan</th>
+                            <p class="text-sm text-red-600 font-medium mt-1">Alasan:
+                                {{ $product->deletion_reason ?? 'Tidak diketahui' }}</p>
                         @else
-                            <th class="px-4 py-2">Harga dari Penjual</th>
-                            <th class="px-4 py-2">Aksi</th>
+                            <p class="text-sm text-gray-800 font-medium mt-1">
+                                Harga: Rp{{ number_format($product->price, 0, ',', '.') }}
+                            </p>
                         @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($products as $product)
-                        <tr class="border-t">
-                            <td class="px-4 py-2">
-                                <img src="{{ Storage::url($product->image_cover) }}" alt="Cover"
-                                    class="w-16 h-16 object-cover rounded">
-                            </td>
-                            <td class="px-4 py-2 font-medium">
-                                {{ $product->name }}
-                            </td>
-                            <td class="px-4 py-2">
-                                {{ $product->seller->shop_name ?? '-' }}
-                            </td>
+                    </div>
 
-                            @if ($tab === 'dihapus')
-                                <td class="px-4 py-2">{{ $product->deletion_reason ?? 'Tidak diketahui' }}</td>
-                            @else
-                                <td class="px-4 py-2">Rp{{ number_format($product->price, 0, ',', '.') }}</td>
-                                <td class="px-4 py-2 space-x-2 text-sm">
-                                    <a href="#" title="Edit"
-                                        class="text-yellow-600 hover:text-yellow-800"><i class="fas fa-edit"></i></a>
+                    <!-- Action Buttons -->
+                    @if ($tab !== 'dihapus')
+                        <div class="mt-4 flex justify-between items-center">
+                            <a href="#" title="Peringatkan" class="text-yellow-600 hover:text-yellow-800 text-sm">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>Peringatkan
+                            </a>
 
-                                    <form action="#" method="POST"
-                                        class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" title="Hapus" class="text-red-600 hover:text-red-800"
-                                            onclick="return confirm('Yakin ingin menghapus produk ini?')">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            @endif
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-4 py-6 text-center text-gray-500">
-                                Tidak ada produk ditemukan.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                            <form action="#" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-800 text-sm"
+                                    onclick="return confirm('Yakin ingin menghapus produk ini?')">
+                                    <i class="fas fa-trash-alt mr-1"></i>Hapus
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                </div>
+            @empty
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    Tidak ada produk ditemukan.
+                </div>
+            @endforelse
         </div>
-
 
         <!-- Pagination -->
         <div class="flex flex-col items-center mt-6 space-y-2">
@@ -137,5 +126,6 @@
             </p>
             {{ $products->appends(request()->except('page'))->links('pagination::tailwind') }}
         </div>
+
     </div>
 </x-app-layout>
