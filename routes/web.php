@@ -10,6 +10,7 @@ use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductWarningController;
 
 Route::get('/', function () {
     return redirect(route('pick-login'));
@@ -25,7 +26,8 @@ Route::get('/pick-login', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
         Route::get('/login', [AdminAuth\LoginController::class, 'show'])->name('login');
-        Route::post('/login', [AdminAuth\LoginController::class, 'login']);
+        Route::post('/login', [AdminAuth\LoginController::class, 'login']); {
+        }
     });
     Route::post('/logout', [AdminAuth\LoginController::class, 'logout'])->name('logout');
 
@@ -37,6 +39,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard/seller-verification', [AdminDashboardController::class, 'sellerVerification'])->name('dashboard.seller-verification');
 
         Route::get('/dashboard/products-monitoring', [AdminDashboardController::class, 'monitoringView'])->name('dashboard.products-monitoring');
+        Route::get('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'create'])->name('dashboard.products-monitoring.create');
+        Route::post('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'store']);
     });
 });
 

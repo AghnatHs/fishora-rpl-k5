@@ -25,7 +25,7 @@ class AdminDashboardController extends Controller
             abort(403, 'Invalid Query');
         }
 
-        $query = Product::with(['categories', 'seller'])
+        $query = Product::with(['categories', 'seller', 'warnings'])
             ->whereHas('seller')
             ->join('sellers', 'products.seller_id', '=', 'sellers.id')
             ->orderBy('sellers.shop_name', 'asc')

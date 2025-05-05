@@ -15,7 +15,6 @@ class ProductWarning extends Model
     protected $fillable = [
         'description',
         'status',
-        'price',
         'product_id',
     ];
 
