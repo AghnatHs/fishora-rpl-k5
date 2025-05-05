@@ -39,7 +39,7 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
 
-    public function warning(): HasMany
+    public function warnings(): HasMany
     {
         return $this->hasMany(ProductWarning::class);
     }
