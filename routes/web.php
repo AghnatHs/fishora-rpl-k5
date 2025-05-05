@@ -15,6 +15,13 @@ Route::get('/', function () {
     return redirect(route('pick-login'));
 });
 
+#Route untuk halaman pick-login
+Route::get('/pick-login', function () {
+    return view('splash-screen.pick-login');
+})
+    ->middleware('guest.custom')
+    ->name('pick-login');
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
         Route::get('/login', [AdminAuth\LoginController::class, 'show'])->name('login');
@@ -80,8 +87,3 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::resource('products', ProductController::class);
     });
 });
-
-#Route untuk halaman pick-login
-Route::get('/pick-login', function () {
-    return view('splash-screen.pick-login');
-})->name('pick-login');
