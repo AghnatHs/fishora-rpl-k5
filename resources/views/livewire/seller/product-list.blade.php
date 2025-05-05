@@ -1,7 +1,7 @@
 <div>
     <!-- Search Input -->
-    <input type="text" wire:model.live="search"
-        class="w-full border border-gray-300 rounded-md p-2 text-sm mb-4" placeholder="Cari nama produk...">
+    <input type="text" wire:model.live="search" class="w-full border border-gray-300 rounded-md p-2 text-sm mb-4"
+        placeholder="Cari nama produk...">
 
     <!-- Produk List -->
     @forelse ($products as $product)
@@ -12,6 +12,17 @@
                         alt="Product Image">
                 </div>
                 <div class="flex-1">
+                    <!-- Warning Produk -->
+                    <div class="mt-2 flex flex-wrap gap-1">
+                        @foreach ($product->warnings as $index => $warning)
+                            <span
+                                class="text-xs px-2 py-1 rounded-md text-white
+                                {{ $warning->status === 'RESOLVED' ? 'bg-green-500' : 'bg-red-500' }}">
+                                WARN {{ $index + 1 }} | {{ $warning->description }} | {{ $warning->status }}
+                            </span>
+                        @endforeach
+                    </div>
+
                     <p class="font-semibold">{{ $product->name }}</p>
                     <p class="text-sm text-gray-800">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                     <p class="text-sm text-gray-600">Stok : {{ $product->stock }}</p>
