@@ -53,7 +53,7 @@ class AdminDashboardController extends Controller
 
         $products = $query
             ->paginate(6)
-            ->withQueryString();;
+            ->withQueryString();
         $categories = Category::orderBy('name')->get();
 
         return view('admin.dashboard.monitoring-index', compact('products', 'categories'));
