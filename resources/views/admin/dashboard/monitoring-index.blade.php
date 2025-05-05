@@ -113,8 +113,8 @@
                     @if ($tab !== 'dihapus')
                         <div class="mt-4 flex justify-between items-center">
                             <a href="{{ route('admin.dashboard.products-monitoring.create', compact('product')) }}"
-                                title="Peringatkan" class="text-yellow-700 hover:text-yellow-800 text-sm">
-                                <i class="fas fa-exclamation-triangle mr-1"></i>Peringatkan
+                                title="Lihat" class="text-yellow-700 hover:text-yellow-800 text-sm">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>Lihat
                             </a>
 
                             <form action="#" method="POST" class="inline">
