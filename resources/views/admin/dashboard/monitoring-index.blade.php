@@ -25,6 +25,9 @@
             </button>
         </form>
 
+        @include('components.modals.status')
+        @include('components.modals.errors')
+
         <!-- Tabs -->
         <div class="flex space-x-4 mb-4 text-sm font-medium border-b border-gray-200 overflow-x-auto no-scrollbar">
             @php $tab = request('tab', 'default'); @endphp
@@ -92,12 +95,25 @@
                                 Harga: Rp{{ number_format($product->price, 0, ',', '.') }}
                             </p>
                         @endif
+
+                        <!-- Product Warning -->
+                        <div class="mt-2 flex flex-wrap gap-1">
+                            @foreach ($product->warnings as $index => $warning)
+                                <span
+                                    class="text-xs px-2 py-1 rounded-md text-white
+            {{ $warning->status === 'RESOLVED' ? 'bg-green-500' : 'bg-red-500' }}">
+                                    WARN {{ $index + 1 }} | {{ $warning->description }} | {{ $warning->status }}
+                                </span>
+                            @endforeach
+                        </div>
+
                     </div>
 
                     <!-- Action Buttons -->
                     @if ($tab !== 'dihapus')
                         <div class="mt-4 flex justify-between items-center">
-                            <a href="#" title="Peringatkan" class="text-yellow-600 hover:text-yellow-800 text-sm">
+                            <a href="{{ route('admin.dashboard.products-monitoring.create', compact('product')) }}"
+                                title="Peringatkan" class="text-yellow-700 hover:text-yellow-800 text-sm">
                                 <i class="fas fa-exclamation-triangle mr-1"></i>Peringatkan
                             </a>
 
