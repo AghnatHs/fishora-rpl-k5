@@ -2,9 +2,9 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
     
     {{-- Splash Screen --}}
-    <div id="splash-screen" class="flex items-center justify-center min-h-screen" style="background-color: #FAFAFA;">
+    <div id="splash-screen" class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center" style="background-color: #FAFAFA;">
         <div class="w-full max-w-md mx-auto flex flex-col items-center justify-center">
-            <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" alt="Fishora Logo" class="w-[600px] h-[600px] md:w-[700px] md:h-[800px] lg:w-[1546px] lg:h-[1546px] object-contain">
+            <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo" class="w-[350px] h-[350px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] object-contain">
         </div>
     </div>
 
