@@ -1,5 +1,4 @@
 <x-app-layout>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
     
     <style>
         /* This specifically targets and hides the browser's password reveal button */

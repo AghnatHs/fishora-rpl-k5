@@ -1,5 +1,4 @@
 <x-app-layout>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
 
     {{-- Sticky Navbar with buttons at screen edges --}}
     <div class="fixed top-0 left-0 right-0 bg-white z-50">

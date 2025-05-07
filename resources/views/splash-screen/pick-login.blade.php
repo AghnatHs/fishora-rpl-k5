@@ -1,5 +1,4 @@
 <x-splash-layout>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
 
     {{-- Splash Screen --}}
 
