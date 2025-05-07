@@ -17,15 +17,15 @@
             <div class="space-y-4 w-full mt-0">
                 <a href="{{ route('customer.login') }}" 
                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
-                    Log in as Customer
+                    Masuk sebagai Pembeli
                 </a>
                 <a href="{{ route('seller.login') }}" 
                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
-                    Log in as Seller
+                    Masuk sebagai Penjual
                 </a>
                 <a href="{{ route('admin.login') }}" 
                    class="block w-5/6 mx-auto font-serif text-[20px] font-normal py-3 px-4 rounded-lg text-center transition duration-200 text-white bg-[#ABCDFF] hover:bg-[#4871AD]">
-                    Log in as Admin
+                    Masuk sebagai Admin
                 </a>
             </div>
         </div>
