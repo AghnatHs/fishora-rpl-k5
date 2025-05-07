@@ -1,168 +1,282 @@
-<x-guest-layout>
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Seller Register</h2>
+<x-app-layout>
+    
+    <style>
+        input::-ms-reveal,
+        input::-ms-clear,
+        input::-webkit-contacts-auto-fill-button,
+        input::-webkit-credentials-auto-fill-button {
+            display: none !important;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
 
-    @include('components.modals.errors')
+    {{-- Sticky Navbar with buttons at screen edges --}}
+    <div class="fixed top-0 left-0 right-0 bg-white z-50">
+        <div class="flex justify-between items-center px-4 sm:px-6 py-3 w-full">
+            <a href="{{ route('pick-login') }}" class="text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            <a href="#" class="text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </a>
+        </div>
+    </div>
 
-    <form method="POST" action="{{ route('seller.register') }}" class="space-y-6" enctype="multipart/form-data">
-        @csrf
+    <div class="min-h-screen flex flex-col items-center justify-start pt-10 w-full max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-medium text-center mb-8 text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Daftar sebagai Penjual</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {{-- Left Column --}}
-            <div class="space-y-6">
-                {{-- Shop Name --}}
-                <div>
-                    <label for="shop_name" class="block text-sm font-medium text-gray-700">Shop name</label>
-                    <input type="text" name="shop_name" id="shop_name" placeholder="Toko Mas Jaya" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('shop_name') }}">
-                </div>
+        @include('components.modals.status')
+        @include('components.modals.errors')
 
-                {{-- Email --}}
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" id="email" placeholder="you@example.com" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('email') }}">
-                </div>
+        <form method="POST" action="{{ route('seller.register') }}" class="w-full" enctype="multipart/form-data">
+            @csrf
 
-                {{-- Password --}}
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Left Column -->
+                <div class="space-y-5">
+                    {{-- Store Name --}}
+                    <div>
+                        <input type="text" name="shop_name" id="shop_name" placeholder="Nama Toko" value="{{ old('shop_name') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
+
+                    {{-- Email --}}
+                    <div>
+                        <input type="email" name="email" id="email" placeholder="Email" value="{{ old('email') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
+
+                    {{-- Password --}}
                     <div class="relative">
-                        <input type="password" name="password" id="password" placeholder="********" required
-                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-
-                        <button type="button" id="toggle-password"
-                            class="absolute right-3 top-3 text-blue-600 hover:text-blue-800 text-sm">
-                            Show
+                        <input type="password" name="password" id="password" placeholder="Kata Sandi" required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2 pr-10" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                            
+                        <button type="button" id="toggle-password" class="absolute right-3 top-3 hidden text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" id="password-eye-show" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" id="password-eye-hide" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd" />
+                                <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
+                            </svg>
                         </button>
+                    </div>
+
+                    {{-- Confirm Password --}}
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Konfirmasi Kata Sandi" required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2 pr-10" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                            
+                        <button type="button" id="toggle-password-confirm" class="absolute right-3 top-3 hidden text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" id="confirm-eye-show" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" id="confirm-eye-hide" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd" />
+                                <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {{-- Phone --}}
+                    <div>
+                        <input type="text" name="telephone" id="telephone" placeholder="Nomer Telepon" value="{{ old('telephone') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
                     </div>
                 </div>
 
-                {{-- Confirm Password --}}
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm
-                        Password</label>
-                    <div class="relative">
-                        <input type="password" name="password_confirmation" id="password_confirmation"
-                            placeholder="********" required
-                            class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                <!-- Right Column -->
+                <div class="space-y-5">
+                    {{-- Street --}}
+                    <div>
+                        <input type="text" name="address_street" id="address_street" placeholder="Alamat" value="{{ old('address_street') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
 
-                        <button type="button" id="toggle-password-confirm"
-                            class="absolute right-3 top-3 text-blue-600 hover:text-blue-800 text-sm">
-                            Show
-                        </button>
+                    {{-- City --}}
+                    <div>
+                        <input type="text" name="address_city" id="address_city" placeholder="Kota" value="{{ old('address_city') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
+
+                    {{-- Province --}}
+                    <div>
+                        <input type="text" name="address_province" id="address_province" placeholder="Provinsi" value="{{ old('address_province') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
+
+                    {{-- Zipcode --}}
+                    <div>
+                        <input type="text" name="address_zipcode" id="address_zipcode" placeholder="Kode Pos" value="{{ old('address_zipcode') }}"
+                            required
+                            class="block w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-2" 
+                            style="font-family: 'DM Serif Text', serif; color: #9E9595; font-size: 1.2rem;">
+                    </div>
+                </div>
+            </div>
+
+            {{-- File Uploads - Single Column for both mobile and desktop --}}
+            <div class="mt-5 space-y-5">
+                {{-- KTP Upload --}}
+                <div class="relative w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-3 text-center cursor-pointer">
+                    <input type="file" id="ktp" name="ktp" accept="image/png, image/jpeg, image/jpg" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4871AD]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+                        </svg>
+                        <span class="text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Unggah KTP</span>
+                        <span class="text-gray-400 text-sm mt-1">png/jpeg, max:5 Mb</span>
+                        <div id="ktp-preview" class="mt-2 hidden">
+                            <img src="" alt="KTP Preview" class="max-h-24 mx-auto rounded">
+                        </div>
                     </div>
                 </div>
 
-                {{-- Telephone --}}
-                <div>
-                    <label for="telephone" class="block text-sm font-medium text-gray-700">Phone</label>
-                    <input type="text" name="telephone" id="telephone" placeholder="e.g. 081234567890" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('telephone') }}">
+                {{-- Bukti Usaha Upload --}}
+                <div class="relative w-full rounded-lg border border-[#4871AD] shadow-sm px-3 py-3 text-center cursor-pointer">
+                    <input type="file" id="proof_of_business" name="proof_of_business" accept="image/png, image/jpeg, image/jpg" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="flex flex-col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4871AD]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+                        </svg>
+                        <span class="text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Unggah Bukti Bisnis</span>
+                        <span class="text-gray-400 text-sm mt-1">png/jpeg, max:5 Mb</span>
+                        <div id="business-preview" class="mt-2 hidden">
+                            <img src="" alt="Business Proof Preview" class="max-h-24 mx-auto rounded">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {{-- Right Column - Address Fields --}}
-            <div class="space-y-6">
-                {{-- Street --}}
-                <div>
-                    <label for="address_street" class="block text-sm font-medium text-gray-700">Street Address</label>
-                    <input type="text" name="address_street" id="address_street"
-                        placeholder="e.g. Jl. Merdeka No.123" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('address_street') }}">
-                </div>
-
-                {{-- City --}}
-                <div>
-                    <label for="address_city" class="block text-sm font-medium text-gray-700">City</label>
-                    <input type="text" name="address_city" id="address_city" placeholder="e.g. Jakarta" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('address_city') }}">
-                </div>
-
-                {{-- Province --}}
-                <div>
-                    <label for="address_province" class="block text-sm font-medium text-gray-700">Province</label>
-                    <input type="text" name="address_province" id="address_province" placeholder="e.g. DKI Jakarta"
-                        required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('address_province') }}">
-                </div>
-
-                {{-- Zipcode --}}
-                <div>
-                    <label for="address_zipcode" class="block text-sm font-medium text-gray-700">Zip Code</label>
-                    <input type="number" name="address_zipcode" id="address_zipcode" placeholder="e.g. 12345" required
-                        class="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                        value="{{ old('address_zipcode') }}">
-                </div>
+            {{-- Submit Button --}}
+            <div class="mt-8">
+                <button type="submit"
+                    class="w-full text-white font-medium text-xl py-2 px-3 rounded-lg uppercase bg-[#4871AD] hover:bg-[#ABCDFF] transition-colors duration-200"
+                    style="font-family: 'DM Serif Text', serif;">
+                    DAFTAR
+                </button>
             </div>
-        </div>
+        </form>
 
-        {{-- KTP Upload --}}
-        <label for="ktp" class="block text-sm font-medium text-gray-700">Upload KTP: png/jpeg, max:5 Mb</label>
-        <div class="mb-4">
-            <input type="file" id="ktp" name="ktp" accept="image/png, image/jpeg, image/jpg"
-                class="bg-[#FAFAFA] border border-gray-200 shadow-sm rounded-md p-2 w-full focus:ring-1 focus:ring-gray-100 focus:shadow-md focus:border-gray-100 focus:outline-none text-gray-700 text-sm">
-        </div>
-
-        {{-- Bukti Usaha Upload --}}
-        <label for="proof_of_business" class="block text-sm font-medium text-gray-700">Upload Bukti Usaha: png/jpeg,
-            max:5 Mb</label>
-        <div class="mb-4">
-            <input type="file" id="proof_of_business" name="proof_of_business" accept="image/png, image/jpeg, image/jpg"
-                class="bg-[#FAFAFA] border border-gray-200 shadow-sm rounded-md p-2 w-full focus:ring-1 focus:ring-gray-100 focus:shadow-md focus:border-gray-100 focus:outline-none text-gray-700 text-sm">
-        </div>
-
-        {{-- Submit Button --}}
-        <div>
-            <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-200">
-                Register
-            </button>
-        </div>
-    </form>
-
-    <p class="mt-3 text-center text-sm text-gray-600">
-        Already have an account?
-        <a href="{{ route('seller.login') }}" class="text-blue-600 hover:underline font-medium">Login here</a>
-    </p>
-    <p class="mt-3 text-center text-sm text-gray-600">
-        Not a seller?
-        <a href="{{ route('customer.login') }}" class="text-blue-600 hover:underline font-medium">Login as
-            Customer</a>
-    </p>
-</x-guest-layout>
-
+        {{-- Login Link --}}
+        <p class="mt-8 mb-10 text-center text-gray-400" style="font-family: 'DM Serif Text', serif;">
+            Sudah Punya Toko? 
+            <a href="{{ route('seller.login') }}" class="font-medium text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200" style="font-family: 'DM Serif Text', serif;">Masuk</a>
+        </p>
+    </div>
+</x-app-layout>
 
 <script>
-    $(document).ready(function() {
-        $('#toggle-password').click(function() {
-            const passwordField = $('#password');
-            const button = $('#toggle-password');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Password toggle
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordField = document.getElementById('password');
+        const eyeShow = document.getElementById('password-eye-show');
+        const eyeHide = document.getElementById('password-eye-hide');
 
-            if (passwordField.attr('type') === 'password') {
-                passwordField.attr('type', 'text');
-                button.text('Hide');
+        passwordField.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                togglePassword.classList.remove('hidden');
             } else {
-                passwordField.attr('type', 'password');
-                button.text('Show');
+                togglePassword.classList.add('hidden');
             }
         });
 
-        $('#toggle-password-confirm').click(function() {
-            const passwordConfirmField = $('#password_confirmation');
-            const buttonConfirm = $('#toggle-password-confirm');
-
-            if (passwordConfirmField.attr('type') === 'password') {
-                passwordConfirmField.attr('type', 'text');
-                buttonConfirm.text('Hide');
+        togglePassword.addEventListener('click', function() {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeShow.classList.add('hidden');
+                eyeHide.classList.remove('hidden');
             } else {
-                passwordConfirmField.attr('type', 'password');
-                buttonConfirm.text('Show');
+                passwordField.type = 'password';
+                eyeShow.classList.remove('hidden');
+                eyeHide.classList.add('hidden');
+            }
+        });
+
+        // Confirm password toggle
+        const toggleConfirmPassword = document.getElementById('toggle-password-confirm');
+        const confirmPasswordField = document.getElementById('password_confirmation');
+        const confirmEyeShow = document.getElementById('confirm-eye-show');
+        const confirmEyeHide = document.getElementById('confirm-eye-hide');
+
+        confirmPasswordField.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                toggleConfirmPassword.classList.remove('hidden');
+            } else {
+                toggleConfirmPassword.classList.add('hidden');
+            }
+        });
+
+        toggleConfirmPassword.addEventListener('click', function() {
+            if (confirmPasswordField.type === 'password') {
+                confirmPasswordField.type = 'text';
+                confirmEyeShow.classList.add('hidden');
+                confirmEyeHide.classList.remove('hidden');
+            } else {
+                confirmPasswordField.type = 'password';
+                confirmEyeShow.classList.remove('hidden');
+                confirmEyeHide.classList.add('hidden');
+            }
+        });
+
+        // Display file name and preview for uploads
+        document.getElementById('ktp').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Unggah KTP';
+            const uploadText = this.parentElement.querySelector('span');
+            const previewContainer = document.getElementById('ktp-preview');
+            const previewImg = previewContainer.querySelector('img');
+
+            if (e.target.files.length > 0) {
+                uploadText.textContent = fileName;
+
+                // Show image preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        document.getElementById('proof_of_business').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Unggah Bukti Bisnis';
+            const uploadText = this.parentElement.querySelector('span');
+            const previewContainer = document.getElementById('business-preview');
+            const previewImg = previewContainer.querySelector('img');
+
+            if (e.target.files.length > 0) {
+                uploadText.textContent = fileName;
+
+                // Show image preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(e.target.files[0]);
             }
         });
     });

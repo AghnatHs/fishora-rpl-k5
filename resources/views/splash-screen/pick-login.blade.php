@@ -1,7 +1,7 @@
 <x-splash-layout>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&display=swap" rel="stylesheet">
 
     {{-- Splash Screen --}}
+
     <div id="splash-screen" class="flex items-center justify-center min-h-screen bg-[#FAFAFA]">
         <div class="w-full max-w-md mx-auto flex flex-col items-center justify-center">
             <img src="{{ asset('images/fishora_logo.png') }}" alt="Fishora Logo"
