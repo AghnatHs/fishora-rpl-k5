@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductWarning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,5 +31,16 @@ class ProductWarningController extends Controller
 
         $product->warnings()->create($validated);
         return redirect()->route('admin.dashboard.products-monitoring')->with('success', 'Product warning added successfully!');
+    }
+
+    public function update(Request $request, ProductWarning $productWarning)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:RESOLVED,UNRESOLVED',
+        ]);
+
+        $productWarning->update($validated);
+
+        return redirect()->back()->with('success', 'Product warning updated succesfully!');
     }
 }
