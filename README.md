@@ -6,10 +6,10 @@
 
 Kelompok 5 P2:
 
--   Quina Rizky Dae Yuena Siregar : G6401231013
--   Fauzan Arif Tricahya : G6401231040
--   Aghnat Hasya Sayyidina : G6401231074
--   Husni Abdillah : G6401231097
+-   Quina Rizky Dae Yuena Siregar : G6401231013 (UI/UX)
+-   Fauzan Arif Tricahya : G6401231040 (Frontend)
+-   Aghnat Hasya Sayyidina : G6401231074 (Frontend)
+-   Husni Abdillah : G6401231097 (Fullstack)
 
 ### Requirements
 
