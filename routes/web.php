@@ -41,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard/products-monitoring', [AdminDashboardController::class, 'monitoringView'])->name('dashboard.products-monitoring');
         Route::get('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'create'])->name('dashboard.products-monitoring.create');
         Route::post('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'store']);
+        Route::delete('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'destroy'])->name('dashboard.products-monitoring.delete-product');
         Route::put('/dashboard/products-monitoring/{productWarning}', [ProductWarningController::class, 'update'])->name('dashboard.products-monitoring.update');
     });
 });

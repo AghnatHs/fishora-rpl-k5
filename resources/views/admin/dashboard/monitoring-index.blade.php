@@ -117,7 +117,8 @@
                                 <i class="fas fa-exclamation-triangle mr-1"></i>Lihat
                             </a>
 
-                            <form action="#" method="POST" class="inline">
+                            <form action="{{ route('admin.dashboard.products-monitoring.delete-product', compact('product')) }}"
+                                method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-800 text-sm"
