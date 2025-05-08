@@ -13,6 +13,7 @@ class SellerDashboardController extends Controller
         $products = Product::where('seller_id', Auth::guard('seller')->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
+        $notifications = Auth::guard('seller')->user()->unreadNotifications;
         return view('seller.dashboard.index', compact('products'));
     }
 
