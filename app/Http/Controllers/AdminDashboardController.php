@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Seller;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SellerVerificationAcceptedMail;
@@ -13,6 +15,48 @@ class AdminDashboardController extends Controller
     public function dashboard()
     {
         return view('admin.dashboard.index');
+    }
+
+    public function monitoringView(Request $request)
+    {
+        $tab = $request->input('tab', 'default');
+
+        if (!in_array($tab, ['default', 'dihapus'])) {
+            abort(403, 'Invalid Query');
+        }
+
+        $query = Product::with(['categories', 'seller', 'warnings'])
+            ->whereHas('seller')
+            ->join('sellers', 'products.seller_id', '=', 'sellers.id')
+            ->orderBy('sellers.shop_name', 'asc')
+            ->select('products.*');
+
+        $search = $request->input('search');
+        $category = $request->input('category');
+
+        if (!empty($search)) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if (!empty($category)) {
+            $category = $request->category;
+            $query->whereHas('categories', function ($catQuery) use ($category) {
+                $catQuery->where('categories.name', $category);
+            });
+        }
+
+        if ($tab === 'default') {
+            // $query->where('status', 'invalid');
+        } elseif ($tab === 'dihapus') {
+            $query->onlyTrashed();
+        }
+
+        $products = $query
+            ->paginate(6)
+            ->withQueryString();
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.dashboard.monitoring-index', compact('products', 'categories'));
     }
 
     public function overview()
