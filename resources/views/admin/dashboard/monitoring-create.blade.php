@@ -25,6 +25,9 @@
             </button>
         </form>
 
+        @include('components.modals.status')
+        @include('components.modals.errors')
+
         <!-- Product Card -->
         <p class="block text-sm font-medium text-gray-700 mb-1">Info Produk</p>
         <div class="rounded-lg shadow-sm p-4 bg-white flex flex-col">
@@ -86,6 +89,44 @@
                         </span>
                     @endforeach
                 </div>
+
+                <!-- Warning Produk -->
+                <div class="mt-4 space-y-2">
+                    @foreach ($product->warnings as $index => $warning)
+                        <form method="POST"
+                            action="{{ route('admin.dashboard.products-monitoring.update', ['productWarning' => $warning]) }}"
+                            class="flex items-center gap-2 text-sm">
+                            @csrf
+                            @method('PUT')
+
+                            <!-- Label -->
+                            <span class="font-semibold">WARN {{ $index + 1 }}</span>
+
+                            <!-- Status badge -->
+                            <span
+                                class="px-2 py-1 rounded text-white text-xs
+                                       {{ $warning->status === 'RESOLVED' ? 'bg-green-500' : 'bg-red-500' }}">
+                                {{ $warning->status }}
+                            </span>
+
+                            <!-- Description -->
+                            <span class="flex-1">{{ $warning->description }}</span>
+
+                            <!-- Dropdown -->
+                            <select name="status" class="text-xs border rounded px-2 py-1">
+                                <option value="UNRESOLVED" @selected($warning->status === 'UNRESOLVED')>UNRESOLVED</option>
+                                <option value="RESOLVED" @selected($warning->status === 'RESOLVED')>RESOLVED</option>
+                            </select>
+
+                            <!-- Submit button -->
+                            <button type="submit"
+                                class="ml-2 px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">
+                                Update
+                            </button>
+                        </form>
+                    @endforeach
+                </div>
+
             </div>
         </div>
 
