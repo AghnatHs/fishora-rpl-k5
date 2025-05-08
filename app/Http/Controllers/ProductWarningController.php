@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductWarning;
+use App\Notifications\ProductWarningNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,6 +31,9 @@ class ProductWarningController extends Controller
         $validated['status'] = "UNRESOLVED";
 
         $product->warnings()->create($validated);
+
+        $product->seller->notify(new ProductWarningNotification("New warning for $product->name, please resolve quickly."));
+
         return redirect()->route('admin.dashboard.products-monitoring')->with('success', 'Product warning added successfully!');
     }
 
