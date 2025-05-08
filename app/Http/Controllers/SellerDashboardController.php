@@ -14,7 +14,7 @@ class SellerDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         $notifications = Auth::guard('seller')->user()->unreadNotifications;
-        return view('seller.dashboard.index', compact('products'));
+        return view('seller.dashboard.index', compact('products', 'notifications'));
     }
 
     public function inbox()
