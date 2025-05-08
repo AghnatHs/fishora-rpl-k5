@@ -84,9 +84,7 @@ Route::prefix('seller')->name('seller.')->group(function () {
     Route::middleware('auth.custom:seller')->group(function () {
         Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('dashboard');
 
-        Route::get('/inbox', function () {
-            return view('seller.dashboard.inbox');
-        })->name('inbox');
+        Route::get('/inbox', [SellerDashboardController::class, 'inbox'])->name('inbox');
 
         Route::resource('products', ProductController::class);
     });

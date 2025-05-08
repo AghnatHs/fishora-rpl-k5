@@ -15,4 +15,9 @@ class SellerDashboardController extends Controller
             ->get();
         return view('seller.dashboard.index', compact('products'));
     }
+
+    public function inbox()
+    {
+        return view('seller.dashboard.inbox');
+    }
 }
