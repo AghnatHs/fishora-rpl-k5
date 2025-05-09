@@ -95,5 +95,7 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::get('/inbox', [SellerDashboardController::class, 'inbox'])->name('inbox');
 
         Route::resource('products', ProductController::class);
+
+        Route::patch('/notification/{id}/read', [SellerDashboardController::class, 'markAsReadNotification'])->name('notification.read');
     });
 });

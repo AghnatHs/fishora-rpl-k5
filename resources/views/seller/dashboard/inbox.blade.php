@@ -9,6 +9,9 @@
 
         <div class="h-8"></div>
 
+        @include('components.modals.status')
+        @include('components.modals.errors')
+
         {{-- Inbox Menu --}}
         <div class="px-2">
             <div class="mb-4">
@@ -44,10 +47,11 @@
                                     </p>
                                 </div>
 
-                                <form action="#" method="POST">
+                                <form action="{{ route('seller.notification.read', ['id' => $notification->id]) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button class="text-xs text-blue-600 hover:underline">Mark as read</button>
+                                    <button class="text-m text-blue-600 hover:underline">Mark as read</button>
                                 </form>
                             </div>
                         </div>

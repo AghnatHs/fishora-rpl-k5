@@ -22,4 +22,10 @@ class SellerDashboardController extends Controller
         $notifications = Auth::guard('seller')->user()->unreadNotifications;
         return view('seller.dashboard.inbox', compact('notifications'));
     }
+
+    public function markAsReadNotification($id)
+    {
+        Auth::guard('seller')->user()->notifications()->findOrFail($id)->markAsRead();
+        return back()->with('success', 'Notification marked as read.');
+    }
 }
