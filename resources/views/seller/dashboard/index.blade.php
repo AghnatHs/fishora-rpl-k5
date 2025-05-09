@@ -193,7 +193,14 @@
                         <path
                             d="M11 99C7.975 99 5.38633 97.9238 3.234 95.7715C1.08167 93.6192 0.00366667 91.0287 0 88V11C0 7.975 1.078 5.38633 3.234 3.234C5.39 1.08167 7.97867 0.00366667 11 0H88C91.025 0 93.6155 1.078 95.7715 3.234C97.9275 5.39 99.0037 7.97867 99 11V88C99 91.025 97.9238 93.6155 95.7715 95.7715C93.6192 97.9275 91.0287 99.0037 88 99H11ZM49.5 71.5C52.9833 71.5 56.1458 70.4917 58.9875 68.475C61.8292 66.4583 63.8 63.8 64.9 60.5H88V11H11V60.5H34.1C35.2 63.8 37.1708 66.4583 40.0125 68.475C42.8542 70.4917 46.0167 71.5 49.5 71.5Z" />
                     </svg>
-                    <span class="text-xs font-serif mt-0.5">Inbox</span>
+                    <span class="text-xs font-serif mt-0.5">
+                        Inbox
+                        @if ($notifications->count() > 0)
+                            <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
+                                {{ $notifications->count() }}
+                            </span>
+                        @endif
+                    </span>
                     <span
                         class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t
                 {{ Route::is('seller.inbox') ? 'opacity-100' : 'opacity-0' }}
