@@ -19,6 +19,7 @@ class SellerDashboardController extends Controller
 
     public function inbox()
     {
-        return view('seller.dashboard.inbox');
+        $notifications = Auth::guard('seller')->user()->unreadNotifications;
+        return view('seller.dashboard.inbox', compact('notifications'));
     }
 }
