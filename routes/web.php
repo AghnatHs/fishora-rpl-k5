@@ -13,7 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
 
 Route::get('/', function () {
-    return redirect(route('pick-login'));
+    return redirect(route('homepage.index'));
 });
 
 #Route untuk halaman pick-login

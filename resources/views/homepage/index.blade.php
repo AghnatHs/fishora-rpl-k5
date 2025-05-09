@@ -39,7 +39,7 @@
                         @elseif(auth('customer')->check())
                             {{ route('customer.dashboard') }}
                         @else
-                            {{ route('customer.login') }}
+                            {{ route('pick-login') }}
                         @endauth">
                         <i class="fas fa-house text-xl"></i>
                     </a>
