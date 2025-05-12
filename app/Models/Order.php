@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use PHPUnit\TextUI\Configuration\Constant;
 
 class Order extends Model
@@ -28,6 +29,11 @@ class Order extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function  orderLines(): HasMany
+    {
+        return $this->hasMany(OrderLine::class);
     }
 
     protected static function boot()
