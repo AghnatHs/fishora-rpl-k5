@@ -26,10 +26,6 @@ class ProductWarningController extends Controller
 
     public function destroy(Product $product)
     {
-        foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->filepath);
-            $image->delete();
-        }
         $seller = $product->seller;
         $product->delete();
 
