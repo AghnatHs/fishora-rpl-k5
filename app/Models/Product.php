@@ -52,9 +52,5 @@ class Product extends Model
                 $model->id = Str::ulid()->toBase32();
             }
         });
-
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete($model->image_cover);
-        });
     }
 }

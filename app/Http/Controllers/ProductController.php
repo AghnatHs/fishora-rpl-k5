@@ -149,10 +149,6 @@ class ProductController extends Controller
     {
         if (!$this->canDoAction($product)) abort(403);
 
-        foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->filepath);
-            $image->delete();
-        }
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully!');
