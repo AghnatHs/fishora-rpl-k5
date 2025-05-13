@@ -47,7 +47,10 @@
                                     @endif
                                 </div>
 
-                                <p class="text-sm text-gray-700 font-serif">{{ $seller->email }}</p>
+                                <p class="text-sm text-gray-700 font-serif">Email : {{ $seller->email }}</p>
+                                <p class="text-sm text-gray-700 font-serif">Register at : {{ $seller->created_at }}</p>
+                                <p class="text-sm text-green-700 font-serif">Verified at :
+                                    {{ $seller->admin_verified_at ?? '-' }}</p>
 
                                 <div class="grid grid-cols-2 gap-2">
                                     <div class="flex flex-col">
