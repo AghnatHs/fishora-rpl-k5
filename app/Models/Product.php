@@ -21,7 +21,8 @@ class Product extends Model
         'price',
         'description',
         'image_cover',
-        'seller_id'
+        'seller_id',
+        'deleted_by_admin'
     ];
 
     public function images(): HasMany
