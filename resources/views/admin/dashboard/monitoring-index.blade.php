@@ -4,7 +4,8 @@
         <div class="fixed -top-1 left-4 right-4 z-30 bg-white pb-[16px]">
             <div class="max-w-md mx-auto flex items-center p-2">
                 <a href="{{ route('admin.dashboard') }}" class="mr-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#4871AD" class="w-5 h-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="#4871AD" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
                 </a>
@@ -18,7 +19,7 @@
         <div class="fixed left-4 right-4 bg-white z-20 top-15 max-w-md mx-auto px-2">
             <!-- Define tab variable first -->
             @php $tab = request('tab', 'default'); @endphp
-            
+
             {{-- Filter Form --}}
             <div class="mb-4 px-2">
                 <form method="GET" action="{{ route('admin.dashboard.products-monitoring') }}"
@@ -28,14 +29,16 @@
                     {{-- Search Input --}}
                     <div class="flex-1 relative w-full">
                         <i class="fas fa-search absolute top-2.5 left-3 text-[#4871AD]/60"></i>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..."
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Cari produk..."
                             class="w-full pl-10 pr-3 py-2 border border-[#4871AD]/30 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#4871AD] font-serif" />
                     </div>
 
                     <div class="flex gap-2">
                         {{-- Category Select with Font Awesome icon --}}
                         <div class="relative w-full">
-                            <select name="category" class="text-sm border border-[#4871AD]/30 rounded-md py-2 pl-3 pr-8 w-full font-serif focus:ring-1 focus:ring-[#4871AD] focus:outline-none appearance-none text-gray-500">
+                            <select name="category"
+                                class="text-sm border border-[#4871AD]/30 rounded-md py-2 pl-3 pr-8 w-full font-serif focus:ring-1 focus:ring-[#4871AD] focus:outline-none appearance-none text-gray-500">
                                 <option value="" class="text-gray-500">Semua Kategori</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->name }}" class="text-gray-500"
@@ -56,7 +59,7 @@
                     </div>
                 </form>
             </div>
-            
+
             {{-- Tabs --}}
             <div class="mb-4 text-sm font-serif px-2">
                 <div class="relative">
@@ -98,12 +101,9 @@
                                 Penjual: {{ $product->seller->shop_name ?? '-' }}
                             </p>
 
-                            @if ($tab === 'dihapus')
-                            @else
-                                <p class="text-sm text-[#4871AD] font-serif font-medium mt-1">
-                                    Harga: Rp{{ number_format($product->price, 0, ',', '.') }}
-                                </p>
-                            @endif
+                            <p class="text-sm text-gray-600 font-serif font-medium mt-1">
+                                Harga Terakhir: Rp{{ number_format($product->price, 0, ',', '.') }}
+                            </p>
 
                             {{-- Product Warning --}}
                             <div class="mt-2 flex flex-wrap gap-1">
@@ -111,7 +111,8 @@
                                     <span
                                         class="text-xs px-2 py-1 rounded-md text-white font-serif
                                         {{ $warning->status === 'RESOLVED' ? 'bg-green-500' : 'bg-red-500' }}">
-                                        WARN {{ $index + 1 }} | {{ $warning->description }} | {{ $warning->status }}
+                                        WARN {{ $index + 1 }} | {{ $warning->description }} |
+                                        {{ $warning->status }}
                                     </span>
                                 @endforeach
                             </div>
@@ -125,11 +126,13 @@
                                     <i class="fas fa-exclamation-triangle mr-1"></i>Lihat
                                 </a>
 
-                                <form action="{{ route('admin.dashboard.products-monitoring.delete-product', compact('product')) }}"
+                                <form
+                                    action="{{ route('admin.dashboard.products-monitoring.delete-product', compact('product')) }}"
                                     method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-serif flex items-center"
+                                    <button type="submit"
+                                        class="text-red-600 hover:text-red-800 text-sm font-serif flex items-center"
                                         onclick="return confirm('Yakin ingin menghapus produk ini?')">
                                         <i class="fas fa-trash-alt mr-1"></i>Hapus
                                     </button>
