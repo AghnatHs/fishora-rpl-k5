@@ -22,29 +22,29 @@
                 @forelse ($sellers as $seller)
                     <li>
                         <div
-                            class="bg-gradient-to-br from-white to-[#EBF1FA] rounded-lg p-4 shadow-sm border-2 border-[#4871AD]/10">
-                            <div class="flex flex-col space-y-3">
+                            class="bg-gradient-to-br from-white to-[#EBF1FA] rounded-lg p-2 shadow-sm border-2 border-[#4871AD]/10">
+                            @if ($seller->admin_verified_at)
+                                @if ($seller->admin_verified_accepted === 'approve')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Disetujui
+                                    </span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Ditolak
+                                    </span>
+                                @endif
+                            @else
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Menunggu Verifikasi
+                                </span>
+                            @endif
+                            <div class="flex flex-col space-y-2">
                                 <div class="flex justify-between items-start">
                                     <p class="text-lg font-serif font-medium text-[#4871AD]">{{ $seller->shop_name }}
                                     </p>
-                                    @if ($seller->admin_verified_at)
-                                        @if ($seller->admin_verified_accepted === 'approve')
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                Disetujui
-                                            </span>
-                                        @else
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                Ditolak
-                                            </span>
-                                        @endif
-                                    @else
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            Menunggu Verifikasi
-                                        </span>
-                                    @endif
                                 </div>
 
                                 <p class="text-sm text-gray-700 font-serif">Email : {{ $seller->email }}</p>
