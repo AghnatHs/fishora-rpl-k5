@@ -99,8 +99,6 @@
                             </p>
 
                             @if ($tab === 'dihapus')
-                                <p class="text-sm text-red-600 font-serif font-medium mt-1">Alasan:
-                                    {{ $product->deletion_reason ?? 'Tidak diketahui' }}</p>
                             @else
                                 <p class="text-sm text-[#4871AD] font-serif font-medium mt-1">
                                     Harga: Rp{{ number_format($product->price, 0, ',', '.') }}
