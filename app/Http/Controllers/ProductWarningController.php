@@ -24,13 +24,13 @@ class ProductWarningController extends Controller
         return view("admin.dashboard.monitoring-create", compact('product', 'productImages'));
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product) // remove product by admin 
     {
-        foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->filepath);
-            $image->delete();
-        }
         $seller = $product->seller;
+
+        $product->deleted_by_admin = true;
+        $product->save();
+        
         $product->delete();
 
         $seller->notify(new ProductWarningProductDeletedNotification("$product->name deleted by Admin, ignored warning too long."));

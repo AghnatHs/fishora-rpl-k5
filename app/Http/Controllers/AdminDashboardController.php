@@ -48,7 +48,7 @@ class AdminDashboardController extends Controller
         if ($tab === 'default') {
             // $query->where('status', 'invalid');
         } elseif ($tab === 'dihapus') {
-            $query->onlyTrashed();
+            $query->onlyTrashed()->where('deleted_by_admin', true);
         }
 
         $products = $query
@@ -74,17 +74,23 @@ class AdminDashboardController extends Controller
         $sellerTotal = $counts->sum();
         $sellerVerifiedTotal = $counts['verified'] ?? 0;
         $sellerUnverifiedTotal = $counts['unverified'] ?? 0;
+        $productTotal = Product::count();
 
         return view('admin.dashboard.overview', compact(
             'sellerTotal',
             'sellerVerifiedTotal',
-            'sellerUnverifiedTotal'
+            'sellerUnverifiedTotal',
+            'productTotal'
         ));
     }
 
     public function sellerVerification()
     {
-        $sellers = Seller::all();
+        $sellers = Seller::orderByRaw('admin_verified_at IS NOT NULL')
+            ->orderBy('admin_verified_at', 'desc')
+            ->paginate(4);
+
+
         return view('admin.dashboard.seller-verification', compact('sellers'));
     }
 

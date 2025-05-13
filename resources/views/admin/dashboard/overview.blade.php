@@ -1,47 +1,64 @@
 <x-app-layout>
-
-    <div class="max-w-md mx-auto p-4 sm:max-w-3xl">
-        <div>
-            <!-- Back button -->
-            <div class="p-4">
-                <a href="{{ route('admin.dashboard') }}">
-                    <i class="fas fa-arrow-left text-xl"></i>
+    <div class="max-w-md mx-auto bg-white pb-16">
+        {{-- Header with back button --}}
+        <div class="fixed top-0 left-4 right-4 z-10 bg-white">
+            <div class="max-w-md mx-auto flex items-center p-2.5">
+                <a href="{{ route('admin.dashboard') }}" class="mr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#4871AD" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
                 </a>
+                <h2 class="text-2xl font-serif font-medium text-[#4871AD]">Overview</h2>
+            </div>
+        </div>
+
+        <div class="h-8"></div>
+
+        {{-- Statistics List --}}
+        <div class="divide-y divide-[#4871AD]/35 border-t border-b border-[#4871AD]/35">
+            {{-- Total Penjual --}}
+            <div class="flex items-center px-3 py-2.5">
+                <div class="w-10 h-10 mr-3 text-[#4871AD] flex items-center justify-center">
+                    <i class="fa-solid fa-user-group text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-serif text-[#4871AD]">Total Penjual</h3>
+                    <p class="text-lg font-serif font-medium text-[#4871AD]">{{ $sellerTotal }}</p>
+                </div>
             </div>
 
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-                Welcome, {{ Auth::guard('admin')->user()->name }}!
-            </h2>
-
-            <div class="space-y-2 text-gray-700 mb-6">
-                <p><span class="font-medium">Email:</span> {{ Auth::guard('admin')->user()->email }}
-                <form action="{{ route('admin.logout') }}" method="POST" class="mt-6">
-                    @csrf
-                    <button type="submit"
-                        class="w-max bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-200">
-                        Logout
-                    </button>
-                </form>
-                </p>
+            {{-- Penjual Terverifikasi --}}
+            <div class="flex items-center px-3 py-2.5">
+                <div class="w-10 h-10 mr-3 text-[#4871AD] flex items-center justify-center">
+                    <i class="fa-solid fa-user-check text-3xl ml-2"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-serif text-[#4871AD]">Penjual Terverifikasi</h3>
+                    <p class="text-lg font-serif font-medium text-[#4871AD]">{{ $sellerVerifiedTotal }}</p>
+                </div>
             </div>
 
-            <div class="px-0">
-                <h3 class="text-base/7 font-semibold text-gray-900">Total Penjual</h3>
-                <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">{{ $sellerTotal }}</p>
-            </div>
-            <div class="px-0">
-                <h3 class="text-base/7 font-semibold text-gray-900">Penjual Terverifikasi</h3>
-                <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">{{ $sellerVerifiedTotal }}</p>
-            </div>
-            <div class="px-0">
-                <h3 class="text-base/7 font-semibold text-gray-900">Menunggu Verifikasi</h3>
-                <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">{{ $sellerUnverifiedTotal }}</p>
-            </div>
-            <div class="px-0">
-                <h3 class="text-base/7 font-semibold text-gray-900">Total Produk</h3>
-                <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">0</p>
+            {{-- Menunggu Verifikasi --}}
+            <div class="flex items-center px-3 py-2.5">
+                <div class="w-10 h-10 mr-3 text-[#4871AD] flex items-center justify-center">
+                    <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-serif text-[#4871AD]">Menunggu Verifikasi</h3>
+                    <p class="text-lg font-serif font-medium text-[#4871AD]">{{ $sellerUnverifiedTotal }}</p>
+                </div>
             </div>
 
+            {{-- Total Produk --}}
+            <div class="flex items-center px-3 py-2.5">
+                <div class="w-10 h-10 mr-3 text-[#4871AD] flex items-center justify-center">
+                    <i class="fa-solid fa-cart-shopping text-3xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-serif text-[#4871AD]">Total Produk</h3>
+                    <p class="text-lg font-serif font-medium text-[#4871AD]">{{ $productTotal }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>
