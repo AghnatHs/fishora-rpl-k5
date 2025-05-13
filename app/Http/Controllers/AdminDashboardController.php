@@ -86,9 +86,10 @@ class AdminDashboardController extends Controller
 
     public function sellerVerification()
     {
-        $sellers = Seller::orderBy('admin_verified_at', 'asc')
-            ->orderBy('created_at', 'desc')
+        $sellers = Seller::orderByRaw('admin_verified_at IS NOT NULL') 
+            ->orderBy('admin_verified_at', 'desc')
             ->paginate(4);
+
 
         return view('admin.dashboard.seller-verification', compact('sellers'));
     }
