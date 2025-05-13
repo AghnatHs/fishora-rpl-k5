@@ -21,7 +21,8 @@ class Product extends Model
         'price',
         'description',
         'image_cover',
-        'seller_id'
+        'seller_id',
+        'deleted_by_admin'
     ];
 
     public function images(): HasMany
@@ -51,10 +52,6 @@ class Product extends Model
             if (!$model->id) {
                 $model->id = Str::ulid()->toBase32();
             }
-        });
-
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete($model->image_cover);
         });
     }
 }
