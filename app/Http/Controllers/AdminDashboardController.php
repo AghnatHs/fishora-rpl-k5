@@ -48,7 +48,7 @@ class AdminDashboardController extends Controller
         if ($tab === 'default') {
             // $query->where('status', 'invalid');
         } elseif ($tab === 'dihapus') {
-            $query->onlyTrashed();
+            $query->onlyTrashed()->where('deleted_by_admin', true);
         }
 
         $products = $query
@@ -86,7 +86,7 @@ class AdminDashboardController extends Controller
 
     public function sellerVerification()
     {
-        $sellers = Seller::orderByRaw('admin_verified_at IS NOT NULL') 
+        $sellers = Seller::orderByRaw('admin_verified_at IS NOT NULL')
             ->orderBy('admin_verified_at', 'desc')
             ->paginate(4);
 
