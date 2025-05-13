@@ -74,11 +74,13 @@ class AdminDashboardController extends Controller
         $sellerTotal = $counts->sum();
         $sellerVerifiedTotal = $counts['verified'] ?? 0;
         $sellerUnverifiedTotal = $counts['unverified'] ?? 0;
+        $productTotal = Product::count();
 
         return view('admin.dashboard.overview', compact(
             'sellerTotal',
             'sellerVerifiedTotal',
-            'sellerUnverifiedTotal'
+            'sellerUnverifiedTotal',
+            'productTotal'
         ));
     }
 
