@@ -80,6 +80,7 @@ Route::prefix('homepage')->name('homepage.')->group(function () {
     Route::get('/product/{product}', [HomepageController::class, 'showProduct'])->name('show-product');
 
     Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
+        Route::get('/cart', [OrderController::class, 'indexOnlyCart'])->name('customer.cart');
         Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('customer.add-to-cart');
     });
 });

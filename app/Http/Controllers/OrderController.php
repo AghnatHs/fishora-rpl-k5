@@ -21,7 +21,7 @@ class OrderController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return dd($cartOrders);
+        return view('homepage.cart.index', compact('cartOrders'));
     }
 
 
