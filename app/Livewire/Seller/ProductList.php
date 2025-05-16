@@ -46,9 +46,4 @@ class ProductList extends Component
         
         return view('livewire.seller.product-list', compact('products'));
     }
-    
-    public function updatedTab()
-    {
-        // Metode kosong yang memastikan komponen di-render ulang saat tab berubah
-    }
 }
