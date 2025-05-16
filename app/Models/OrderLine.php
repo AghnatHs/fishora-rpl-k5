@@ -11,6 +11,10 @@ class OrderLine extends Model
 {
     use HasUlids;
 
+    protected $with = [
+        'product'
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
