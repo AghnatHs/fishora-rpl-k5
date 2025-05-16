@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
 
@@ -77,6 +78,10 @@ Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificati
 Route::prefix('homepage')->name('homepage.')->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('index');
     Route::get('/product/{product}', [HomepageController::class, 'showProduct'])->name('show-product');
+
+    Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
+        Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('customer.add-to-cart');
+    });
 });
 
 Route::prefix('seller')->name('seller.')->group(function () {

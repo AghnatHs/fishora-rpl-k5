@@ -8,6 +8,9 @@
             </a>
         </div>
 
+        @include('components.modals.status')
+        @include('components.modals.errors')
+
         <!-- Product Image -->
         <div x-data="{
             active: 0,
@@ -85,13 +88,13 @@
                     <i class="fas fa-cart-plus text-xl"></i>
                     Keranjang
                 </a>
-                {{-- <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                <form action="{{ route('homepage.customer.add-to-cart', compact('product')) }}" method="POST">
                     @csrf
                     <button type="submit"
                         class="bg-black text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-800 transition">
-                        Beli sekarang
+                        Tambah Keranjang
                     </button>
-                </form> --}}
+                </form>
             </div>
         </div>
 

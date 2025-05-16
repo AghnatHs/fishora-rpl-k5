@@ -39,14 +39,14 @@ class OrderController extends Controller
         );
 
         $orderLine = $order->orderLines()->where('product_id', $product->id)->first();
-        $orderLineQuantity = $orderLine->quantity;
-        $quantityAfterAdded = $orderLineQuantity + 1;
-
-        if ($quantityAfterAdded > $product->stock) {
-            return back()->with('error', "Stock not enough for {$product->name}");
-        }
-
         if ($orderLine) {
+            $orderLineQuantity = $orderLine->quantity;
+            $quantityAfterAdded = $orderLineQuantity + 1;
+
+            if ($quantityAfterAdded > $product->stock) {
+                return back()->with('error', "Stock not enough for {$product->name}");
+            }
+
             $orderLine->update([
                 'quantity' => $orderLine->quantity + 1
             ]);
