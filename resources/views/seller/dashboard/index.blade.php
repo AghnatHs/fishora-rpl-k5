@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-md mx-auto bg-white pb-16">
         {{-- Header Navbar --}}
-        <div class="fixed top-0 left-4 right-4 z-10 bg-white">
+        <div class="fixed top-0 left-3 right-3 z-10 bg-white">
             <div class="max-w-md mx-auto flex justify-between items-center p-3">
                 <h1 class="text-2xl font-serif font-medium text-[#4871AD]">Toko Saya</h1>
                 <div class="flex gap-4">
@@ -33,7 +33,7 @@
         <div class="h-8"></div>
 
         {{-- Profile section --}}
-        <div class="px-2 py-4">
+        <div class="px-0 py-4">
             <div class="flex items-start">
                 <div class="w-19 h-19 bg-[#4871AD] rounded-full mr-3 flex items-center justify-center text-white">
                     <i class="fas fa-user text-2xl"></i>
@@ -62,7 +62,7 @@
         </div>
 
         {{-- Status Pesanan --}}
-        <div class="px-2 mb-4">
+        <div class="px-0 mb-4">
             <div class="border border-[#4871AD] rounded-lg p-3">
                 <h2 class="text-base font-serif text-[#4871AD] mb-2">Status Pesanan</h2>
                 <div class="grid grid-cols-3 gap-2 text-center">
@@ -86,7 +86,7 @@
         </div>
 
         {{-- Menu --}}
-        <div class="px-2 mb-4">
+        <div class="px-0 mb-4">
             <div class="border border-[#4871AD] rounded-lg p-2">
                 <div class="grid grid-cols-3 gap-1 text-center">
                     <a href="{{ route('seller.products.index') }}" class="flex flex-col items-center group">
@@ -136,12 +136,12 @@
         </div>
 
         {{-- Produk Toko --}}
-        <div class="px-2">
+        <div class="px-0">
             <div class="border border-[#4871AD] p-2">
                 <h2 class="text-base font-serif font-medium text-[#4871AD] mb-2">Tampilan Produk di Toko</h2>
                 <div class="grid grid-cols-2 gap-2">
                     @forelse ($products as $product)
-                        <a href="{{ route('seller.products.edit', $product) }}"
+                        <a href="{{ route('seller.products.show', $product) }}"
                             class="block transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                             <div class="border border-[#4871AD] rounded-lg overflow-hidden">
                                 <div class="aspect-square bg-[#ABCDFF] overflow-hidden">
