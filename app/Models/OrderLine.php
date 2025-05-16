@@ -11,6 +11,12 @@ class OrderLine extends Model
 {
     use HasUlids;
 
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'quantity'
+    ];
+
     protected $with = [
         'product'
     ];
