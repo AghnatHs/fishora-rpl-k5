@@ -20,6 +20,10 @@ class Order extends Model
         'status_delivery'
     ];
 
+    protected $with = [
+        'orderLines'
+    ];
+
     public function isCart(): bool
     {
         return $this->status_payment == Constants\Orders::STATUS_PAYMENT_CART
