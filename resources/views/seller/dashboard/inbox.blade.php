@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-md mx-auto bg-white pb-16">
         {{-- Header Navbar --}}
-        <div class="fixed top-0 left-4 right-4 z-10 bg-white">
+        <div class="fixed top-0 left-3 right-3 z-10 bg-white">
             <div class="max-w-md mx-auto flex justify-between items-center p-3">
                 <h1 class="text-2xl font-serif font-medium text-[#4871AD]">Inbox</h1>
             </div>
@@ -13,7 +13,7 @@
         @include('components.modals.errors')
 
         {{-- Inbox Menu --}}
-        <div class="px-2">
+        <div class="px-0">
             <div class="mb-4">
                 <a href="#" class="flex items-center py-3 border-b border-gray-100">
                     <div class="w-8 h-8 text-[#4871AD] flex items-center justify-center mr-3">
