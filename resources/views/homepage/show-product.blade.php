@@ -84,14 +84,15 @@
                     <i class="fas fa-comment-dots text-xl"></i>
                     Chat
                 </a>
-                <form action="{{ route('homepage.customer.add-to-cart', compact('product')) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="flex flex-col items-center text-gray-700">
-                        <i class="fas fa-cart-plus text-xl"></i>
-                        Keranjang
-                    </button>
-                </form>
-
+                @auth('customer')
+                    <form action="{{ route('homepage.customer.add-to-cart', compact('product')) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="flex flex-col items-center text-gray-700">
+                            <i class="fas fa-cart-plus text-xl"></i>
+                            Keranjang
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
 
