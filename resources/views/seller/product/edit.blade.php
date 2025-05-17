@@ -120,7 +120,7 @@
                     <input type="text" name="name" id="name" 
                         placeholder="Masukkan Nama Produk"
                         class="w-full p-1.5 rounded bg-white border border-white text-[#4871AD] font-serif text-base" 
-                        value="{{ $product->name }}" required>
+                        value="{{ old('name', $product->name) }}" required>
                 </div>
 
                 <!-- Spacing between sections -->
@@ -131,7 +131,7 @@
                     <label for="description" class="block font-serif text-lg mb-1.5">Deskripsi Produk</label>
                     <textarea name="description" id="description" rows="2" 
                         placeholder="Masukkan Deskripsi Produk"
-                        class="w-full p-1.5 rounded bg-white border border-white text-[#4871AD] font-serif text-base" required>{{ $product->description }}</textarea>
+                        class="w-full p-1.5 rounded bg-white border border-white text-[#4871AD] font-serif text-base" required>{{ old('description', $product->description) }} </textarea>
                 </div>
 
                 <!-- Spacing between sections -->
@@ -155,7 +155,7 @@
                                 <input type="text" name="price" id="price" 
                                     placeholder="Harga"
                                     class="w-24 p-1 bg-white text-[#4871AD] font-serif text-base border-0 focus:ring-0 focus:outline-none placeholder-gray-400 text-center placeholder:text-center" 
-                                    value="{{ $product->price }}" required>
+                                    value="{{ old('price', $product->price) }}" required>
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                             <input type="number" name="stock" id="stock" 
                                 placeholder="Stok"
                                 class="w-16 p-1.5 rounded bg-white text-[#4871AD] font-serif text-base border-0 focus:ring-0 focus:outline-none placeholder-gray-400 text-center placeholder:text-center" 
-                                value="{{ $product->stock }}" required>
+                                value="{{ old('stock', $product->stock) }}" required>
                         </div>
                     </div>
                 </div>
