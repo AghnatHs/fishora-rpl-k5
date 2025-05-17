@@ -31,6 +31,9 @@
 
                 <div class="flex items-center gap-3">
                     <a><i class="fas fa-comment-dots text-xl"></i></a>
+                    @auth('customer')
+                        <a href="{{ route('homepage.customer.cart') }}"><i class="fas fa-shopping-cart text-xl"></i></a>
+                    @endauth
                     <a
                         href="@auth('admin')
                             {{ route('admin.dashboard') }}
