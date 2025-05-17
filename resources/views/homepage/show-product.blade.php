@@ -3,10 +3,13 @@
 
         <!-- Back button -->
         <div class="p-4">
-            <a href="{{ url()->previous() }}">
+            <a href="{{ route('homepage.index') }}">
                 <i class="fas fa-arrow-left text-xl"></i>
             </a>
         </div>
+
+        @include('components.modals.status')
+        @include('components.modals.errors')
 
         <!-- Product Image -->
         <div x-data="{
@@ -81,17 +84,15 @@
                     <i class="fas fa-comment-dots text-xl"></i>
                     Chat
                 </a>
-                <a href="#" class="flex flex-col items-center text-gray-700">
-                    <i class="fas fa-cart-plus text-xl"></i>
-                    Keranjang
-                </a>
-                {{-- <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="bg-black text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-800 transition">
-                        Beli sekarang
-                    </button>
-                </form> --}}
+                @auth('customer')
+                    <form action="{{ route('homepage.customer.add-to-cart', compact('product')) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="flex flex-col items-center text-gray-700">
+                            <i class="fas fa-cart-plus text-xl"></i>
+                            Keranjang
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
 
