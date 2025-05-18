@@ -25,7 +25,13 @@ class OrderController extends Controller
 
         session(['cart_count' => $cartCount]);
 
-        return view('customer.cart.index', compact('cartOrders'));
+        $cartOrder = $cartOrders->first();
+
+        $orderTotalPrice = $cartOrder
+            ? $cartOrder->orderLines->sum(fn($line) => $line->product->price * $line->quantity)
+            : 0;
+
+        return view('customer.cart.index', compact('cartOrders', 'orderTotalPrice'));
     }
 
 

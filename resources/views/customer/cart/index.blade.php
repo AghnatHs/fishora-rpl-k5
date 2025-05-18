@@ -120,9 +120,7 @@
             <div class="fixed bottom-0 left-0 right-0 z-30">
                 <div class="max-w-md mx-auto bg-[#4871AD] py-4 px-6 flex items-center justify-between text-white">
                     <div>
-                        <p class="font-medium">Total Rp{{ number_format($cartOrders->first()->orderLines->sum(function($line) {
-                            return $line->product->price * $line->quantity;
-                        }), 0, ',', '.') }}</p>
+                        <p class="font-medium">Total Rp{{ number_format($orderTotalPrice, 0, ',', '.') }}</p>
                     </div>
                     
                     <a href="#" class="bg-white text-[#4871AD] px-6 py-2 rounded-md font-medium">
