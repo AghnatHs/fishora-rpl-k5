@@ -59,6 +59,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('dashboard');
+        Route::get('/cart', [OrderController::class, 'indexOnlyCart'])->name('cart');
+        Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('add-to-cart');
+        Route::delete('/cart/{order}/{product}', [OrderController::class, 'destroyProduct'])->name('remove-from-cart');
     });
 });
 
@@ -78,12 +81,6 @@ Route::post('/customer/email/verification/resend', [CustomerAuth\EmailVerificati
 Route::prefix('homepage')->name('homepage.')->group(function () {
     Route::get('/', [HomepageController::class, 'index'])->name('index');
     Route::get('/product/{product}', [HomepageController::class, 'showProduct'])->name('show-product');
-
-    Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
-        Route::get('/cart', [OrderController::class, 'indexOnlyCart'])->name('customer.cart');
-        Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('customer.add-to-cart');
-        Route::delete('/cart/{order}/{product}', [OrderController::class, 'destroyProduct'])->name('customer.remove-from-cart');
-    });
 });
 
 Route::prefix('seller')->name('seller.')->group(function () {

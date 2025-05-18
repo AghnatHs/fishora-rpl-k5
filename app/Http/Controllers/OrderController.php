@@ -16,12 +16,22 @@ class OrderController extends Controller
 
         $cartOrders = Order::with('orderLines.product')
             ->where('customer_id', $customer->id)
-            ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_CART)
-            ->where('status_payment', \App\Constants\Orders::STATUS_PAYMENT_CART)
+            ->cartStatus()
             ->orderByDesc('created_at')
             ->get();
 
-        return view('homepage.cart.index', compact('cartOrders'));
+        // Update cart count in session when viewing cart
+        $cartCount = Order::cartProductCountForUser($customer->id);
+
+        session(['cart_count' => $cartCount]);
+
+        $cartOrder = $cartOrders->first();
+
+        $orderTotalPrice = $cartOrder
+            ? $cartOrder->orderLines->sum(fn($line) => $line->product->price * $line->quantity)
+            : 0;
+
+        return view('customer.cart.index', compact('cartOrders', 'orderTotalPrice'));
     }
 
 
@@ -57,6 +67,11 @@ class OrderController extends Controller
             ]);
         }
 
+        // Update cart count in session when viewing cart
+        $cartCount = Order::cartProductCountForUser($customer->id);
+
+        session(['cart_count' => $cartCount]);
+
         return back()->with('success', "{$product->name} succesfully added to cart");
     }
 
@@ -85,6 +100,11 @@ class OrderController extends Controller
         if ($order->orderLines()->count() === 0) {
             $order->delete();
         }
+
+        // Update cart count in session when viewing cart
+        $cartCount = Order::cartProductCountForUser($customer->id);
+
+        session(['cart_count' => $cartCount]);
 
         return back()->with('success', "1 {$product->name} removed from your cart.");
     }
