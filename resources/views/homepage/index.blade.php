@@ -180,7 +180,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-5 flex justify-center">
+        <div class="flex flex-col items-center mt-8 space-y-2">
             <p class="text-sm text-gray-500">
                 Page {{ $products->currentPage() }} of {{ $products->lastPage() }}
             </p>
