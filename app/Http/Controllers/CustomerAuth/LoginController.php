@@ -38,12 +38,7 @@ class LoginController extends Controller
             
             // Calculate and set cart count in session
             $user = Auth::guard('customer')->user();
-            $cartCount = Order::where('customer_id', $user->id)
-                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_CART)
-                ->where('status_payment', \App\Constants\Orders::STATUS_PAYMENT_CART)
-                ->join('order_lines', 'orders.id', '=', 'order_lines.order_id')
-                ->distinct('order_lines.product_id')
-                ->count('order_lines.product_id');
+            $cartCount = Order::cartProductCountForUser($user->id);
             
             session(['cart_count' => $cartCount]);
             
