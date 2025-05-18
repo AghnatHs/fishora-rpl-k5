@@ -21,7 +21,17 @@ class OrderController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return view('homepage.cart.index', compact('cartOrders'));
+        // Update cart count in session when viewing cart
+        $cartCount = Order::where('customer_id', $customer->id)
+            ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_CART)
+            ->where('status_payment', Constants\Orders::STATUS_PAYMENT_CART)
+            ->join('order_lines', 'orders.id', '=', 'order_lines.order_id')
+            ->distinct('order_lines.product_id')
+            ->count('order_lines.product_id');
+        
+        session(['cart_count' => $cartCount]);
+
+        return view('customer.cart.index', compact('cartOrders'));
     }
 
 
@@ -57,6 +67,16 @@ class OrderController extends Controller
             ]);
         }
 
+        // Update cart count in session
+        $cartCount = Order::where('customer_id', $customer->id)
+            ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_CART)
+            ->where('status_payment', Constants\Orders::STATUS_PAYMENT_CART)
+            ->join('order_lines', 'orders.id', '=', 'order_lines.order_id')
+            ->distinct('order_lines.product_id')
+            ->count('order_lines.product_id');
+        
+        session(['cart_count' => $cartCount]);
+
         return back()->with('success', "{$product->name} succesfully added to cart");
     }
 
@@ -85,6 +105,16 @@ class OrderController extends Controller
         if ($order->orderLines()->count() === 0) {
             $order->delete();
         }
+
+        // Update cart count in session
+        $cartCount = Order::where('customer_id', $customer->id)
+            ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_CART)
+            ->where('status_payment', Constants\Orders::STATUS_PAYMENT_CART)
+            ->join('order_lines', 'orders.id', '=', 'order_lines.order_id')
+            ->distinct('order_lines.product_id')
+            ->count('order_lines.product_id');
+        
+        session(['cart_count' => $cartCount]);
 
         return back()->with('success', "1 {$product->name} removed from your cart.");
     }
