@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
-    use HasUlids;
+    use HasUlids, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -20,7 +21,8 @@ class Product extends Model
         'price',
         'description',
         'image_cover',
-        'seller_id'
+        'seller_id',
+        'deleted_by_admin'
     ];
 
     public function images(): HasMany
@@ -38,6 +40,11 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
 
+    public function warnings(): HasMany
+    {
+        return $this->hasMany(ProductWarning::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -45,10 +52,6 @@ class Product extends Model
             if (!$model->id) {
                 $model->id = Str::ulid()->toBase32();
             }
-        });
-
-        static::deleting(function ($model) {
-            Storage::disk('public')->delete($model->image_cover);
         });
     }
 }

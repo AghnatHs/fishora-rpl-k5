@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-md mx-auto bg-white pb-16">
         {{-- Header Navbar --}}
-        <div class="fixed top-0 left-4 right-4 z-10 bg-white">
+        <div class="fixed top-0 left-3 right-3 z-10 bg-white">
             <div class="max-w-md mx-auto flex justify-between items-center p-3">
                 <h1 class="text-2xl font-serif font-medium text-[#4871AD]">Toko Saya</h1>
                 <div class="flex gap-4">
@@ -33,7 +33,7 @@
         <div class="h-8"></div>
 
         {{-- Profile section --}}
-        <div class="px-2 py-4">
+        <div class="px-0 py-4">
             <div class="flex items-start">
                 <div class="w-19 h-19 bg-[#4871AD] rounded-full mr-3 flex items-center justify-center text-white">
                     <i class="fas fa-user text-2xl"></i>
@@ -62,7 +62,7 @@
         </div>
 
         {{-- Status Pesanan --}}
-        <div class="px-2 mb-4">
+        <div class="px-0 mb-4">
             <div class="border border-[#4871AD] rounded-lg p-3">
                 <h2 class="text-base font-serif text-[#4871AD] mb-2">Status Pesanan</h2>
                 <div class="grid grid-cols-3 gap-2 text-center">
@@ -86,7 +86,7 @@
         </div>
 
         {{-- Menu --}}
-        <div class="px-2 mb-4">
+        <div class="px-0 mb-4">
             <div class="border border-[#4871AD] rounded-lg p-2">
                 <div class="grid grid-cols-3 gap-1 text-center">
                     <a href="{{ route('seller.products.index') }}" class="flex flex-col items-center group">
@@ -136,12 +136,12 @@
         </div>
 
         {{-- Produk Toko --}}
-        <div class="px-2">
+        <div class="px-0">
             <div class="border border-[#4871AD] p-2">
                 <h2 class="text-base font-serif font-medium text-[#4871AD] mb-2">Tampilan Produk di Toko</h2>
                 <div class="grid grid-cols-2 gap-2">
                     @forelse ($products as $product)
-                        <a href="{{ route('seller.products.edit', $product) }}"
+                        <a href="{{ route('seller.products.show', $product) }}"
                             class="block transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                             <div class="border border-[#4871AD] rounded-lg overflow-hidden">
                                 <div class="aspect-square bg-[#ABCDFF] overflow-hidden">
@@ -193,7 +193,14 @@
                         <path
                             d="M11 99C7.975 99 5.38633 97.9238 3.234 95.7715C1.08167 93.6192 0.00366667 91.0287 0 88V11C0 7.975 1.078 5.38633 3.234 3.234C5.39 1.08167 7.97867 0.00366667 11 0H88C91.025 0 93.6155 1.078 95.7715 3.234C97.9275 5.39 99.0037 7.97867 99 11V88C99 91.025 97.9238 93.6155 95.7715 95.7715C93.6192 97.9275 91.0287 99.0037 88 99H11ZM49.5 71.5C52.9833 71.5 56.1458 70.4917 58.9875 68.475C61.8292 66.4583 63.8 63.8 64.9 60.5H88V11H11V60.5H34.1C35.2 63.8 37.1708 66.4583 40.0125 68.475C42.8542 70.4917 46.0167 71.5 49.5 71.5Z" />
                     </svg>
-                    <span class="text-xs font-serif mt-0.5">Inbox</span>
+                    <span class="text-xs font-serif mt-0.5">
+                        Inbox
+                        @if ($notifications->count() > 0)
+                            <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
+                                {{ $notifications->count() }}
+                            </span>
+                        @endif
+                    </span>
                     <span
                         class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t
                 {{ Route::is('seller.inbox') ? 'opacity-100' : 'opacity-0' }}

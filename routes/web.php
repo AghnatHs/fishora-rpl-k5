@@ -9,10 +9,12 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\SellerDashboardController;
 use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductWarningController;
 
 Route::get('/', function () {
-    return redirect(route('pick-login'));
+    return redirect(route('homepage.index'));
 });
 
 #Route untuk halaman pick-login
@@ -25,7 +27,8 @@ Route::get('/pick-login', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest.custom')->group(function () {
         Route::get('/login', [AdminAuth\LoginController::class, 'show'])->name('login');
-        Route::post('/login', [AdminAuth\LoginController::class, 'login']);
+        Route::post('/login', [AdminAuth\LoginController::class, 'login']); {
+        }
     });
     Route::post('/logout', [AdminAuth\LoginController::class, 'logout'])->name('logout');
 
@@ -35,6 +38,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/dashboard/seller-verification/{seller}', [AdminDashboardController::class, 'verifySeller'])->name('dashboard.seller-verification.post');;
         Route::get('/dashboard/seller-verification', [AdminDashboardController::class, 'sellerVerification'])->name('dashboard.seller-verification');
+
+        Route::get('/dashboard/products-monitoring', [AdminDashboardController::class, 'monitoringView'])->name('dashboard.products-monitoring');
+        Route::get('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'create'])->name('dashboard.products-monitoring.create');
+        Route::post('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'store']);
+        Route::delete('/dashboard/products-monitoring/{product}', [ProductWarningController::class, 'destroy'])->name('dashboard.products-monitoring.delete-product');
+        Route::put('/dashboard/products-monitoring/{productWarning}', [ProductWarningController::class, 'update'])->name('dashboard.products-monitoring.update');
     });
 });
 
@@ -50,6 +59,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     Route::middleware(['auth.custom:customer', 'customer.verified'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('dashboard');
+        Route::get('/cart', [OrderController::class, 'indexOnlyCart'])->name('cart');
+        Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('add-to-cart');
+        Route::delete('/cart/{order}/{product}', [OrderController::class, 'destroyProduct'])->name('remove-from-cart');
     });
 });
 
@@ -87,5 +99,7 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::get('/inbox', [SellerDashboardController::class, 'inbox'])->name('inbox');
 
         Route::resource('products', ProductController::class);
+
+        Route::patch('/notification/{id}/read', [SellerDashboardController::class, 'markAsReadNotification'])->name('notification.read');
     });
 });

@@ -13,11 +13,19 @@ class SellerDashboardController extends Controller
         $products = Product::where('seller_id', Auth::guard('seller')->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('seller.dashboard.index', compact('products'));
+        $notifications = Auth::guard('seller')->user()->unreadNotifications;
+        return view('seller.dashboard.index', compact('products', 'notifications'));
     }
 
     public function inbox()
     {
-        return view('seller.dashboard.inbox');
+        $notifications = Auth::guard('seller')->user()->unreadNotifications;
+        return view('seller.dashboard.inbox', compact('notifications'));
+    }
+
+    public function markAsReadNotification($id)
+    {
+        Auth::guard('seller')->user()->notifications()->findOrFail($id)->markAsRead();
+        return back()->with('success', 'Notification marked as read.');
     }
 }

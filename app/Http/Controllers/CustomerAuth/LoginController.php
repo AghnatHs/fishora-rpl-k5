@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Models\Order;
 
 class LoginController extends Controller
 {
@@ -34,6 +35,13 @@ class LoginController extends Controller
 
         if (Auth::guard('customer')->attempt($credentials, $request->remember)) {
             RateLimiter::clear($throttleKey);
+            
+            // Calculate and set cart count in session
+            $user = Auth::guard('customer')->user();
+            $cartCount = Order::cartProductCountForUser($user->id);
+            
+            session(['cart_count' => $cartCount]);
+            
             return redirect()->intended(route('customer.dashboard'));
         }
 
@@ -43,6 +51,9 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        // Clear cart count from session before logout
+        session()->forget('cart_count');
+        
         Auth::guard('customer')->logout();
         return redirect('/');
     }

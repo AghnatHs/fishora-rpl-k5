@@ -20,14 +20,46 @@ class ProductController extends Controller
         return true;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['images', 'categories'])
-            ->where('seller_id', Auth::guard('seller')->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $sellerId = Auth::guard('seller')->id();
+        $tab = $request->query('tab', 'live');
+        
+        $query = Product::with(['images', 'categories', 'warnings'])
+            ->where('seller_id', $sellerId);
+        
+        // Get counts for each tab 
+        $liveCount = Product::where('seller_id', $sellerId)
+            ->where('stock', '>', 0)
+            ->count();
+            
+        $outOfStockCount = Product::where('seller_id', $sellerId)
+            ->where('stock', 0)
+            ->count();
+        
+        $deletedCount = Product::onlyTrashed() 
+            ->where('seller_id', $sellerId)
+            ->count();
+        
+        // Filter products based on selected tab
+        if ($tab === 'live') {
+            $query->where('stock', '>', 0);
+        } elseif ($tab === 'outofstock') {
+            $query->where('stock', 0);
+        } elseif ($tab === 'deleted') {
+            $query->onlyTrashed(); 
+        }
 
-        return view("seller.product.index", compact('products'));
+        // Filter by search if provided
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        $products = $query->latest()->paginate(6);
+        
+        return view('seller.product.index', compact(
+            'products', 'tab', 'liveCount', 'outOfStockCount', 'deletedCount'
+        ));
     }
 
     /**
@@ -79,7 +111,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        // Check if product belongs to current seller
+        if ($product->seller_id !== Auth::guard('seller')->id()) {
+            abort(403);
+        }
+        
+        return view('seller.product.show', compact('product'));
     }
 
     /**
@@ -149,10 +186,6 @@ class ProductController extends Controller
     {
         if (!$this->canDoAction($product)) abort(403);
 
-        foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->filepath);
-            $image->delete();
-        }
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Product deleted successfully!');
