@@ -20,13 +20,31 @@ class OrderController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
+        // Check for and remove deleted products from cart
+        if ($cartOrders->isNotEmpty()) {
+            foreach ($cartOrders as $order) {
+                foreach ($order->orderLines as $line) {
+                    if (!$line->product) {
+                        $line->delete();
+                    }
+                }
+            }
+        }
+
+        // Reload orders after cleaning up deleted products
+        $cartOrders = Order::with('orderLines.product')
+            ->where('customer_id', $customer->id)
+            ->cartStatus()
+            ->orderByDesc('created_at')
+            ->get();
+
         // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
 
         $cartOrder = $cartOrders->first();
-
+        
         $orderTotalPrice = $cartOrder
             ? $cartOrder->orderLines->sum(fn($line) => $line->product->price * $line->quantity)
             : 0;
