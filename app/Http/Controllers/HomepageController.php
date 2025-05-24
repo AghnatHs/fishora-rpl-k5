@@ -28,8 +28,13 @@ class HomepageController extends Controller
             });
         }
 
-        $products = $query
-            ->inRandomOrder()
+        $seed = session('random_seed');
+        if (!$seed) {
+            $seed = rand();
+            session(['random_seed' => $seed]);
+        }
+
+        $products = $query::orderByRaw("RAND($seed)")
             ->paginate(6)
             ->withQueryString();
         $categories = Category::orderBy('name')->get();
