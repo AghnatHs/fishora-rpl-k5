@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Customer extends Authenticatable
 {
-    use HasUlids, Notifiable, HasFactory;
+    use HasUlids, Notifiable;
 
     protected $fillable = [
         'name',

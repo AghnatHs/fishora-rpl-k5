@@ -9,6 +9,7 @@
 
         <div class="h-8"></div>
 
+        @include('components.modals.status')
         @include('components.modals.errors')
 
         {{-- Inbox Menu --}}
