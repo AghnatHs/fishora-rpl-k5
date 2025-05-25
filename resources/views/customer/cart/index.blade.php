@@ -123,7 +123,7 @@
                         <p class="font-medium">Total Rp{{ number_format($orderTotalPrice, 0, ',', '.') }}</p>
                     </div>
                     
-                    <a href="#" class="bg-white text-[#4871AD] px-6 py-2 rounded-md font-medium">
+                    <a href="{{ route('customer.checkout.index') }}" class="bg-white text-[#4871AD] px-6 py-2 rounded-md font-medium">
                         Checkout ({{ $cartOrders->first()->orderLines->sum('quantity') }})
                     </a>
                 </div>

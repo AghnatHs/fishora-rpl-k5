@@ -36,7 +36,7 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function  orderLines(): HasMany
+    public function orderLines()
     {
         return $this->hasMany(OrderLine::class);
     }

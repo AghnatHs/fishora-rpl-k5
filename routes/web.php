@@ -12,6 +12,8 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
+use App\Http\Controllers\CustomerCheckoutController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return redirect(route('homepage.index'));
@@ -66,6 +68,10 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/inbox', [CustomerDashboardController::class, 'inbox'])->name('inbox');
         Route::patch('/notification/{id}/read', [CustomerDashboardController::class, 'markAsReadNotification'])
             ->name('notification.read');
+        Route::get('/transactions', [CustomerDashboardController::class, 'transactions'])->name('transactions');
+
+        Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/checkout/process', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
     });
 });
 
