@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class HomepageController extends Controller
@@ -40,6 +41,11 @@ class HomepageController extends Controller
             ->withQueryString();
         $categories = Category::orderBy('name')->get();
 
+        if (Auth::guard('customer')->check()) {
+            $user = Auth::guard('customer')->user();
+            $notifications = auth('customer')->user()->notifications;
+            return view('homepage.index', compact('products', 'categories', 'notifications'));
+        }
 
         return view('homepage.index', compact('products', 'categories'));
     }

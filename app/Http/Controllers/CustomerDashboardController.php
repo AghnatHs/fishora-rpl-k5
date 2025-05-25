@@ -8,9 +8,10 @@ class CustomerDashboardController extends Controller
 {
     public function dashboard()
     {
-        return view('customer.dashboard.index');
+        $notifications = auth('customer')->user()->notifications;
+        return view('customer.dashboard.index', compact('notifications'));
     }
-    
+
     public function inbox()
     {
         $notifications = auth('customer')->user()->notifications;
@@ -21,7 +22,7 @@ class CustomerDashboardController extends Controller
     {
         $notification = auth('customer')->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
-        
+
         return back()->with('status', 'Notification marked as read.');
     }
 }
