@@ -167,7 +167,7 @@
                 </svg>
                 <span class="text-xs font-serif mt-0.5">
                     Inbox
-                    @if ($notifications->count() >= 0)
+                    @if ($notifications->count() > 0)
                         <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
                             {{ $notifications->count() }}
                         </span>
