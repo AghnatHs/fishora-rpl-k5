@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
 use App\Http\Controllers\CustomerCheckoutController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return redirect(route('homepage.index'));
@@ -68,7 +69,16 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/inbox', [CustomerDashboardController::class, 'inbox'])->name('inbox');
         Route::patch('/notification/{id}/read', [CustomerDashboardController::class, 'markAsReadNotification'])
             ->name('notification.read');
-        Route::get('/transactions', [CustomerDashboardController::class, 'transactions'])->name('transactions');
+        
+        // Ganti atau hapus rute transaksi lama ini:
+        // Route::get('/transactions', [CustomerDashboardController::class, 'transactions'])->name('transactions');
+
+        // Tambahkan rute transaksi baru di sini:
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
+        Route::get('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid');
+        Route::get('/transactions/packed', [TransactionController::class, 'packed'])->name('transactions.packed');
+        Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
+        Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
 
         Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
         Route::post('/checkout/process', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
