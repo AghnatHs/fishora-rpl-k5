@@ -12,7 +12,21 @@ class Transaction extends Model
     protected $fillable = [
         'customer_id',
         'order_id',
-        // Add other fillable fields as needed
+        'product_name',
+        'amount',
+        'status'
+    ];
+
+    protected $casts = [
+        'customer_id' => 'string',
+        'order_id' => 'string',
+        'amount' => 'decimal:2'
+    ];
+
+    protected $attributes = [
+        'customer_id' => '',
+        'order_id' => '',
+        'status' => 'pending'
     ];
     
     /**

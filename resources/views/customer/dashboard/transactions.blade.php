@@ -3,7 +3,7 @@
         <!-- Fixed Top Navigation -->
         <div class="fixed top-0 left-0 right-0 bg-white z-20">
             <div class="max-w-md mx-auto px-4 py-4">
-                <h1 class="text-2xl text-[#4871AD] font-medium">Transaksi Saya</h1>
+                <h1 class="text-2xl text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Transaksi Saya</h1>
             </div>
         </div>
         
@@ -11,19 +11,19 @@
         <div class="fixed top-16 left-0 right-0 bg-white z-10 border-b">
             <div class="max-w-md mx-auto flex text-sm">
                 <a href="{{ route('customer.transactions.unpaid') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'unpaid' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'unpaid' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
                     Belum Bayar
                 </a>
                 <a href="{{ route('customer.transactions.packed') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'packed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'packed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
                     Dikemas
                 </a>
                 <a href="{{ route('customer.transactions.shipped') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'shipped' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'shipped' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
                     Dikirim
                 </a>
                 <a href="{{ route('customer.transactions.completed') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'completed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'completed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
                     Selesai
                 </a>
             </div>
@@ -34,6 +34,18 @@
             @include('components.modals.status')
             @include('components.modals.errors')
             
+            <!-- Debug Info -->
+            @if(config('app.debug'))
+                <div class="mb-4 p-4 bg-gray-100 rounded">
+                    <p style="font-family: 'DM Serif Text', serif;">Debug Info:</p>
+                    <p style="font-family: 'DM Serif Text', serif;">Active Tab: {{ $activeTab }}</p>
+                    <p style="font-family: 'DM Serif Text', serif;">Transactions Count: {{ isset($transactions) ? $transactions->count() : 0 }}</p>
+                    @if(isset($transactions) && $transactions->count() > 0)
+                        <p style="font-family: 'DM Serif Text', serif;">First Transaction Status: {{ $transactions->first()->status }}</p>
+                    @endif
+                </div>
+            @endif
+
             <!-- Transaction Items -->
             @if(isset($transactions) && $transactions->count() > 0)
                 @foreach($transactions as $transaction)
@@ -44,11 +56,11 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#4871AD] mr-1">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
                                 </svg>
-                                <p class="font-medium">
+                                <p class="font-medium" style="font-family: 'DM Serif Text', serif;">
                                     {{ $transaction->order->orderLines[0]->product->seller->name ?? 'Toko Fishora' }}
                                 </p>
                             </div>
-                            <span class="text-sm text-[#4871AD]">
+                            <span class="text-sm text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">
                                 @if($activeTab == 'unpaid')
                                     Belum Bayar
                                 @elseif($activeTab == 'packed')
@@ -77,6 +89,7 @@
                                 
                                 <!-- Product Info -->
                                 <div class="ml-3 flex-1">
+                                    <p class="font-medium" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->name }}</p>
                                     <p class="font-medium">{{ $orderLine->product->name }}</p>
                                     <p class="text-sm text-gray-500">{{ $orderLine->quantity }} x Rp{{ number_format($orderLine->product->price, 0, ',', '.') }}</p>
                                     <div class="flex justify-between items-center mt-2">

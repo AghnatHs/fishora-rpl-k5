@@ -9,7 +9,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                <h1 class="text-2xl text-[#4871AD] font-medium ml-3">Checkout</h1>
+                <h1 class="text-2xl text-[#4871AD] font-medium ml-3" style="font-family: 'DM Serif Text', serif;">Checkout</h1>
             </div>
         </div>
         
@@ -20,11 +20,11 @@
             
             <!-- Alamat Pengiriman -->
             <div class="mb-6">
-                <h2 class="text-lg font-medium text-[#4871AD] mb-2">Alamat</h2>
+                <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Alamat</h2>
                 <div class="bg-gray-50 p-4 rounded-lg">
-                    <p class="font-medium">{{ auth('customer')->user()->name }}</p>
-                    <p class="text-sm">{{ auth('customer')->user()->email }}</p>
-                    <p class="text-sm mt-1">
+                    <p class="font-medium" style="font-family: 'DM Serif Text', serif;">{{ auth('customer')->user()->name }}</p>
+                    <p class="text-sm" style="font-family: 'DM Serif Text', serif;">{{ auth('customer')->user()->email }}</p>
+                    <p class="text-sm mt-1" style="font-family: 'DM Serif Text', serif;">
                         @if(auth('customer')->user()->address)
                             {{ auth('customer')->user()->address }}
                         @else
@@ -38,7 +38,7 @@
             @if(isset($cartOrders) && $cartOrders->isNotEmpty())
                 @foreach ($cartOrders as $order)
                     <div class="mb-6">
-                        <h2 class="text-lg font-medium text-[#4871AD] mb-2">
+                        <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">
                             @if(isset($order->orderLines[0]->product->seller))
                                 {{ $order->orderLines[0]->product->seller->name }}
                             @else
@@ -48,7 +48,7 @@
                         
                         <div class="bg-white border rounded-lg mb-4">
                             <div class="p-3 border-b">
-                                <p class="font-medium">Order #{{ substr($order->id, 0, 8) }}</p>
+                                <p class="font-medium" style="font-family: 'DM Serif Text', serif;">Order #{{ substr($order->id, 0, 8) }}</p>
                             </div>
                             
                             <div class="p-4">
@@ -67,8 +67,8 @@
                                         
                                         <!-- Informasi Produk -->
                                         <div class="flex-1">
-                                            <p class="font-medium">{{ $orderLine->product->name }}</p>
-                                            <div class="flex justify-between text-sm mt-1">
+                                            <p class="font-medium" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->name }}</p>
+                                            <div class="flex justify-between text-sm mt-1" style="font-family: 'DM Serif Text', serif;">
                                                 <span>{{ $orderLine->quantity }} x Rp{{ number_format($orderLine->product->price, 0, ',', '.') }}</span>
                                                 <span>Rp{{ number_format($orderLine->quantity * $orderLine->product->price, 0, ',', '.') }}</span>
                                             </div>
@@ -82,22 +82,22 @@
             
                 <!-- Opsi Pengiriman -->
                 <div class="mb-6">
-                    <h2 class="text-lg font-medium text-[#4871AD] mb-2">Opsi Pengiriman</h2>
+                    <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Opsi Pengiriman</h2>
                     <div class="bg-white border rounded-lg p-4">
                         <div class="flex items-center">
                             <input type="radio" name="shipping" id="shipping_standard" value="standard" checked class="mr-3">
                             <label for="shipping_standard" class="flex-1">
-                                <p class="font-medium">Standard</p>
-                                <p class="text-sm text-gray-500">Estimasi 2-3 hari</p>
+                                <p class="font-medium" style="font-family: 'DM Serif Text', serif;">Standard</p>
+                                <p class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">Estimasi 2-3 hari</p>
                             </label>
-                            <span class="text-[#4871AD] font-medium">Gratis</span>
+                            <span class="text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Gratis</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Rincian Pembayaran -->
                 <div class="mb-6">
-                    <h2 class="text-lg font-medium text-[#4871AD] mb-2">Rincian Pembayaran</h2>
+                    <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Rincian Pembayaran</h2>
                     <div class="bg-white border rounded-lg p-4">
                         @php
                             $subtotal = 0;
@@ -110,16 +110,16 @@
                             $total = $subtotal + $shipping;
                         @endphp
                         
-                        <div class="flex justify-between mb-2">
+                        <div class="flex justify-between mb-2" style="font-family: 'DM Serif Text', serif;">
                             <span>Subtotal</span>
                             <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
                         </div>
-                        <div class="flex justify-between mb-2">
+                        <div class="flex justify-between mb-2" style="font-family: 'DM Serif Text', serif;">
                             <span>Ongkos Kirim</span>
                             <span>Rp{{ number_format($shipping, 0, ',', '.') }}</span>
                         </div>
                         <div class="border-t my-2"></div>
-                        <div class="flex justify-between font-medium text-[#4871AD]">
+                        <div class="flex justify-between font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">
                             <span>Total</span>
                             <span>Rp{{ number_format($orderTotalPrice ?? $total, 0, ',', '.') }}</span>
                         </div>
@@ -127,8 +127,8 @@
                 </div>
             @else
                 <div class="bg-gray-50 p-6 rounded-lg text-center">
-                    <p>Keranjang Anda kosong</p>
-                    <a href="{{ route('homepage.index') }}" class="mt-3 inline-block text-[#4871AD] font-medium">Belanja Sekarang</a>
+                    <p style="font-family: 'DM Serif Text', serif;">Keranjang Anda kosong</p>
+                    <a href="{{ route('homepage.index') }}" class="mt-3 inline-block text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Belanja Sekarang</a>
                 </div>
             @endif
         </div>
@@ -138,12 +138,12 @@
             <div class="fixed bottom-0 left-0 right-0 z-30">
                 <div class="max-w-md mx-auto bg-white border-t py-4 px-6">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm text-gray-500">Total</span>
-                        <span class="font-medium text-[#4871AD]">Rp{{ number_format($orderTotalPrice ?? 0, 0, ',', '.') }}</span>
+                        <span class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">Total</span>
+                        <span class="font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderTotalPrice ?? 0, 0, ',', '.') }}</span>
                     </div>
                     <form action="{{ route('customer.checkout.process') }}" method="POST">
                         @csrf
-                        <button type="submit" class="w-full bg-[#4871AD] text-white py-3 rounded-md font-medium">
+                        <button type="submit" class="w-full bg-[#4871AD] text-white py-3 rounded-md font-medium" style="font-family: 'DM Serif Text', serif;">
                             Buat Pesanan
                         </button>
                     </form>

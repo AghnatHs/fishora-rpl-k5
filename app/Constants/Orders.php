@@ -18,4 +18,11 @@ class Orders
     public const STATUS_DELIVERY_DELIVERED = 'DELIVERED';
     public const STATUS_DELIVERY_CANCELLED = 'CANCELLED';
     public const STATUS_DELIVERY_RETURNED  = 'RETURNED';
+
+    // Transaction Status Constants
+    public const TRANSACTION_STATUS_PENDING = 'PENDING';
+    public const TRANSACTION_STATUS_PAID = 'PAID';
+    public const TRANSACTION_STATUS_FAILED = 'FAILED';
+    public const TRANSACTION_STATUS_EXPIRED = 'EXPIRED';
+    public const TRANSACTION_STATUS_REFUNDED = 'REFUNDED';
 }

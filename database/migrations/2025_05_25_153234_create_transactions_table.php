@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade'); // Relasi ke tabel customers
-            $table->foreignUlid('order_id')->constrained()->onDelete('cascade'); // Relasi ke tabel orders
+            $table->foreignUlid('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignUlid('order_id')->constrained()->onDelete('cascade');
             $table->string('product_name');
             $table->decimal('amount', 10, 2);
             $table->string('status')->default('pending'); // Status transaksi
