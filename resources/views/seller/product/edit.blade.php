@@ -179,6 +179,7 @@
                         <div class="flex items-center">
                             <input type="number" name="stock" id="stock" 
                                 placeholder="Stok"
+                                min="0"
                                 class="w-16 p-1.5 rounded bg-white text-[#4871AD] font-serif text-base border-0 focus:ring-0 focus:outline-none placeholder-gray-400 text-center placeholder:text-center" 
                                 value="{{ old('stock', $product->stock) }}" required>
                         </div>
