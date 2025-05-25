@@ -114,20 +114,16 @@
                         </a>
                         
                         <!-- Cart icon with auth check -->
-                        <a href="@auth('customer')
-                                    {{ route('customer.cart') }}
-                                @else
-                                    {{ route('pick-login') }}
-                                @endauth" class="relative">
-                            <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
-                            @auth('customer')
+                        @auth('customer')
+                            <a href="{{ route('customer.cart') }}" class="relative">
+                                <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
                                 @if(session('cart_count', 0) > 0)
                                     <span class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[12px] rounded-full min-w-[16px] h-[16px] flex items-center justify-center font-medium leading-none px-1">
                                         {{ session('cart_count') }}
                                     </span>
                                 @endif
-                            @endauth
-                        </a>
+                            </a>
+                        @endauth
                     </div>
                 </div>
                 
