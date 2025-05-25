@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\CustomerAuth;
 
+use App\Constants;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-
+use PHPUnit\TextUI\Configuration\Constant;
 
 class PasswordResetController extends Controller
 {
@@ -24,11 +25,11 @@ class PasswordResetController extends Controller
         $status = Password::broker('customers')->sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_THROTTLED) {
-            return back()->withErrors(['email' => 'Please wait before trying again.']);
+            return back()->withErrors(['email' => Constants\Messages::TOO_MANY_ATTEMPTS_RESET_PASSWORD]);
         }
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', $status)
+            ? back()->with('status', Constants\Messages::RESET_PASSWORD_LINK_SENT)
             : back()->withErrors(['email' => $status]);
     }
 
@@ -59,7 +60,7 @@ class PasswordResetController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('customer.login')->with('success', $status)
+            ? redirect()->route('customer.login')->with('success', Constants\Messages::SUCCESS_RESET_PASSWORD)
             : back()->withErrors(['email' => [__($status)]]);
     }
 }
