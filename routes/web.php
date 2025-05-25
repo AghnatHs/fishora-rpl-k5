@@ -62,6 +62,10 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/cart', [OrderController::class, 'indexOnlyCart'])->name('cart');
         Route::post('/cart/{product}', [OrderController::class, 'storeOrUpdate'])->name('add-to-cart');
         Route::delete('/cart/{order}/{product}', [OrderController::class, 'destroyProduct'])->name('remove-from-cart');
+
+        Route::get('/inbox', [CustomerDashboardController::class, 'inbox'])->name('inbox');
+        Route::patch('/notification/{id}/read', [CustomerDashboardController::class, 'markAsReadNotification'])
+            ->name('notification.read');
     });
 });
 
