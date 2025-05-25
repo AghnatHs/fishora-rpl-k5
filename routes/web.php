@@ -117,3 +117,13 @@ Route::prefix('customer')->name('customer.')->group(function () {
 });
 
 # END------ Customer Reset Password
+
+# Seller Reset Password
+Route::prefix('seller')->name('seller.')->group(function () {
+    Route::get('forgot-password', [SellerAuth\PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('forgot-password', [SellerAuth\PasswordResetController::class, 'sendResetLinkEmail'])->name('password.send-email');
+    Route::get('reset-password/{token}', [SellerAuth\PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-password', [SellerAuth\PasswordResetController::class, 'reset'])->name('password.update');
+});
+
+# END------ Customer Reset Password
