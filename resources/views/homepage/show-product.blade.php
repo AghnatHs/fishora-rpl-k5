@@ -21,16 +21,16 @@
             </a>
             
             <!-- Cart button with badge -->
-            <a href="{{ route('customer.cart') }}" class="flex items-center justify-center w-11 h-11 rounded-full bg-white/80 backdrop-blur-sm shadow-lg relative">
-                <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
-                @auth('customer')
+            @auth('customer')
+                <a href="{{ route('customer.cart') }}" class="flex items-center justify-center w-11 h-11 rounded-full bg-white/80 backdrop-blur-sm shadow-lg relative">
+                    <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
                     @if(session('cart_count', 0) > 0)
                         <span class="absolute top-0.5 right-0.5 bg-red-500 text-white text-[10px] rounded-full min-w-[14px] h-[14px] flex items-center justify-center font-medium leading-none">
                             {{ session('cart_count') }}
                         </span>
                     @endif
-                @endauth
-            </a>
+                </a>
+            @endauth
         </div>
         
         <div class="flex flex-col min-h-screen bg-white">
@@ -116,7 +116,7 @@
                     <a href="@auth('customer')
                               #
                           @else
-                              {{ route('pick-login') }}
+                              #
                           @endauth" class="flex-1 mr-3 flex flex-col items-center text-[#4871AD] font-serif">
                         <div class="text-2xl mb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4871AD" class="w-8 h-8">
@@ -137,12 +137,6 @@
                             </button>
                         </form>
                     @else
-                        <a href="{{ route('pick-login') }}" class="flex-1 ml-3 flex flex-col items-center text-[#4871AD] font-serif">
-                            <div class="text-2xl mb-1">
-                                <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
-                            </div>
-                            <span class="text-sm">Keranjang</span>
-                        </a>
                     @endauth
                 </div>
             </div>
