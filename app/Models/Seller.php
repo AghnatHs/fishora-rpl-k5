@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Product;
+use App\Notifications\SellerResetPasswordNotification;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -89,6 +90,11 @@ class Seller extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new SellerResetPasswordNotification($token));
+    }
 
     protected function casts(): array
     {
