@@ -23,6 +23,10 @@ class PasswordResetController extends Controller
 
         $status = Password::broker('customers')->sendResetLink($request->only('email'));
 
+        if ($status === Password::RESET_THROTTLED) {
+            return back()->withErrors(['email' => 'Please wait before trying again.']);
+        }
+
         return $status === Password::RESET_LINK_SENT
             ? back()->with('status', $status)
             : back()->withErrors(['email' => $status]);
