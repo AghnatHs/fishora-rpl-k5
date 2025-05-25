@@ -107,3 +107,13 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::patch('/notification/{id}/read', [SellerDashboardController::class, 'markAsReadNotification'])->name('notification.read');
     });
 });
+
+# Customer Reset Password
+Route::prefix('customer')->name('customer.')->group(function () {
+    Route::get('forgot-password', [CustomerAuth\PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('forgot-password', [CustomerAuth\PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('reset-password/{token}', [CustomerAuth\PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-password', [CustomerAuth\PasswordResetController::class, 'reset'])->name('password.update');
+});
+
+# END------ Customer Reset Password
