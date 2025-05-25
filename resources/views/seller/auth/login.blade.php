@@ -72,7 +72,7 @@
                 
                 {{-- Forgot Password Link --}}
                 <div class="mt-2 text-right">
-                    <a href=# class="text-lg font-medium text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200" style="font-family: 'DM Serif Text', serif;">Lupa Kata Sandi?</a>
+                    <a href="{{ route('seller.password.request') }}" class="text-lg font-medium text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200" style="font-family: 'DM Serif Text', serif;">Lupa Kata Sandi?</a>
                 </div>
             </div>
 
