@@ -2,7 +2,7 @@
     {{-- Sticky Navbar with buttons at screen edges --}}
     <div class="fixed top-0 left-0 right-0 bg-white z-50">
         <div class="flex justify-between items-center px-4 sm:px-6 py-3 w-full">
-            <a href="{{ route('customer.login') }}"
+            <a href="{{ route('seller.login') }}"
                 class="text-[#4871AD] hover:text-[#ABCDFF] transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -25,8 +25,8 @@
         @include('components.modals.errors')
 
         <h2 class="text-3xl font-medium text-center mb-8" style="color: #4871AD; font-family: 'DM Serif Text', serif;">
-            Request Reset Password (Pembeli)</h2>
-        <form method="POST" action="{{ route('customer.password.send-email') }}" class="space-y-6 w-full">
+            Request Reset Password (Penjual)</h2>
+        <form method="POST" action="{{ route('seller.password.send-email') }}" class="space-y-6 w-full">
 
             @csrf
             <div>
