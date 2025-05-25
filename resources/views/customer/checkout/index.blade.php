@@ -95,20 +95,6 @@
                     </div>
                 </div>
                 
-                <!-- Metode Pembayaran -->
-                <div class="mb-6">
-                    <h2 class="text-lg font-medium text-[#4871AD] mb-2">Metode Pembayaran</h2>
-                    <div class="bg-white border rounded-lg p-4">
-                        <div class="flex items-center">
-                            <input type="radio" name="payment" id="payment_transfer" value="transfer" checked class="mr-3">
-                            <label for="payment_transfer" class="flex-1">
-                                <p class="font-medium">Transfer Bank</p>
-                                <p class="text-sm text-gray-500">Mandiri, BCA, BNI, BRI</p>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Rincian Pembayaran -->
                 <div class="mb-6">
                     <h2 class="text-lg font-medium text-[#4871AD] mb-2">Rincian Pembayaran</h2>
