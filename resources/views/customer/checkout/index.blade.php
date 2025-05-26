@@ -141,8 +141,10 @@
                         <span class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">Total</span>
                         <span class="font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderTotalPrice ?? 0, 0, ',', '.') }}</span>
                     </div>
-                    <form action="{{ route('customer.checkout.process') }}" method="POST">
+                    <form action="{{ route('customer.transactions.unpaid.post') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="shipping_method" value="standard">
+                        <input type="hidden" name="total_amount" value="{{ $orderTotalPrice }}">
                         <button type="submit" class="w-full bg-[#4871AD] text-white py-3 rounded-md font-medium" style="font-family: 'DM Serif Text', serif;">
                             Buat Pesanan
                         </button>

@@ -76,10 +76,12 @@ Route::prefix('customer')->name('customer.')->group(function () {
         // Tambahkan rute transaksi baru di sini:
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
         Route::get('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid');
+        Route::post('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid.post');
         Route::get('/transactions/packed', [TransactionController::class, 'packed'])->name('transactions.packed');
         Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
         Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
 
+        // Pastikan rute ini terdaftar
         Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
         Route::post('/checkout/process', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
     });

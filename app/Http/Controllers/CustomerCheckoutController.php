@@ -55,6 +55,12 @@ class CustomerCheckoutController extends Controller
                 return redirect()->route('customer.cart')->with('error', 'Keranjang Anda kosong');
             }
             
+            Log::info('Found cart orders', [
+                'customer_id' => $customer->id,
+                'order_count' => $cartOrders->count(),
+                'order_ids' => $cartOrders->pluck('id')->toArray()
+            ]);
+            
             foreach ($cartOrders as $order) {
                 // Calculate total amount
                 $totalAmount = 0;
@@ -78,16 +84,16 @@ class CustomerCheckoutController extends Controller
                 try {
                     // Create transaction record
                     $transaction = Transaction::create([
-                        'customer_id' => $customer->id,
-                        'order_id' => $order->id,
+                        'customer_id' => (string)$customer->id,
+                        'order_id' => (string)$order->id,
                         'product_name' => $firstProduct->name,
                         'amount' => $totalAmount,
                         'status' => Constants\Orders::TRANSACTION_STATUS_PENDING
                     ]);
                     
                     Log::info('Creating transaction with data', [
-                        'customer_id' => $transaction->customer_id,
-                        'order_id' => $order->id,
+                        'customer_id' => (string)$transaction->customer_id,
+                        'order_id' => (string)$order->id,
                         'product_name' => $firstProduct->name,
                         'amount' => $totalAmount,
                         'status' => $transaction->status
@@ -123,7 +129,7 @@ class CustomerCheckoutController extends Controller
             // Redirect to unpaid transactions page
             Log::info('Redirecting to unpaid transactions page');
             return redirect()->route('customer.transactions.unpaid')
-                           ->with('success', 'Pesanan berhasil diproses! Silahkan lakukan pembayaran.');
+                           ->with('status', 'Checkout berhasil! Silahkan lakukan pembayaran.');
             
         } catch (\Exception $e) {
             Log::error('Error during checkout process', [
