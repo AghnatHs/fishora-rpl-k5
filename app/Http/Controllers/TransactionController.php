@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-use App\Constants\Orders;
+use App\Constants;
 use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
@@ -23,7 +23,7 @@ class TransactionController extends Controller
         
         // Get transactions from database
         $transactions = Transaction::where('customer_id', $customer->id)
-                          ->where('status', Orders::TRANSACTION_STATUS_PENDING)
+                          ->where('status', Constants\Orders::TRANSACTION_STATUS_PENDING)
                           ->with(['order.orderLines.product'])
                           ->get();
         
@@ -46,7 +46,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('order.orderLines.product.seller')
             ->whereHas('order', function($query) {
-                $query->where('status_delivery', Orders::STATUS_DELIVERY_PACKED);
+                $query->where('status_delivery', Constants\Orders::STATUS_DELIVERY_PACKED);
             })
             ->where('customer_id', auth()->guard('customer')->id())
             ->get();
@@ -61,7 +61,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('order.orderLines.product.seller')
             ->whereHas('order', function($query) {
-                $query->where('status_delivery', Orders::STATUS_DELIVERY_SHIPPED);
+                $query->where('status_delivery', Constants\Orders::STATUS_DELIVERY_SHIPPED);
             })
             ->where('customer_id', auth()->guard('customer')->id())
             ->get();
@@ -76,7 +76,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('order.orderLines.product.seller')
             ->whereHas('order', function($query) {
-                $query->where('status_delivery', Orders::STATUS_DELIVERY_DELIVERED);
+                $query->where('status_delivery', Constants\Orders::STATUS_DELIVERY_DELIVERED);
             })
             ->where('customer_id', auth()->guard('customer')->id())
             ->get();
