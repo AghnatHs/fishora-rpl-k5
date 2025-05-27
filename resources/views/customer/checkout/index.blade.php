@@ -48,7 +48,9 @@
                         
                         <div class="bg-white border rounded-lg mb-4">
                             <div class="p-3 border-b">
-                                <p class="font-medium" style="font-family: 'DM Serif Text', serif;">Order #{{ substr($order->id, 0, 8) }}</p>
+                                <p class="font-medium" style="font-family: 'DM Serif Text', serif;">
+                                    {{ $order->orderLines[0]->product->seller->shop_name ?? 'Toko Fishora' }}
+                                </p>
                             </div>
                             
                             <div class="p-4">
