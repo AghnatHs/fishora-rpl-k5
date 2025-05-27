@@ -70,20 +70,19 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::patch('/notification/{id}/read', [CustomerDashboardController::class, 'markAsReadNotification'])
             ->name('notification.read');
         
-        // Ganti atau hapus rute transaksi lama ini:
-        // Route::get('/transactions', [CustomerDashboardController::class, 'transactions'])->name('transactions');
+        // Checkout routes
+        Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
 
-        // Tambahkan rute transaksi baru di sini:
+        // Transaction routes
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
         Route::get('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid');
-        Route::post('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid.post');
         Route::get('/transactions/packed', [TransactionController::class, 'packed'])->name('transactions.packed');
         Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
         Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
-
-        // Pastikan rute ini terdaftar
-        Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('/checkout/process', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
+        
+        // Jika Anda membutuhkan rute POST, tambahkan:
+        Route::post('/transactions/unpaid/update', [TransactionController::class, 'updateUnpaid'])->name('transactions.unpaid.post');
     });
 });
 

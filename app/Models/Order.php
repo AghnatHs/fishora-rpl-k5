@@ -21,14 +21,19 @@ class Order extends Model
         'status_delivery'
     ];
 
+    protected $attributes = [
+        'status_payment' => Constants\Orders::STATUS_PAYMENT_CART,
+        'status_delivery' => Constants\Orders::STATUS_DELIVERY_CART
+    ];
+
     protected $with = [
         'orderLines'
     ];
 
     public function isCart(): bool
     {
-        return $this->status_payment == Constants\Orders::STATUS_PAYMENT_CART
-            || $this->status_delivery == Constants\Orders::STATUS_DELIVERY_CART;
+        return $this->status_payment === Constants\Orders::STATUS_PAYMENT_CART
+            || $this->status_delivery === Constants\Orders::STATUS_DELIVERY_CART;
     }
 
     public function customer(): BelongsTo
@@ -39,6 +44,11 @@ class Order extends Model
     public function orderLines()
     {
         return $this->hasMany(OrderLine::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     public function scopeCartStatus(Builder $query): Builder

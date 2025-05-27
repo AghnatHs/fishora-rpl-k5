@@ -11,19 +11,19 @@
         <div class="fixed top-16 left-0 right-0 bg-white z-10 border-b">
             <div class="max-w-md mx-auto flex text-sm">
                 <a href="{{ route('customer.transactions.unpaid') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'unpaid' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'unpaid' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
                     Belum Bayar
                 </a>
                 <a href="{{ route('customer.transactions.packed') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'packed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'packed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
                     Dikemas
                 </a>
                 <a href="{{ route('customer.transactions.shipped') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'shipped' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'shipped' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
                     Dikirim
                 </a>
                 <a href="{{ route('customer.transactions.completed') }}" 
-                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'completed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}" style="font-family: 'DM Serif Text', serif;">
+                   class="flex-1 py-3 text-center border-b-2 {{ $activeTab == 'completed' ? 'border-[#4871AD] text-[#4871AD] font-medium' : 'border-transparent text-gray-500' }}">
                     Selesai
                 </a>
             </div>
@@ -34,7 +34,7 @@
             @include('components.modals.status')
             @include('components.modals.errors')
             
-            <!-- Debug Info -->
+            <!-- Debug Info
             @if(config('app.debug'))
                 <div class="mb-4 p-4 bg-gray-100 rounded">
                     <p style="font-family: 'DM Serif Text', serif;">Debug Info:</p>
@@ -44,7 +44,7 @@
                         <p style="font-family: 'DM Serif Text', serif;">First Transaction Status: {{ $transactions->first()->status }}</p>
                     @endif
                 </div>
-            @endif
+            @endif -->
 
             <!-- Transaction Items -->
             @if(isset($transactions) && $transactions->count() > 0)

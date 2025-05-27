@@ -17,15 +17,16 @@ class TransactionController extends Controller
 
     public function unpaid()
     {
-        $customerId = auth()->guard('customer')->id();
-        Log::info('Fetching unpaid transactions for customer', ['customer_id' => $customerId]);
-
-        $transactions = Transaction::with('order.orderLines.product.seller')
-            ->where('status', Orders::TRANSACTION_STATUS_PENDING)
-            ->where('customer_id', $customerId)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
+        $customer = auth('customer')->user();
+        
+        Log::info('Fetching unpaid transactions for customer', ['customer_id' => $customer->id]);
+        
+        // Perbaiki query untuk menemukan transaksi pending
+        $transactions = Transaction::where('customer_id', $customer->id)
+                          ->where('status', Orders::TRANSACTION_STATUS_PENDING)
+                          ->with(['order.orderLines.product']) // Eager load relasi
+                          ->get();
+        
         Log::info('Unpaid transactions query result', [
             'count' => $transactions->count(),
             'transactions' => $transactions->toArray()
