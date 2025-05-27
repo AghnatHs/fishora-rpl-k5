@@ -37,86 +37,90 @@
             
             <!-- Nama Toko & Pesanan -->
             @if(isset($cartOrders) && $cartOrders->isNotEmpty())
-            @foreach ($cartOrders as $order)
-                @php
-                    // Group order lines by seller
-                    $orderLinesBySeller = $order->orderLines->groupBy(function ($orderLine) {
-                        return $orderLine->product->seller->id;
-                    });
-                @endphp
-                
-                @foreach ($orderLinesBySeller as $sellerId => $sellerOrderLines)
+                @foreach ($cartOrders as $order)
                     @php
-                        $seller = $sellerOrderLines->first()->product->seller;
+                        // Group order lines by seller
+                        $orderLinesBySeller = $order->orderLines->groupBy(function ($orderLine) {
+                            return $orderLine->product->seller->id;
+                        });
                     @endphp
                     
-                    <!-- One card per shop -->
-                    <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-sm lg:mx-auto">
-                        <!-- Shop Name -->
-                        <div class="px-4 pt-3 pb-1">
-                            <p class="font-medium text-white text-sm" style="font-family: 'DM Serif Text', serif;">{{ $seller->shop_name }}</p>
-                        </div>
+                    @foreach ($orderLinesBySeller as $sellerId => $sellerOrderLines)
+                        @php
+                            $seller = $sellerOrderLines->first()->product->seller;
+                        @endphp
                         
-                        <!-- White divider line-->
-                        <div class="border-t border-white/20 mx-4"></div>
-                        
-                        <!-- Loop through products from this shop -->
-                        @foreach ($sellerOrderLines as $index => $orderLine)
-                            <div class="px-4 py-3 flex items-center">
-                                <!-- Product Image -->
-                                <div class="w-16 h-16 bg-white/20 rounded flex items-center justify-center overflow-hidden">
-                                    @if($orderLine->product->image_cover)
-                                        <img src="{{ Storage::url($orderLine->product->image_cover) }}" alt="{{ $orderLine->product->name }}" class="w-full h-full object-cover">
-                                    @else
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="currentColor" class="w-8 h-8 text-white/50">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    @endif
-                                </div>
-                                
-                                <!-- Product Details -->
-                                <div class="ml-3 flex-1 flex flex-col justify-between text-white">
-                                    <div>
-                                        <p class="font-medium text-sm" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->name }}</p>
-                                        <p class="text-white/90 text-sm" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderLine->product->price, 0, ',', '.') }}</p>
+                        <!-- One card per shop -->
+                        <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-sm lg:mx-auto">
+                            <!-- Shop Name -->
+                            <div class="px-4 pt-3 pb-1">
+                                <p class="font-medium text-white text-sm" style="font-family: 'DM Serif Text', serif;">{{ $seller->shop_name }}</p>
+                            </div>
+                            
+                            <!-- White divider line-->
+                            <div class="border-t border-white/20 mx-4"></div>
+                            
+                            <!-- Loop through products from this shop -->
+                            @foreach ($sellerOrderLines as $index => $orderLine)
+                                <div class="px-4 py-3 flex items-center">
+                                    <!-- Product Image -->
+                                    <div class="w-16 h-16 bg-white/20 rounded flex items-center justify-center overflow-hidden">
+                                        @if($orderLine->product->image_cover)
+                                            <img src="{{ Storage::url($orderLine->product->image_cover) }}" alt="{{ $orderLine->product->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="currentColor" class="w-8 h-8 text-white/50">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Product Details -->
+                                    <div class="ml-3 flex-1 flex flex-col justify-between text-white">
+                                        <div>
+                                            <p class="font-medium text-sm" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->name }}</p>
+                                            <p class="text-white/90 text-sm" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderLine->product->price, 0, ',', '.') }}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Quantity Controls -->
+                                    <div class="flex items-center ml-3">
+                                        <!-- Decrement Button -->
+                                        <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}" class="quantity-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center transition-transform active:scale-90" 
+                                                data-content="{{ $orderLine->quantity > 1 ? '-' : '-' }}" style="font-family: 'DM Serif Text', serif;">
+                                                -
+                                            </button>
+                                        </form>
+
+                                        <!-- Quantity Display -->
+                                        <span class="mx-2 w-6 text-center text-white" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->quantity }}</span>
+                                        
+                                        <!-- Increment Button -->
+                                        <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}" class="quantity-form">
+                                            @csrf
+                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center transition-transform active:scale-90"
+                                                data-content="+" style="font-family: 'DM Serif Text', serif;">
+                                                +
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                                 
-                                <!-- Quantity Controls -->
-                                <div class="flex items-center ml-3">
-                                    <!-- Decrement Button -->
-                                    <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}" class="quantity-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center transition-transform active:scale-90" 
-                                            data-content="{{ $orderLine->quantity > 1 ? '-' : '-' }}" style="font-family: 'DM Serif Text', serif;">
-                                            -
-                                        </button>
-                                    </form>
-
-                                    <!-- Quantity Display -->
-                                    <span class="mx-2 w-6 text-center text-white" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->quantity }}</span>
-                                    
-                                    <!-- Increment Button -->
-                                    <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}" class="quantity-form">
-                                        @csrf
-                                        <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center transition-transform active:scale-90"
-                                            data-content="+" style="font-family: 'DM Serif Text', serif;">
-                                            +
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            
-                            <!-- White divider line (except after last item) -->
-                            @if(!$loop->last)
-                                <div class="border-t border-white/20 mx-4"></div>
-                            @endif
-                        @endforeach
-                    </div>
+                                <!-- White divider line (except after last item) -->
+                                @if(!$loop->last)
+                                    <div class="border-t border-white/20 mx-4"></div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endforeach
                 @endforeach
-            @endforeach
-            
+            @else
+                <div class="text-center text-gray-500 my-12" style="font-family: 'DM Serif Text', serif;">
+                    Keranjang kosong. Silakan tambahkan produk terlebih dahulu.
+                </div>
+            @endif
                 <!-- Opsi Pengiriman -->
                 <div class="mb-6">
                     <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Opsi Pengiriman</h2>
