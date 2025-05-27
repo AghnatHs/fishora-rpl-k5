@@ -25,4 +25,10 @@ class CustomerDashboardController extends Controller
 
         return back()->with('status', 'Notification marked as read.');
     }
+    
+    public function transactions()
+    {
+        $transactions = auth('customer')->user()->transactions;
+        return view('customer.dashboard.transactions', compact('transactions'));
+    }
 }

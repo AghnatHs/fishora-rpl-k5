@@ -21,7 +21,7 @@
         <div class="pt-12"></div>
 
         <!-- Content  -->
-        <div class="w-full max-w-md mx-auto px-0 sm:px-4 pb-24">
+        <div class="w-full max-w-md mx-auto px-0 sm:px-4 pb-14">
             @include('components.modals.status')
             @include('components.modals.errors')
 
@@ -165,6 +165,7 @@
                         <div class="flex items-center">
                             <input type="number" name="stock" id="stock" 
                                 placeholder="Stok"
+                                min="0"
                                 class="w-16 p-1.5 rounded bg-white text-[#4871AD] font-serif text-base border-0 focus:ring-0 focus:outline-none placeholder-gray-400 text-center placeholder:text-center" 
                                 value="{{ old('stock') }}" required>
                         </div>
@@ -175,35 +176,30 @@
                 <div class="h-1 bg-white"></div>
 
                 <!-- Kategori -->
-                <div x-data="{ open: false }" class="bg-[#4871AD] py-2 px-4 text-white">
-                    <div class="flex items-center justify-between cursor-pointer" @click="open = !open">
-                        <div class="flex items-center">
-                            <div class="mr-2.5 p-1.5 rounded-full bg-white/10">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                </svg>
-                            </div>
-                            <span class="font-serif text-lg">Kategori</span>
-                        </div>
-                        
-                        <div>
-                            <i class="fas fa-chevron-right text-lg" x-show="!open"></i>
-                            <i class="fas fa-chevron-down text-lg" x-show="open"></i>
-                        </div>
+                <div class="bg-[#4871AD] py-2 px-4 text-white" x-data="{ showAll: false }">
+                    <label class="block font-serif text-lg mb-2">Kategori</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        @foreach ($categories as $i => $category)
+                            <label class="flex items-center space-x-2.5 font-serif text-base" x-show="showAll || {{ $i }} < 4">
+                                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                    {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
+                                    class="rounded text-[#4871AD] bg-white border-white focus:ring-0 w-4 h-4 checked:bg-[#4871AD]">
+                                <span>{{ $category->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    
-                    <div x-show="open" class="mt-2">
-                        <div class="grid grid-cols-2 gap-2.5">
-                            @foreach ($categories as $category)
-                                <label class="flex items-center space-x-2.5 font-serif text-base">
-                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                        {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
-                                        class="rounded text-[#4871AD] bg-white border-white focus:ring-0 w-4 h-4 checked:bg-[#4871AD]">
-                                    <span>{{ $category->name }}</span>
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
+                    @if(count($categories) > 4)
+                        <button type="button" class="mt-2 text-base font-semibold flex items-center gap-1 text-white/90 hover:text-white transition px-4 py-2 font-serif rounded-md" @click="showAll = !showAll">
+                            <span x-show="!showAll">
+                                Lihat semua
+                                <svg class="inline w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.584l3.71-3.354a.75.75 0 111.02 1.1l-4.25 3.85a.75.75 0 01-1.02 0l-4.25-3.85a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
+                            </span>
+                            <span x-show="showAll">
+                                Tutup
+                                <svg class="inline w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M14.77 12.79a.75.75 0 01-1.06-.02L10 9.416l-3.71 3.354a.75.75 0 11-1.02-1.1l4.25-3.85a.75.75 0 011.02 0l4.25 3.85a.75.75 0 01-.02 1.06z" clip-rule="evenodd" /></svg>
+                            </span>
+                        </button>
+                    @endif
                 </div>
 
                 <!-- Submit Button  -->

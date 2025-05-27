@@ -62,6 +62,11 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function generateVerificationUrl()
     {
         return URL::temporarySignedRoute(
@@ -95,5 +100,9 @@ class Customer extends Authenticatable
                 $model->id = Str::ulid()->toBase32();
             }
         });
+    }
+    public function cartOrders()
+    {
+        return $this->hasMany(Order::class)->cartStatus();
     }
 }

@@ -12,6 +12,9 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
+use App\Http\Controllers\CustomerCheckoutController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return redirect(route('homepage.index'));
@@ -66,6 +69,20 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/inbox', [CustomerDashboardController::class, 'inbox'])->name('inbox');
         Route::patch('/notification/{id}/read', [CustomerDashboardController::class, 'markAsReadNotification'])
             ->name('notification.read');
+        
+        // Checkout routes
+        Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
+        Route::post('/checkout', [CustomerCheckoutController::class, 'store'])->name('checkout.store');
+
+        // Transaction routes
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');
+        Route::get('/transactions/unpaid', [TransactionController::class, 'unpaid'])->name('transactions.unpaid');
+        Route::get('/transactions/packed', [TransactionController::class, 'packed'])->name('transactions.packed');
+        Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
+        Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
+        
+        // Jika Anda membutuhkan rute POST, tambahkan:
+        Route::post('/transactions/unpaid/update', [TransactionController::class, 'updateUnpaid'])->name('transactions.unpaid.post');
     });
 });
 
