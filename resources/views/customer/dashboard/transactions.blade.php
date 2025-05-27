@@ -38,72 +38,9 @@
             @include('components.modals.status')
             @include('components.modals.errors')
             
-            <!-- Newly Processed Orders -->
-            @if(session('processed_orders'))
-                <div class="mb-6">
-                    <h2 class="text-lg font-medium text-[#4871AD] mb-4" style="font-family: 'DM Serif Text', serif;">Pesanan Baru Dibuat</h2>
-                    @foreach(session('processed_orders') as $order)
-                        <div class="mb-4 bg-white border rounded-lg overflow-hidden">
-                            <!-- Seller Info -->
-                            <div class="p-3 border-b flex justify-between items-center">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#4871AD] mr-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
-                                    </svg>
-                                    <p class="font-medium" style="font-family: 'DM Serif Text', serif;">
-                                        {{ $order->orderLines[0]->product->seller->name ?? 'Toko Fishora' }}
-                                    </p>
-                                </div>
-                                <span class="text-sm text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Belum Bayar</span>
-                            </div>
-                            
-                            <!-- Product Items -->
-                            @foreach($order->orderLines as $orderLine)
-                                <div class="flex p-4 {{ !$loop->last ? 'border-b' : '' }}">
-                                    <!-- Product Image -->
-                                    <div class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden">
-                                        @if($orderLine->product->image_cover)
-                                            <img src="{{ Storage::url($orderLine->product->image_cover) }}" alt="{{ $orderLine->product->name }}" class="w-full h-full object-cover">
-                                        @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-8 h-8 text-gray-400">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                        @endif
-                                    </div>
-                                    
-                                    <!-- Product Info -->
-                                    <div class="ml-3 flex-1">
-                                        <p class="font-medium" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->name }}</p>
-                                        <p class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->quantity }} x Rp{{ number_format($orderLine->product->price, 0, ',', '.') }}</p>
-                                        <div class="flex justify-between items-center mt-2">
-                                            <p class="text-xs text-gray-500" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->product->weight_unit ?? 'kg' }}</p>
-                                            <p class="text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderLine->quantity * $orderLine->product->price, 0, ',', '.') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                            
-                            <!-- Transaction Footer -->
-                            <div class="p-4 bg-gray-50 border-t flex justify-between items-center">
-                                <div>
-                                    <p class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">Total Pembayaran</p>
-                                    <p class="font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($order->orderLines->sum(function($item) { 
-                                        return $item->quantity * $item->product->price; 
-                                    }), 0, ',', '.') }}</p>
-                                </div>
-                                
-                                <a href="#" class="px-4 py-2 bg-[#4871AD] text-white rounded-md text-sm" style="font-family: 'DM Serif Text', serif;">
-                                    Bayar Sekarang
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
             <!-- Transaction Items -->
             @if(isset($transactions) && $transactions->count() > 0)
-                @foreach($transactions as $transaction)
+                @foreach($transactions->sortByDesc('created_at') as $transaction)
                     <div class="mb-4 bg-white border rounded-lg overflow-hidden">
                         <!-- Seller Info -->
                         <div class="p-3 border-b flex justify-between items-center">
