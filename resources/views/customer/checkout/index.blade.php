@@ -51,7 +51,7 @@
                         @endphp
                         
                         <!-- One card per shop -->
-                        <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-sm lg:mx-auto">
+                        <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-m lg:mx-auto">
                             <!-- Shop Name -->
                             <div class="px-4 pt-3 pb-1">
                                 <p class="font-medium text-white text-sm" style="font-family: 'DM Serif Text', serif;">{{ $seller->shop_name }}</p>
