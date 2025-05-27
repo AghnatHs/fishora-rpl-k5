@@ -3,7 +3,18 @@
         <!-- Fixed Top Navigation -->
         <div class="fixed top-0 left-0 right-0 bg-white z-20">
             <div class="max-w-md mx-auto px-4 py-4">
-                <h1 class="text-2xl text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Transaksi Saya</h1>
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Transaksi Saya</h1>
+                    <!-- Sorting Filter -->
+                    <form action="{{ request()->url() }}" method="GET" class="flex items-center">
+                        <select name="sort" id="sort" onchange="this.form.submit()"
+                            class="text-sm bg-white border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#4871AD] focus:border-transparent cursor-pointer hover:border-[#4871AD] transition-colors duration-200 font-serif text-center appearance-none"
+                            style="font-family: 'DM Serif Text', serif;">
+                            <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Terbaru</option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Terlama</option>
+                        </select>
+                    </form>
+                </div>
             </div>
         </div>
         
@@ -40,7 +51,12 @@
             
             <!-- Transaction Items -->
             @if(isset($transactions) && $transactions->count() > 0)
-                @foreach($transactions->sortByDesc('created_at') as $transaction)
+                @php
+                    $sortedTransactions = request('sort') == 'oldest' 
+                        ? $transactions->sortBy('created_at') 
+                        : $transactions->sortByDesc('created_at');
+                @endphp
+                @foreach($sortedTransactions as $transaction)
                     <div class="mb-4 bg-white border rounded-lg overflow-hidden">
                         <!-- Seller Info -->
                         <div class="p-3 border-b flex justify-between items-center">
