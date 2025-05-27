@@ -165,6 +165,7 @@
                         <div class="flex items-center">
                             <input type="number" name="stock" id="stock" 
                                 placeholder="Stok"
+                                min="0"
                                 class="w-16 p-1.5 rounded bg-white text-[#4871AD] font-serif text-base border-0 focus:ring-0 focus:outline-none placeholder-gray-400 text-center placeholder:text-center" 
                                 value="{{ old('stock') }}" required>
                         </div>
@@ -175,34 +176,17 @@
                 <div class="h-1 bg-white"></div>
 
                 <!-- Kategori -->
-                <div x-data="{ open: false }" class="bg-[#4871AD] py-2 px-4 text-white">
-                    <div class="flex items-center justify-between cursor-pointer" @click="open = !open">
-                        <div class="flex items-center">
-                            <div class="mr-2.5 p-1.5 rounded-full bg-white/10">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                </svg>
-                            </div>
-                            <span class="font-serif text-lg">Kategori</span>
-                        </div>
-                        
-                        <div>
-                            <i class="fas fa-chevron-right text-lg" x-show="!open"></i>
-                            <i class="fas fa-chevron-down text-lg" x-show="open"></i>
-                        </div>
-                    </div>
-                    
-                    <div x-show="open" class="mt-2">
-                        <div class="grid grid-cols-2 gap-2.5">
-                            @foreach ($categories as $category)
-                                <label class="flex items-center space-x-2.5 font-serif text-base">
-                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                        {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
-                                        class="rounded text-[#4871AD] bg-white border-white focus:ring-0 w-4 h-4 checked:bg-[#4871AD]">
-                                    <span>{{ $category->name }}</span>
-                                </label>
-                            @endforeach
-                        </div>
+                <div class="bg-[#4871AD] py-2 px-4 text-white">
+                    <label class="block font-serif text-lg mb-2">Kategori</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        @foreach ($categories as $category)
+                            <label class="flex items-center space-x-2.5 font-serif text-base">
+                                <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                    {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
+                                    class="rounded text-[#4871AD] bg-white border-white focus:ring-0 w-4 h-4 checked:bg-[#4871AD]">
+                                <span>{{ $category->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
                 </div>
 
