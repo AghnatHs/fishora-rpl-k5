@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Constants\Orders;
+use App\Constants;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,8 +21,8 @@ class Order extends Model
     ];
 
     protected $attributes = [
-        'status_payment' => Orders::STATUS_PAYMENT_CART,
-        'status_delivery' => Orders::STATUS_DELIVERY_CART
+        'status_payment' => Constants\Orders::STATUS_PAYMENT_CART,
+        'status_delivery' => Constants\Orders::STATUS_DELIVERY_CART
     ];
 
     protected $with = [
@@ -31,8 +31,8 @@ class Order extends Model
 
     public function isCart(): bool
     {
-        return $this->status_payment === Orders::STATUS_PAYMENT_CART
-            || $this->status_delivery === Orders::STATUS_DELIVERY_CART;
+        return $this->status_payment === Constants\Orders::STATUS_PAYMENT_CART
+            || $this->status_delivery === Constants\Orders::STATUS_DELIVERY_CART;
     }
 
     public function customer(): BelongsTo
@@ -53,8 +53,8 @@ class Order extends Model
     public function scopeCartStatus(Builder $query): Builder
     {
         return $query
-            ->where('status_delivery', Orders::STATUS_DELIVERY_CART)
-            ->where('status_payment', Orders::STATUS_PAYMENT_CART);
+            ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_CART)
+            ->where('status_payment', Constants\Orders::STATUS_PAYMENT_CART);
     }
 
     public function scopeCartProductCountForUser(Builder $query, $userId): int
