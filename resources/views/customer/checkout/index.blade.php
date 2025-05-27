@@ -1,6 +1,6 @@
 <x-app-layout>
     <!-- Main container -->
-    <div class="mx-auto max-w-md w-full min-h-screen bg-white lg:shadow-lg lg:my-0 overflow-hidden">
+    <div class="mx-auto w-full min-h-screen bg-white lg:shadow-lg lg:my-0 overflow-hidden max-w-[1400px] px-0 md:px-8 lg:px-16 xl:px-24">
         <!-- Fixed Top Navigation -->
         <div class="fixed top-0 left-0 right-0 bg-white z-20">
             <div class="max-w-md mx-auto px-4 py-4 flex items-center">
@@ -9,17 +9,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                <h1 class="text-2xl text-[#4871AD] font-medium ml-3" style="font-family: 'DM Serif Text', serif;">Checkout</h1>
+                <h1 class="text-2xl md:text-3xl text-[#4871AD] font-medium ml-3" style="font-family: 'DM Serif Text', serif;">Checkout</h1>
             </div>
         </div>
         
         <!-- Checkout Content -->
-        <div class="pt-20 px-4 pb-24">
-            @include('components.modals.status')
-            @include('components.modals.errors')
-            
-            <!-- Alamat Pengiriman -->
-            <div class="mb-6">
+        <div class="pt-14 px-4 pb-24 md:pt-20 md:px-12 md:pb-32 lg:px-24 grid md:grid-cols-[1fr_400px] gap-8">
+            <div class="md:col-span-2">
+                @include('components.modals.status')
+                @include('components.modals.errors')
+                
+                <!-- Alamat Pengiriman -->
+                <div class="mb-6">
                 <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Alamat</h2>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <p class="font-medium" style="font-family: 'DM Serif Text', serif;">{{ auth('customer')->user()->name }}</p>
@@ -134,7 +135,7 @@
                 <!-- Rincian Pembayaran -->
                 <div class="mb-6">
                     <h2 class="text-lg font-medium text-[#4871AD] mb-2" style="font-family: 'DM Serif Text', serif;">Rincian Pembayaran</h2>
-                    <div class="bg-white border rounded-lg p-4">
+                    <div class="bg-white border rounded-lg p-4 md:p-6">
                         @php
                             $subtotal = 0;
                             foreach ($cartOrders as $order) {
@@ -145,7 +146,6 @@
                             $shipping = 0; // Gratis ongkir
                             $total = $subtotal + $shipping;
                         @endphp
-                        
                         <div class="flex justify-between mb-2" style="font-family: 'DM Serif Text', serif;">
                             <span>Subtotal</span>
                             <span>Rp{{ number_format($subtotal, 0, ',', '.') }}</span>
@@ -161,22 +161,8 @@
                         </div>
                     </div>
                 </div>
-            @else
-                <div class="bg-gray-50 p-6 rounded-lg text-center">
-                    <p style="font-family: 'DM Serif Text', serif;">Keranjang Anda kosong</p>
-                    <a href="{{ route('homepage.index') }}" class="mt-3 inline-block text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Belanja Sekarang</a>
-                </div>
-            @endif
-        </div>
-        
-        <!-- Fixed Payment Footer -->
-        @if(isset($cartOrders) && $cartOrders->isNotEmpty())
-            <div class="fixed bottom-0 left-0 right-0 z-30">
-                <div class="max-w-md mx-auto bg-white border-t py-4 px-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm text-gray-500" style="font-family: 'DM Serif Text', serif;">Total</span>
-                        <span class="font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Rp{{ number_format($orderTotalPrice ?? 0, 0, ',', '.') }}</span>
-                    </div>
+                <!-- Tombol Checkout -->
+                <div>
                     <form action="{{ route('customer.checkout.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="shipping_method" value="standard">
@@ -187,6 +173,6 @@
                     </form>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
 </x-app-layout>
