@@ -72,7 +72,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
         
         // Checkout routes
         Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
+        Route::post('/checkout', [CustomerCheckoutController::class, 'store'])->name('checkout.store');
 
         // Transaction routes
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions');

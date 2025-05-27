@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Constants\Orders;
 
 return new class extends Migration
 {
@@ -13,11 +14,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignUlid('customer_id')->constrained()->onDelete('cascade');
-            $table->foreignUlid('order_id')->constrained()->onDelete('cascade');
+            $table->char('customer_id', 26);
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->char('order_id', 26);
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('product_name');
             $table->decimal('amount', 10, 2);
-            $table->string('status')->default('pending'); // Status transaksi
+            $table->string('status')->default(Orders::TRANSACTION_STATUS_PENDING); // Status transaksi
             $table->timestamps();
         });
     }

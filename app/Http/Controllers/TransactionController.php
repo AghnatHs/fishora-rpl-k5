@@ -21,10 +21,10 @@ class TransactionController extends Controller
         
         Log::info('Fetching unpaid transactions for customer', ['customer_id' => $customer->id]);
         
-        // Perbaiki query untuk menemukan transaksi pending
+        // Get transactions from database
         $transactions = Transaction::where('customer_id', $customer->id)
                           ->where('status', Orders::TRANSACTION_STATUS_PENDING)
-                          ->with(['order.orderLines.product']) // Eager load relasi
+                          ->with(['order.orderLines.product'])
                           ->get();
         
         Log::info('Unpaid transactions query result', [
@@ -32,8 +32,12 @@ class TransactionController extends Controller
             'transactions' => $transactions->toArray()
         ]);
         
+        // Get processed orders from session if they exist
+        $processedOrders = session('processed_orders', []);
+        
         return view('customer.dashboard.transactions', [
             'transactions' => $transactions,
+            'processed_orders' => $processedOrders,
             'activeTab' => 'unpaid'
         ]);
     }

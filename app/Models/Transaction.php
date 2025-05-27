@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Constants\Orders;
 
 class Transaction extends Model
 {
@@ -24,7 +25,7 @@ class Transaction extends Model
     ];
 
     protected $attributes = [
-        'status' => 'PENDING'
+        'status' => Orders::TRANSACTION_STATUS_PENDING
     ];
     
     /**
