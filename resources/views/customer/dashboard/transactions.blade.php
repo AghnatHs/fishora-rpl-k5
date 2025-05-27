@@ -126,9 +126,11 @@
                                     Terima Pesanan
                                 </a>
                             @elseif($activeTab == 'completed')
-                                <a href="#" class="px-4 py-2 bg-[#4871AD] text-white rounded-md text-sm" style="font-family: 'DM Serif Text', serif;">
-                                    Beli Lagi
-                                </a>
+                                @foreach($transaction->order->orderLines as $orderLine)
+                                    <a href="{{ route('homepage.show-product', $orderLine->product) }}" class="px-4 py-2 bg-[#4871AD] text-white rounded-md text-sm" style="font-family: 'DM Serif Text', serif;">
+                                        Beli Lagi
+                                    </a>
+                                @endforeach
                             @endif
                         </div>
                     </div>
