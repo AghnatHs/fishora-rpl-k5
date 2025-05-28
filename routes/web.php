@@ -122,6 +122,9 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::resource('products', ProductController::class);
 
         Route::patch('/notification/{id}/read', [SellerDashboardController::class, 'markAsReadNotification'])->name('notification.read');
+
+        Route::get('/profile', [App\Http\Controllers\SellerProfileController::class, 'edit'])->name('profile');
+        Route::post('/profile', [App\Http\Controllers\SellerProfileController::class, 'update'])->name('profile.update');
     });
 });
 
