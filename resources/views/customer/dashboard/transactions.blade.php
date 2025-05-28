@@ -189,7 +189,7 @@
                     </svg>
                     <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
                     <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t
-                            {{ Route::is('customer.transactions') ? 'opacity-100' : 'opacity-0' }}
+                            {{ Route::is('customer.transactions*') ? 'opacity-100' : 'opacity-0' }}
                             group-hover:opacity-100 transition-opacity duration-300"></span>
                 </a>
                 <!-- Inbox -->
