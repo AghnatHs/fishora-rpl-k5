@@ -37,6 +37,7 @@
             </div>
 
             <form action="{{ route('seller.profile.update') }}" method="POST" class="-mt-2">
+                @method('PATCH')
                 @csrf
 
                 <!-- Info Toko -->
