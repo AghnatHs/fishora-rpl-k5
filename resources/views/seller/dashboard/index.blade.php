@@ -47,7 +47,7 @@
                         <i class="fas fa-sign-out-alt mr-1"></i> Keluar
                     </button>
                 </div>
-                <a href="#"
+                <a href="{{ route('seller.profile') }}"
                     class="ml-auto text-[#4871AD] hover:text-[#7EA3E4] transition-colors duration-300 hover:scale-110 transform inline-block">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
