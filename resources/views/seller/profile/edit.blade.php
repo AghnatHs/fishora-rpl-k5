@@ -91,7 +91,8 @@
                             <label for="email" class="block text-sm font-serif text-gray-600 mb-1">Email</label>
                             <input type="email" name="email" id="email" 
                                 value="{{ old('email', $seller->email) }}" 
-                                class="w-full p-2.5 rounded-lg border border-[#4871AD] text-[#4871AD] font-serif text-base focus:ring-[#4871AD] focus:border-[#4871AD]">
+                                readonly
+                                class="w-full p-2.5 rounded-lg border border-[#4871AD] text-[#4871AD] font-serif text-base focus:ring-[#4871AD] focus:border-[#4871AD] bg-gray-100">
                         </div>
                         
                         <div>
