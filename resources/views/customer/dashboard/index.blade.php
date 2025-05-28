@@ -129,12 +129,12 @@
                 @endforeach
             </div>
             @else
-            <p class="text-gray-500 text-sm" style="font-family: 'DM Serif Text', serif;">Anda belum melakukan pembelian.</p>
+            <p class="text-gray-500 text-sm" style="font-family: 'DM Serif Text', serif;">Anda belum melakukan pembelian</p>
             @endif
         </div>
     </div>
 
-    {{-- Navigasi Bawah --}}
+    {{-- Bottom Navbar--}}
     <div class="fixed bottom-0 left-0 right-0 bg-[#4871AD] text-white z-30">
         <div class="w-full max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto grid grid-cols-4 text-center">
             <!-- Home -->
