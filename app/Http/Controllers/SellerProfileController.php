@@ -21,7 +21,6 @@ class SellerProfileController extends Controller
         $validated = $request->validate([
             'shop_name' => 'required|string|max:255',
             'telephone' => ['required', 'regex:/^08[0-9]{8,11}$/'],
-            'email' => 'required|string|email|max:255|unique:sellers,email,'.$seller->id,
             'address_street' => 'required|string|max:255',
             'address_city' => 'required|string|max:255',
             'address_province' => 'required|string|max:255',
