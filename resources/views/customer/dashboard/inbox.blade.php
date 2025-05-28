@@ -1,96 +1,83 @@
 <x-app-layout class="font-serif">
     <div class="bg-white min-h-screen flex">
-        <div class="hidden md:flex md:flex-col md:w-1/2 lg:w-1/4 bg-[#f8fafc] border-r min-h-screen">
-            <div class="p-6">
-                <h1 class="text-2xl font-medium text-[#4871AD] mb-6 text-center" style="font-family: 'DM Serif Text', serif;">
-                    Kotak Masuk
-                </h1>
-                <a href="#" class="flex items-center py-3 border-b border-gray-100 mb-4 justify-center">
-                    <div class="w-8 h-8 text-[#4871AD] flex items-center justify-center mr-3">
-                        <svg width="24" height="24" viewBox="0 0 70 66" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 39.6H42V33H14V39.6ZM14 29.7H56V23.1H14V29.7ZM14 19.8H56V13.2H14V19.8ZM0 66V6.6C0 4.785 0.686 3.2318 2.058 1.9404C3.43 0.649 5.07733 0.0022 7 0H63C64.925 0 66.5735 0.6468 67.9455 1.9404C69.3175 3.234 70.0023 4.7872 70 6.6V46.2C70 48.015 69.3152 49.5693 67.9455 50.8629C66.5758 52.1565 64.9273 52.8022 63 52.8H14L0 66ZM11.025 46.2H63V6.6H7V49.9125L11.025 46.2Z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Chat Penjual</div>
-                    <div class="text-gray-400">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-            </div>
-        </div>
+
         <!-- Main Content -->
         <div class="flex-1 flex flex-col min-h-screen px-0 md:px-16 py-0 md:py-12">
-            <div class="fixed md:hidden top-0 left-0 right-0 z-10 bg-white">
-                <div class="max-w-md mx-auto flex items-center p-3">
-                    <h1 class="text-2xl font-medium text-[#4871AD] text-left" style="font-family: 'DM Serif Text', serif;">
-                        Kotak Masuk
-                    </h1>
+            <!-- Top Navbar Style for Inbox (Mobile & Desktop) -->
+            <div class="p-4 flex justify-between items-center md:rounded-xl md:shadow-sm bg-white sticky top-0 z-20 border-b border-gray-200 block md:hidden">
+                <h1 class="text-xl md:text-2xl font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Kotak Masuk</h1>
+            </div>
+            <!-- Kategori Tab -->
+            <div class="flex w-full bg-[#f5f8fc] border-b border-gray-100 sticky top-[64px] z-10">
+                <a href="?tab=notifikasi" class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab', 'notifikasi') == 'notifikasi' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}" style="font-family: 'DM Serif Text', serif;">
+                    Notifikasi
+                </a>
+                <a href="?tab=chat" class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab') == 'chat' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}" style="font-family: 'DM Serif Text', serif;">
+                    Chat Penjual
+                </a>
+            </div>
+
+            {{-- Konten utama --}}
+            @if (request('tab', 'notifikasi') == 'notifikasi')
+            @if ($notifications->isEmpty())
+            <div class="flex-1 flex items-start justify-center pt-8 md:pt-12">
+                <div class="flex flex-col items-center">
+                    <img src="{{ asset('/images/notification.svg') }}" alt="Belum Ada Notifikasi" class="w-72 h-72 object-contain mb-4">
+                    <p class="text-base font-normal text-gray-600 mt-2" style="font-family: 'DM Serif Text', serif;">Belum Ada Notifikasi</p>
                 </div>
             </div>
-            <div class="h-8 md:hidden"></div>
-            <div class="px-3 pt-6 md:hidden">
-                <a href="#" class="flex items-center py-3 border-b border-gray-100">
-                    <div class="w-8 h-8 text-[#4871AD] flex items-center justify-center mr-3">
-                        <svg width="24" height="24" viewBox="0 0 70 66" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            @else
+            <div class="flex-1 flex flex-col px-4 py-8 space-y-4">
+                @foreach ($notifications as $notification)
+                <div
+                    x-data="{ open: false }"
+                    @click="open = !open"
+                    class="cursor-pointer bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md shadow-sm hover:bg-yellow-100 transition">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm text-gray-800" style="font-family: 'DM Serif Text', serif;">{{ $notification->data['message'] }}</p>
+                            <p class="text-xs text-gray-500 mt-1" style="font-family: 'DM Serif Text', serif;">{{ $notification->created_at }}</p>
+                        </div>
+                        <form action="{{ route('customer.notification.read', ['id' => $notification->id]) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button class="text-m text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">Mark as read</button>
+                        </form>
+                    </div>
+                    <div x-show="open" x-transition class="mt-2 text-xs text-gray-600" style="font-family: 'DM Serif Text', serif;">
+                        @if(isset($notification->data['detail']))
+                        <div>
+                            <p class="mb-2">{{ $notification->data['detail'] }}</p>
+                        </div>
+                        @endif
+                        @if(isset($notification->data['transaction_id']))
+                        <a href="{{ route('customer.transactions.detail', $notification->data['transaction_id']) }}"
+                            class="text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">
+                            Lihat Transaksi
+                        </a>
+                        @endif
+                        @if($notification->read_at)
+                        <span class="text-green-600">Sudah dibaca</span>
+                        @else
+                        <span class="text-yellow-600">Belum dibaca</span>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
+            @elseif(request('tab') == 'chat')
+            <div class="flex-1 flex flex-col items-center justify-center py-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 text-[#4871AD] flex items-center justify-center mb-4">
+                        <svg width="48" height="48" viewBox="0 0 70 66" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M14 39.6H42V33H14V39.6ZM14 29.7H56V23.1H14V29.7ZM14 19.8H56V13.2H14V19.8ZM0 66V6.6C0 4.785 0.686 3.2318 2.058 1.9404C3.43 0.649 5.07733 0.0022 7 0H63C64.925 0 66.5735 0.6468 67.9455 1.9404C69.3175 3.234 70.0023 4.7872 70 6.6V46.2C70 48.015 69.3152 49.5693 67.9455 50.8629C66.5758 52.1565 64.9273 52.8022 63 52.8H14L0 66ZM11.025 46.2H63V6.6H7V49.9125L11.025 46.2Z" />
                         </svg>
                     </div>
-                    <div class="flex-1">
-                        <p class="text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Chat Penjual</p>
-                    </div>
-                    <div class="text-gray-400">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
+                    <p class="text-[#4871AD] text-lg font-normal" style="font-family: 'DM Serif Text', serif;">Chat Penjual</p>
+                    <p class="text-gray-500 mt-2 text-sm" style="font-family: 'DM Serif Text', serif;">Fitur chat penjual akan segera hadir</p>
+                </div>
             </div>
-            <!-- Konten utama -->
-            @if ($notifications->isEmpty())
-                <div class="flex-1 flex items-center justify-center">
-                    <div class="flex flex-col items-center">
-                        <img src="{{ asset('/images/notification.svg') }}" alt="Belum Ada Notifikasi" class="w-72 h-72 object-contain mb-4">
-                        <p class="text-base font-semibold text-gray-600 mt-2" style="font-family: 'DM Serif Text', serif;">Belum Ada Notifikasi</p>
-                    </div>
-                </div>
-            @else
-                <div class="flex-1 flex flex-col px-4 py-8 space-y-4">
-                    @foreach ($notifications as $notification)
-                        <div 
-                            x-data="{ open: false }"
-                            @click="open = !open"
-                            class="cursor-pointer bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md shadow-sm hover:bg-yellow-100 transition"
-                        >
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-sm text-gray-800" style="font-family: 'DM Serif Text', serif;">{{ $notification->data['message'] }}</p>
-                                    <p class="text-xs text-gray-500 mt-1" style="font-family: 'DM Serif Text', serif;">{{ $notification->created_at }}</p>
-                                </div>
-                                <form action="{{ route('customer.notification.read', ['id' => $notification->id]) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button class="text-m text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">Mark as read</button>
-                                </form>
-                            </div>
-                            <div x-show="open" x-transition class="mt-2 text-xs text-gray-600" style="font-family: 'DM Serif Text', serif;">
-                                @if(isset($notification->data['detail']))
-                                    <div>
-                                        <p class="mb-2">{{ $notification->data['detail'] }}</p>
-                                    </div>
-                                @endif
-                                @if(isset($notification->data['transaction_id']))
-                                    <a href="{{ route('customer.transactions.detail', $notification->data['transaction_id']) }}"
-                                       class="text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">
-                                        Lihat Transaksi
-                                    </a>
-                                @endif
-                                @if($notification->read_at)
-                                    <span class="text-green-600">Sudah dibaca</span>
-                                @else
-                                    <span class="text-yellow-600">Belum dibaca</span>
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
             @endif
             <div class="fixed bottom-0 left-0 right-0 bg-[#4871AD] text-white z-30">
                 <div class="w-full max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto grid grid-cols-4 text-center">
@@ -129,9 +116,9 @@
                         <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">
                             Kotak Masuk
                             @if ($notifications->count() > 0)
-                                <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
-                                    {{ $notifications->count() }}
-                                </span>
+                            <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
+                                {{ $notifications->count() }}
+                            </span>
                             @endif
                         </span>
                         <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t
