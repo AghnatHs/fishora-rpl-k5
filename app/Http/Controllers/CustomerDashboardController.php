@@ -32,10 +32,14 @@ class CustomerDashboardController extends Controller
 
         return back()->with('status', 'Notification marked as read.');
     }
-    
+
     public function transactions()
     {
-        $transactions = auth('customer')->user()->transactions;
-        return view('customer.dashboard.transactions', compact('transactions'));
+        $customer = auth('customer')->user();
+        $transactions = $customer->transactions;
+        $notifications = $customer->notifications;
+        $activeTab = request('tab', 'unpaid');
+
+        return view('customer.dashboard.transactions', compact('transactions', 'notifications', 'activeTab'));
     }
 }
