@@ -19,13 +19,13 @@ class SellerProfileController extends Controller
         $seller = Auth::guard('seller')->user();
         
         $request->validate([
-            'shop_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('sellers')->ignore($seller->id)],
-            'telephone' => ['required', 'string', 'max:15'],
-            'address_street' => ['required', 'string', 'max:255'],
-            'address_city' => ['required', 'string', 'max:100'],
-            'address_province' => ['required', 'string', 'max:100'],
-            'address_zipcode' => ['required', 'string', 'max:10'],
+            'shop_name' => 'required|string|max:255',
+            'telephone' => ['required', 'regex:/^08[0-9]{8,11}$/'],
+            'email' => 'required|string|email|max:255|'.Rule::unique('sellers')->ignore($seller->id),
+            'address_street' => 'required|string|max:255',
+            'address_city' => 'required|string|max:255',
+            'address_province' => 'required|string|max:255',
+            'address_zipcode' => 'required|integer',
         ]);
         
         // Update seller profile
