@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 
 class CustomerDashboardController extends Controller
 {
+    use Notifiable;
+
     public function dashboard()
     {
         $notifications = auth('customer')->user()->notifications;
@@ -14,7 +17,11 @@ class CustomerDashboardController extends Controller
 
     public function inbox()
     {
-        $notifications = auth('customer')->user()->notifications;
+        $customer = auth('customer')->user();
+        if (!$customer) {
+            return redirect()->route('customer.login');
+        }
+        $notifications = $customer->notifications;
         return view('customer.dashboard.inbox', compact('notifications'));
     }
 

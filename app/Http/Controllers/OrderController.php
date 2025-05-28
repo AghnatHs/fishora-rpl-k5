@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants;
 use App\Models\Order;
 use App\Models\Product;
+use App\Notifications\CheckoutNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,14 +32,12 @@ class OrderController extends Controller
             }
         }
 
-        // Reload orders after cleaning up deleted products
         $cartOrders = Order::with('orderLines.product')
             ->where('customer_id', $customer->id)
             ->cartStatus()
             ->orderByDesc('created_at')
             ->get();
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
@@ -85,7 +84,6 @@ class OrderController extends Controller
             ]);
         }
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
@@ -119,11 +117,28 @@ class OrderController extends Controller
             $order->delete();
         }
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
 
         return back()->with('success', "1 {$product->name} removed from your cart.");
+    }
+
+    public function checkout(Request $request, Order $order)
+    {
+        $customer = Auth::guard('customer')->user();
+
+        $order->update([
+            'status_payment' => Constants\Orders::STATUS_PAYMENT_PENDING,
+            'status_delivery' => Constants\Orders::STATUS_DELIVERY_PENDING,
+        ]);
+
+        $customer->notify(new CheckoutNotification($order));
+
+        $cartCount = Order::cartProductCountForUser($customer->id);
+        session(['cart_count' => $cartCount]);
+
+        return redirect()->route('customer.transactions.detail', $order->id)
+            ->with('success', 'Checkout berhasil! Segera lakukan pembayaran.');
     }
 }
