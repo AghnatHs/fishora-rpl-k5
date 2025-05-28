@@ -1,144 +1,140 @@
 <x-app-layout class="font-serif">
-    <div class="max-w-md mx-auto bg-white min-h-screen pb-20">
-        <!-- Header dengan judul dan ikon -->
-        <div class="p-4 flex justify-between items-center border-b">
-            <h1 class="text-xl font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Akun Saya</h1>
-            <div class="flex gap-4">
-                <a href="#" class="text-[#4871AD]">
-                    <i class="fas fa-bell"></i>
-                </a>
-                <a href="#" class="text-[#4871AD]">
-                    <i class="fas fa-comment-alt"></i>
-                </a>
-            </div>
+    <!-- Header Mobile -->
+    <div class="p-4 flex justify-between items-center md:rounded-xl md:shadow-sm bg-white sticky top-0 z-20 border-b border-gray-200 block md:hidden">
+        <h1 class="text-xl md:text-2xl font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Akun Saya</h1>
+        <div class="flex gap-4">
+            <a href="{{ route('customer.inbox') }}" class="text-[#4871AD] hover:bg-[#e6eef8] rounded-full p-2 transition-colors duration-200">
+                <i class="fas fa-bell"></i>
+            </a>
+            <a href="{{ route('customer.inbox') }}" class="text-[#4871AD] hover:bg-[#e6eef8] rounded-full p-2 transition-colors duration-200">
+                <i class="fas fa-comment-alt"></i>
+            </a>
         </div>
-
-        <!-- Profile section -->
-        <div class="p-4 flex items-center">
-            <!-- Avatar (warna biru) -->
-            <div class="w-16 h-16 bg-[#4871AD] rounded-full flex items-center justify-center text-white overflow-hidden mr-4">
-                @if(Auth::guard('customer')->user()->avatar)
-                <img src="{{ Storage::url(Auth::guard('customer')->user()->avatar) }}" alt="Profile" class="w-full h-full object-cover">
-                @else
-                <i class="fas fa-user text-2xl"></i>
-                @endif
+    </div>
+    <div class="w-full min-h-screen pb-20 bg-white flex flex-col md:flex-row md:gap-6">
+        <!-- Sidebar Akun -->
+        <aside class="md:w-1/3 md:max-w-xs bg-white md:rounded-xl md:shadow-md md:my-8 md:ml-8 flex flex-col items-center md:items-stretch">
+            <div class="p-4 w-full flex flex-col items-center md:items-center">
+                <div class="w-20 h-20 md:w-28 md:h-28 bg-[#4871AD] rounded-full flex items-center justify-center text-white overflow-hidden shadow-md mb-3">
+                    @if(Auth::guard('customer')->user()->avatar)
+                    <img src="{{ Storage::url(Auth::guard('customer')->user()->avatar) }}" alt="Profile" class="w-full h-full object-cover">
+                    @else
+                    <i class="fas fa-user text-3xl md:text-5xl"></i>
+                    @endif
+                </div>
+                <h2 class="text-[#4871AD] font-medium text-lg md:text-xl text-center" style="font-family: 'DM Serif Text', serif;">{{ Auth::guard('customer')->user()->name }}</h2>
+                <p class="text-gray-600 text-sm md:text-base text-center" style="font-family: 'DM Serif Text', serif;">{{ Auth::guard('customer')->user()->email }}</p>
+                <form action="{{ route('customer.logout') }}" method="POST" class="mt-2 w-full flex justify-center">
+                    @csrf
+                    <button type="submit" class="text-red-600 text-sm font-medium hover:underline hover:text-red-700 transition-colors flex items-center gap-1" style="font-family: 'DM Serif Text', serif;">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+                </form>
+                <a href="#" class="text-gray-400 hover:text-[#4871AD] mt-3 transition-colors text-center"> {{-- Link untuk pengaturan akun --}}
+                    <i class="fas fa-cog"></i>
+                </a>
             </div>
+        </aside>
 
-            <!-- User info -->
-            <div class="flex-1">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h2 class="text-[#4871AD] font-medium text-lg" style="font-family: 'DM Serif Text', serif;">{{ Auth::guard('customer')->user()->name }}</h2>
-                        <p class="text-gray-600 text-sm" style="font-family: 'DM Serif Text', serif;">{{ Auth::guard('customer')->user()->email }}</p>
-                        <!-- Tombol Keluar (dipindahkan ke bawah email) -->
-                        <form action="{{ route('customer.logout') }}" method="POST" class="mt-1">
-                            @csrf
-                            <button type="submit" class="text-red-600 text-sm font-medium" style="font-family: 'DM Serif Text', serif;">
-                                <i class="fas fa-sign-out-alt mr-1"></i> Keluar
-                            </button>
-                        </form>
-                    </div>
-                    <a href="#" class="text-gray-400">
-                        <i class="fas fa-cog"></i>
+        <!-- Main Content (Kanan) -->
+        <main class="flex-1 md:my-8 md:mr-8">
+            <!-- Header Desktop -->
+            <div class="p-4 justify-between items-center md:rounded-xl md:shadow-sm bg-white sticky top-0 z-20 border-b border-gray-200 hidden md:flex">
+                <h1 class="text-xl md:text-2xl font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Akun Saya</h1>
+                <div class="flex gap-4">
+                    <a href="{{ route('customer.inbox') }}" class="text-[#4871AD] hover:bg-[#e6eef8] rounded-full p-2 transition-colors duration-200">
+                        <i class="fas fa-bell"></i>
+                    </a>
+                    <a href="{{ route('customer.inbox') }}" class="text-[#4871AD] hover:bg-[#e6eef8] rounded-full p-2 transition-colors duration-200">
+                        <i class="fas fa-comment-alt"></i>
                     </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Status Pesanan -->
-        <div class="mx-4 mt-3 p-4 border rounded-lg">
-            <h3 class="text-gray-700 mb-3" style="font-family: 'DM Serif Text', serif;">Status Pesanan</h3>
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="bg-[#4871AD] text-white py-2 rounded">
-                    <div class="text-xl font-bold" style="font-family: 'DM Serif Text', serif;">0</div>
-                    <div class="text-xs" style="font-family: 'DM Serif Text', serif;">Belum Dibayar</div>
-                </div>
-                <div class="bg-[#4871AD] text-white py-2 rounded">
-                    <div class="text-xl font-bold" style="font-family: 'DM Serif Text', serif;">0</div>
-                    <div class="text-xs" style="font-family: 'DM Serif Text', serif;">Dikirim</div>
-                </div>
-                <div class="bg-[#4871AD] text-white py-2 rounded">
-                    <div class="text-xl font-bold" style="font-family: 'DM Serif Text', serif;">0</div>
-                    <div class="text-xs" style="font-family: 'DM Serif Text', serif;">Selesai</div>
+            <!-- Status Pesanan -->
+            <div class="mx-0 md:mx-0 mt-3 p-4 rounded-xl shadow-sm bg-[#f8fafc]">
+                <h3 class="text-gray-700 mb-3 md:text-lg" style="font-family: 'DM Serif Text', serif;">Status Pesanan</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                    <a href="{{ route('customer.transactions.unpaid', ['status' => 'unpaid']) }}" class="bg-[#4871AD] text-white py-4 rounded-xl hover:bg-blue-700 transition-colors flex flex-col items-center shadow group">
+                        <div class="text-xl md:text-2xl font-bold group-hover:scale-110 transition-transform" style="font-family: 'DM Serif Text', serif;">{{ $statusCounts['unpaid'] ?? 0 }}</div>
+                        <div class="text-xs md:text-sm" style="font-family: 'DM Serif Text', serif;">Belum Dibayar</div>
+                    </a>
+                    <a href="{{ route('customer.transactions.packed', ['status' => 'packed']) }}" class="bg-[#4871AD] text-white py-4 rounded-xl hover:bg-blue-700 transition-colors flex flex-col items-center shadow group">
+                        <div class="text-xl md:text-2xl font-bold group-hover:scale-110 transition-transform" style="font-family: 'DM Serif Text', serif;">{{ $statusCounts['packed'] ?? 0 }}</div>
+                        <div class="text-xs md:text-sm" style="font-family: 'DM Serif Text', serif;">Dikemas</div>
+                    </a>
+                    <a href="{{ route('customer.transactions.shipped', ['status' => 'shipped']) }}" class="bg-[#4871AD] text-white py-4 rounded-xl hover:bg-blue-700 transition-colors flex flex-col items-center shadow group">
+                        <div class="text-xl md:text-2xl font-bold group-hover:scale-110 transition-transform" style="font-family: 'DM Serif Text', serif;">{{ $statusCounts['shipped'] ?? 0 }}</div>
+                        <div class="text-xs md:text-sm" style="font-family: 'DM Serif Text', serif;">Dikirim</div>
+                    </a>
+                    <a href="{{ route('customer.transactions.completed', ['status' => 'completed']) }}" class="bg-[#4871AD] text-white py-4 rounded-xl hover:bg-blue-700 transition-colors flex flex-col items-center shadow group">
+                        <div class="text-xl md:text-2xl font-bold group-hover:scale-110 transition-transform" style="font-family: 'DM Serif Text', serif;">{{ $statusCounts['completed'] ?? 0 }}</div>
+                        <div class="text-xs md:text-sm" style="font-family: 'DM Serif Text', serif;">Selesai</div>
+                    </a>
                 </div>
             </div>
-        </div>
 
         <!-- Menu Akun -->
-        <div class="mx-4 mt-3 p-4 border rounded-lg">
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <a href="#" class="py-3">
+        <div class="mx-0 md:mx-4 mt-3 p-4 rounded-xl shadow-sm bg-[#f8fafc]">
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <a href="{{ route('customer.transactions', ['status' => 'unpaid']) }}" class="py-3 group transition-colors rounded-xl hover:bg-[#e6eef8] flex flex-col items-center">
                     <div class="flex justify-center mb-1">
-                        <div class="w-10 h-10 bg-[#4871AD] text-white rounded flex items-center justify-center">
+                        <div class="w-12 h-12 bg-[#4871AD] text-white rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-700 transition-all shadow">
                             <i class="fas fa-receipt"></i>
                         </div>
                     </div>
-                    <span class="text-sm text-gray-700" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
+                    <span class="text-sm text-gray-700 group-hover:text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
                 </a>
-                <a href="#" class="py-3">
+                <a href="#" class="py-3 group transition-colors rounded-xl hover:bg-[#e6eef8] flex flex-col items-center">
                     <div class="flex justify-center mb-1">
-                        <div class="w-10 h-10 bg-[#4871AD] text-white rounded flex items-center justify-center">
+                        <div class="w-12 h-12 bg-[#4871AD] text-white rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-700 transition-all shadow">
                             <i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <span class="text-sm text-gray-700" style="font-family: 'DM Serif Text', serif;">Ulasan</span>
+                    <span class="text-sm text-gray-700 group-hover:text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Ulasan</span>
                 </a>
-                <a href="#" class="py-3">
+                <a href="#" class="py-3 group transition-colors rounded-xl hover:bg-[#e6eef8] flex flex-col items-center">
                     <div class="flex justify-center mb-1">
-                        <div class="w-10 h-10 bg-[#4871AD] text-white rounded flex items-center justify-center">
+                        <div class="w-12 h-12 bg-[#4871AD] text-white rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-700 transition-all shadow">
                             <i class="fas fa-question-circle"></i>
                         </div>
                     </div>
-                    <span class="text-sm text-gray-700" style="font-family: 'DM Serif Text', serif;">Bantuan</span>
+                    <span class="text-sm text-gray-700 group-hover:text-[#4871AD] font-medium" style="font-family: 'DM Serif Text', serif;">Bantuan</span>
                 </a>
             </div>
         </div>
 
-        <!-- Produk yang Diulas -->
+        <!-- Produk yang Telah Dibeli -->
         <div class="p-4">
-            <h3 class="text-[#4871AD] font-medium mb-3" style="font-family: 'DM Serif Text', serif;">Produk yang Diulas</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <!-- Product 1 -->
-                <div class="bg-[#4871AD] rounded overflow-hidden text-white">
-                    <div class="p-2 flex items-start">
-                        <div class="w-10 h-10 bg-white rounded flex items-center justify-center mr-2">
-                            <i class="fas fa-image text-gray-400"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-sm" style="font-family: 'DM Serif Text', serif;">Nama Produk</div>
-                            <div class="flex text-yellow-300">
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
+            <h3 class="text-[#4871AD] font-medium mb-3 md:text-lg" style="font-family: 'DM Serif Text', serif;">Produk yang Telah Dibeli</h3>
+            @if(isset($purchasedProducts) && $purchasedProducts->count() > 0)
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                @foreach($purchasedProducts->take(4) as $product)
+                <div class="bg-[#4871AD] rounded-xl overflow-hidden text-white hover:shadow-lg hover:scale-105 transition-all">
+                    <a href="{{-- route('product.show', $product->slug) --}}" class="block p-2">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center mr-2 overflow-hidden">
+                                @if($product->image_url)
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <i class="fas fa-image text-gray-400"></i>
+                                @endif
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm truncate" style="font-family: 'DM Serif Text', serif;">{{ $product->name }}</div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="bg-[#4871AD] rounded overflow-hidden text-white">
-                    <div class="p-2 flex items-start">
-                        <div class="w-10 h-10 bg-white rounded flex items-center justify-center mr-2">
-                            <i class="fas fa-image text-gray-400"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-sm" style="font-family: 'DM Serif Text', serif;">Nama Produk</div>
-                            <div class="flex text-yellow-300">
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                                <i class="fas fa-star text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
+            @else
+            <p class="text-gray-500 text-sm" style="font-family: 'DM Serif Text', serif;">Anda belum melakukan pembelian.</p>
+            @endif
         </div>
     </div>
 
+    {{-- Navigasi Bawah --}}
     <div class="fixed bottom-0 left-0 right-0 bg-[#4871AD] text-white z-30">
         <div class="w-full max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto grid grid-cols-4 text-center">
             <!-- Home -->
@@ -162,7 +158,7 @@
                 </svg>
                 <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
                 <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t
-                            {{ Route::is('customer.transactions') ? 'opacity-100' : 'opacity-0' }}
+                            {{ Route::is('customer.transactions') || Route::is('customer.transactions.*') ? 'opacity-100' : 'opacity-0' }}
                             group-hover:opacity-100 transition-opacity duration-300"></span>
             </a>
             <!-- Inbox -->
@@ -175,7 +171,7 @@
                 </svg>
                 <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">
                     Kotak Masuk
-                    @if ($notifications->count() > 0)
+                    @if (isset($notifications) && $notifications->count() > 0)
                     <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
                         {{ $notifications->count() }}
                     </span>

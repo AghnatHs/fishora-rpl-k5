@@ -11,8 +11,32 @@ class CustomerDashboardController extends Controller
 
     public function dashboard()
     {
-        $notifications = auth('customer')->user()->notifications;
-        return view('customer.dashboard.index', compact('notifications'));
+        $customer = auth('customer')->user();
+        $notifications = $customer->notifications;
+
+        // Status pesanan
+        $statusCounts = [
+            'unpaid' => \App\Models\Transaction::where('customer_id', $customer->id)
+                ->where('status', \App\Constants\Orders::TRANSACTION_STATUS_PENDING)
+                ->count(),
+            'packed' => \App\Models\Order::where('customer_id', $customer->id)
+                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_PACKED)
+                ->count(),
+            'shipped' => \App\Models\Order::where('customer_id', $customer->id)
+                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_SHIPPED)
+                ->count(),
+            'completed' => \App\Models\Order::where('customer_id', $customer->id)
+                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_DELIVERED)
+                ->count(),
+        ];
+
+        // Produk yang telah dibeli (dari order yang selesai)
+        $purchasedProducts = \App\Models\Product::whereHas('orderLines.order', function($q) use ($customer) {
+            $q->where('customer_id', $customer->id)
+              ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_DELIVERED);
+        })->with('images')->get();
+
+        return view('customer.dashboard.index', compact('notifications', 'statusCounts', 'purchasedProducts'));
     }
 
     public function inbox()

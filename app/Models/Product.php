@@ -45,6 +45,11 @@ class Product extends Model
         return $this->hasMany(ProductWarning::class);
     }
 
+    public function orderLines(): HasMany
+    {
+        return $this->hasMany(OrderLine::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

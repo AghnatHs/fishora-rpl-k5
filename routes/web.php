@@ -81,7 +81,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
         Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
         
-        // Jika Anda membutuhkan rute POST, tambahkan:
         Route::post('/transactions/unpaid/update', [TransactionController::class, 'updateUnpaid'])->name('transactions.unpaid.post');
     });
 });
