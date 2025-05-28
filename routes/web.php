@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductWarningController;
 use App\Http\Controllers\CustomerCheckoutController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\SellerProfileController;
 
 Route::get('/', function () {
     return redirect(route('homepage.index'));
@@ -122,6 +123,9 @@ Route::prefix('seller')->name('seller.')->group(function () {
         Route::resource('products', ProductController::class);
 
         Route::patch('/notification/{id}/read', [SellerDashboardController::class, 'markAsReadNotification'])->name('notification.read');
+
+        Route::get('/profile', [SellerProfileController::class, 'edit'])->name('profile');
+        Route::patch('/profile', [SellerProfileController::class, 'update'])->name('profile.update');
     });
 });
 
