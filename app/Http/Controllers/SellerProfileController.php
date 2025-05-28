@@ -18,7 +18,7 @@ class SellerProfileController extends Controller
     {
         $seller = Auth::guard('seller')->user();
         
-        $request->validate([
+        $validated = $request->validate([
             'shop_name' => 'required|string|max:255',
             'telephone' => ['required', 'regex:/^08[0-9]{8,11}$/'],
             'address_street' => 'required|string|max:255',
@@ -28,14 +28,7 @@ class SellerProfileController extends Controller
         ]);
         
         // Update seller profile
-        $seller->update($request->only([
-            'shop_name',
-            'telephone',
-            'address_street',
-            'address_city',
-            'address_province',
-            'address_zipcode',
-        ]));
+        $seller->update($validated);
         
         return back()->with('status', 'Profil toko berhasil diperbarui!');
     }
