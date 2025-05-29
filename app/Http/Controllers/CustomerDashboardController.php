@@ -14,7 +14,6 @@ class CustomerDashboardController extends Controller
         $customer = auth('customer')->user();
         $notifications = $customer->notifications;
 
-        // Status pesanan
         $statusCounts = [
             'unpaid' => \App\Models\Transaction::where('customer_id', $customer->id)
                 ->where('status', \App\Constants\Orders::TRANSACTION_STATUS_PENDING)
@@ -30,7 +29,6 @@ class CustomerDashboardController extends Controller
                 ->count(),
         ];
 
-        // Produk yang telah dibeli (dari order yang selesai)
         $purchasedProducts = \App\Models\Product::whereHas('orderLines.order', function($q) use ($customer) {
             $q->where('customer_id', $customer->id)
               ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_DELIVERED);
