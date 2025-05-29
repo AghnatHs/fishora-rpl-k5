@@ -123,22 +123,4 @@ class OrderController extends Controller
 
         return back()->with('success', "1 {$product->name} removed from your cart.");
     }
-
-    public function checkout(Request $request, Order $order)
-    {
-        $customer = Auth::guard('customer')->user();
-
-        $order->update([
-            'status_payment' => Constants\Orders::STATUS_PAYMENT_PENDING,
-            'status_delivery' => Constants\Orders::STATUS_DELIVERY_PENDING,
-        ]);
-
-        $customer->notify(new CheckoutNotification($order));
-
-        $cartCount = Order::cartProductCountForUser($customer->id);
-        session(['cart_count' => $cartCount]);
-
-        return redirect()->route('customer.transactions', $order->id)
-            ->with('success', 'Checkout berhasil! Segera lakukan pembayaran.');
-    }
 }
