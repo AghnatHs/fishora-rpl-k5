@@ -42,7 +42,7 @@ class OrderController extends Controller
         session(['cart_count' => $cartCount]);
 
         $cartOrder = $cartOrders->first();
-        
+
         $orderTotalPrice = $cartOrder
             ? $cartOrder->orderLines->sum(fn($line) => $line->product->price * $line->quantity)
             : 0;
@@ -54,6 +54,10 @@ class OrderController extends Controller
     public function storeOrUpdate(Request $request, Product $product)
     {
         $customer = Auth::guard('customer')->user();
+
+        if ($product->stock <= 0) {
+            return back()->with('error', "{$product->name} stock is empty.");
+        }
 
         $order = Order::firstOrCreate(
             [
