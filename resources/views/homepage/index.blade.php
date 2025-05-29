@@ -151,6 +151,8 @@
                         <p class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</p>
                         @if ($product->stock == 0)
                         <p class="text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600">Stok Produk ini Habis!</p>
+                        @elseif ($product->stock < 3)
+                        <p class="text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600">Stok Produk ini sisa {{ $product->stock }} !</p>
                         @endif
 
                     </div>
