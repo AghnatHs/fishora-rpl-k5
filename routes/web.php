@@ -13,7 +13,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
 use App\Http\Controllers\CustomerCheckoutController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SellerProfileController;
 
@@ -82,7 +81,6 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/transactions/shipped', [TransactionController::class, 'shipped'])->name('transactions.shipped');
         Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
         
-        // Jika Anda membutuhkan rute POST, tambahkan:
         Route::post('/transactions/unpaid/update', [TransactionController::class, 'updateUnpaid'])->name('transactions.unpaid.post');
     });
 });

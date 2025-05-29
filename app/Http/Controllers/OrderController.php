@@ -31,14 +31,12 @@ class OrderController extends Controller
             }
         }
 
-        // Reload orders after cleaning up deleted products
         $cartOrders = Order::with('orderLines.product')
             ->where('customer_id', $customer->id)
             ->cartStatus()
             ->orderByDesc('created_at')
             ->get();
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
@@ -85,7 +83,6 @@ class OrderController extends Controller
             ]);
         }
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);
@@ -119,7 +116,6 @@ class OrderController extends Controller
             $order->delete();
         }
 
-        // Update cart count in session when viewing cart
         $cartCount = Order::cartProductCountForUser($customer->id);
 
         session(['cart_count' => $cartCount]);

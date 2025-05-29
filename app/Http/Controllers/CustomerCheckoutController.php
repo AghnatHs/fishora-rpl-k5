@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\CheckoutNotification;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Constants\Orders;
@@ -14,25 +15,24 @@ class CustomerCheckoutController extends Controller
     {
         try {
             $customer = auth('customer')->user();
-            
+
             $cartOrders = Order::where('customer_id', $customer->id)
-                            ->cartStatus()
-                            ->with('orderLines.product')
-                            ->get();
-            
+                ->cartStatus()
+                ->with('orderLines.product')
+                ->get();
+
             if ($cartOrders->isEmpty()) {
                 return redirect()->route('customer.cart')->with('error', 'Keranjang Anda kosong');
             }
-            
+
             $orderTotalPrice = 0;
             foreach ($cartOrders as $order) {
                 foreach ($order->orderLines as $orderLine) {
                     $orderTotalPrice += $orderLine->product->price * $orderLine->quantity;
                 }
             }
-            
+
             return view('customer.checkout.index', compact('cartOrders', 'orderTotalPrice'));
-            
         } catch (\Exception $e) {
             Log::error('Error during checkout page load', [
                 'error' => $e->getMessage(),
@@ -48,25 +48,25 @@ class CustomerCheckoutController extends Controller
         try {
             $customer = auth('customer')->user();
             Log::info('Starting checkout process', ['customer_id' => $customer->id]);
-            
+
             $cartOrders = Order::where('customer_id', $customer->id)
-                            ->cartStatus()
-                            ->with('orderLines.product')
-                            ->get();
-            
+                ->cartStatus()
+                ->with('orderLines.product')
+                ->get();
+
             if ($cartOrders->isEmpty()) {
                 Log::info('Cart is empty', ['customer_id' => $customer->id]);
                 return redirect()->route('customer.cart')->with('error', 'Keranjang Anda kosong');
             }
-            
+
             Log::info('Found cart orders', [
                 'customer_id' => $customer->id,
                 'order_count' => $cartOrders->count(),
                 'order_ids' => $cartOrders->pluck('id')->toArray()
             ]);
-            
+
             $processedOrders = [];
-            
+
             foreach ($cartOrders as $order) {
                 // Calculate total amount
                 $totalAmount = 0;
@@ -103,7 +103,7 @@ class CustomerCheckoutController extends Controller
                         'amount' => $totalAmount,
                         'status' => Orders::TRANSACTION_STATUS_PENDING
                     ]);
-                    
+
                     Log::info('Creating transaction with data', [
                         'customer_id' => (string)$transaction->customer_id,
                         'order_id' => (string)$order->id,
@@ -111,7 +111,7 @@ class CustomerCheckoutController extends Controller
                         'amount' => $totalAmount,
                         'status' => $transaction->status
                     ]);
-                    
+
                     Log::info('Transaction saved successfully', ['transaction_id' => $transaction->id]);
 
                     // Reduce product stock
@@ -126,6 +126,7 @@ class CustomerCheckoutController extends Controller
                     }
 
                     $processedOrders[] = $order;
+                    $customer->notify(new CheckoutNotification($transaction));
                 } catch (\Exception $e) {
                     Log::error('Error creating transaction', [
                         'error' => $e->getMessage(),
@@ -136,17 +137,17 @@ class CustomerCheckoutController extends Controller
                     throw $e;
                 }
             }
-            
+
             // Clear cart count from session after successful checkout
             session()->forget('cart_count');
             Log::info('Cart count cleared from session');
-            
+
             // Redirect to unpaid transactions page with the processed orders
             Log::info('Redirecting to unpaid transactions page');
+
             return redirect()->route('customer.transactions.unpaid')
-                           ->with('status', 'Checkout berhasil! Silahkan lakukan pembayaran.')
-                           ->with('processed_orders', $processedOrders);
-            
+                ->with('status', 'Checkout berhasil! Silahkan lakukan pembayaran.')
+                ->with('processed_orders', $processedOrders);
         } catch (\Exception $e) {
             Log::error('Error during checkout process', [
                 'error' => $e->getMessage(),
