@@ -146,9 +146,13 @@
                         <span class="text-base lg:text-lg font-bold text-[#4871AD] font-serif truncate group-hover:underline">{{ $product->name }}</span>
                         <span class="text-base lg:text-lg font-bold text-[#4871AD] font-serif group-hover:text-[#365a8c] transition-all">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
                     </div>
-                    <div class="flex items-center gap-2 mt-1">
+                    <div class="items-center gap-2 mt-1">
                         <i class="fas fa-store text-[#4871AD] text-xs"></i>
-                        <span class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</span>
+                        <p class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</p>
+                        @if ($product->stock == 0)
+                        <p class="text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600">Stok Produk ini Habis!</p>
+                        @endif
+
                     </div>
                 </div>
             </a>
