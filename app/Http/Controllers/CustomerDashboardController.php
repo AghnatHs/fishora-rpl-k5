@@ -2,35 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notifiable;
 
 class CustomerDashboardController extends Controller
 {
-    
+
     public function dashboard()
     {
         $customer = auth('customer')->user();
         $notifications = $customer->notifications;
 
         $statusCounts = [
-            'unpaid' => \App\Models\Transaction::where('customer_id', $customer->id)
-                ->where('status', \App\Constants\Orders::TRANSACTION_STATUS_PENDING)
+            'unpaid' => Transaction::where('customer_id', $customer->id)
+                ->where('status', Constants\Orders::TRANSACTION_STATUS_PENDING)
                 ->count(),
-            'packed' => \App\Models\Order::where('customer_id', $customer->id)
-                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_PACKED)
+            'packed' => Order::where('customer_id', $customer->id)
+                ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_PACKED)
                 ->count(),
-            'shipped' => \App\Models\Order::where('customer_id', $customer->id)
-                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_SHIPPED)
+            'shipped' => Order::where('customer_id', $customer->id)
+                ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_SHIPPED)
                 ->count(),
-            'completed' => \App\Models\Order::where('customer_id', $customer->id)
-                ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_DELIVERED)
+            'completed' => Order::where('customer_id', $customer->id)
+                ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_DELIVERED)
                 ->count(),
         ];
 
-        $purchasedProducts = \App\Models\Product::whereHas('orderLines.order', function($q) use ($customer) {
+        $purchasedProducts = Product::whereHas('orderLines.order', function ($q) use ($customer) {
             $q->where('customer_id', $customer->id)
-              ->where('status_delivery', \App\Constants\Orders::STATUS_DELIVERY_DELIVERED);
+                ->where('status_delivery', Constants\Orders::STATUS_DELIVERY_DELIVERED);
         })->with('images')->get();
 
         return view('customer.dashboard.index', compact('notifications', 'statusCounts', 'purchasedProducts'));

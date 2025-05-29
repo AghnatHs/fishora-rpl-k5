@@ -138,7 +138,7 @@ class OrderController extends Controller
         $cartCount = Order::cartProductCountForUser($customer->id);
         session(['cart_count' => $cartCount]);
 
-        return redirect()->route('customer.transactions.detail', $order->id)
+        return redirect()->route('customer.transactions', $order->id)
             ->with('success', 'Checkout berhasil! Segera lakukan pembayaran.');
     }
 }
