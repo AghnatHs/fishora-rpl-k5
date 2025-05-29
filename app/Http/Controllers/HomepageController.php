@@ -37,7 +37,7 @@ class HomepageController extends Controller
 
         $products = $query
             ->orderByRaw("RAND($seed)")
-            ->paginate(6)
+            ->paginate(8)
             ->withQueryString();
         $categories = Category::orderBy('name')->get();
 

@@ -52,7 +52,7 @@ class AdminDashboardController extends Controller
         }
 
         $products = $query
-            ->paginate(6)
+            ->paginate(8)
             ->withQueryString();
         $categories = Category::orderBy('name')->get();
 
