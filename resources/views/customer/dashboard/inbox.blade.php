@@ -32,7 +32,7 @@
             @if ($notifications->isEmpty())
             <div class="flex-1 flex items-start justify-center pt-8 md:pt-12">
                 <div class="flex flex-col items-center">
-                    <img src="{{ asset('/images/notification.svg') }}" alt="Belum Ada Notifikasi"
+                    <img src="{{ asset('images/notification.svg') }}" alt="Belum Ada Notifikasi"
                         class="w-72 h-72 object-contain mb-4">
                     <p class="text-base font-normal text-gray-600 mt-2" style="font-family: 'DM Serif Text', serif;">
                         Belum Ada Notifikasi</p>
@@ -67,7 +67,7 @@
                         </div>
                         @endif
                         @if(isset($notification->data['transaction_id']))
-                        <a href="{{ route('customer.transactions.detail', $notification->data['transaction_id']) }}"
+                        <a href=""
                             class="text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">
                             Lihat Transaksi
                         </a>

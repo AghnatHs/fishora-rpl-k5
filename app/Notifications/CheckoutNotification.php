@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notification;
 
 class CheckoutNotification extends Notification
 {
-    use Queueable;
 
     protected $transaction;
 
