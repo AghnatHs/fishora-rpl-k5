@@ -13,7 +13,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductWarningController;
 use App\Http\Controllers\CustomerCheckoutController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SellerProfileController;
 
