@@ -103,7 +103,7 @@
                 <div class="fixed bottom-0 left-0 right-0 bg-white py-3 px-4 border-t border-gray-300 z-30 lg:static lg:border-none lg:bg-transparent lg:p-0">
                     <div class="w-full max-w-md mx-auto flex justify-between lg:max-w-none lg:mx-0 lg:gap-6">
                         <div class="flex-1 mr-3 h-16">
-                            <a href="@auth('customer') # @else # @endauth" class="h-full w-full flex flex-col items-center justify-center text-[#4871AD] font-normal hover:bg-[#e6eefd] rounded-lg py-2 transition-all duration-200" style="font-family: 'DM Serif Text', serif;">
+                            <a href="@auth('customer') {{ route('customer.inbox') }} @else # @endauth" class="h-full w-full flex flex-col items-center justify-center text-[#4871AD] font-normal hover:bg-[#e6eefd] rounded-lg py-2 transition-all duration-200" style="font-family: 'DM Serif Text', serif;">
                                 <div class="text-2xl mb-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4871AD" class="w-8 h-8">
                                         <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
