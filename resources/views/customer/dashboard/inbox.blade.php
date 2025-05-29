@@ -2,17 +2,27 @@
     <div class="bg-white min-h-screen flex">
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-h-screen px-0 md:px-16 py-0 md:py-12">
-            <!-- Top Navbar Style for Inbox (Mobile & Desktop) -->
-            <div class="p-4 flex justify-between items-center md:rounded-xl md:shadow-sm bg-white sticky top-0 z-20 border-b border-gray-200 block md:hidden">
-                <h1 class="text-xl md:text-2xl font-medium text-[#4871AD]" style="font-family: 'DM Serif Text', serif;">Kotak Masuk</h1>
+        <div class="flex-1 flex flex-col min-h-screen px-0 md:px-16 py-0 md:pt-4 md:pb-12">
+            <!-- Top Navbar Desktop & Mobile -->
+            <div class="sticky top-0 z-20 w-full bg-white border-b border-gray-200">
+                <div class="hidden md:flex items-center justify-center px-4 md:px-16 py-4">
+                    <h1 class="text-2xl md:text-3xl font-medium text-[#4871AD] font-serif">Kotak Masuk</h1>
+                </div>
+                <div class="flex md:hidden items-center justify-center p-4 bg-white">
+                    <h1 class="text-xl font-medium text-[#4871AD] font-serif">Kotak Masuk</h1>
+                </div>
             </div>
+
             <!-- Kategori Tab -->
             <div class="flex w-full bg-[#f5f8fc] border-b border-gray-100 sticky top-[64px] z-10">
-                <a href="?tab=notifikasi" class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab', 'notifikasi') == 'notifikasi' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}" style="font-family: 'DM Serif Text', serif;">
+                <a href="?tab=notifikasi"
+                    class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab', 'notifikasi') == 'notifikasi' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}"
+                    style="font-family: 'DM Serif Text', serif;">
                     Notifikasi
                 </a>
-                <a href="?tab=chat" class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab') == 'chat' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}" style="font-family: 'DM Serif Text', serif;">
+                <a href="?tab=chat"
+                    class="flex-1 text-center py-3 font-normal text-base transition-colors duration-200 {{ request('tab') == 'chat' ? 'text-[#4871AD] border-b-2 border-[#4871AD] bg-white' : 'text-gray-500 hover:text-[#4871AD]' }}"
+                    style="font-family: 'DM Serif Text', serif;">
                     Chat Penjual
                 </a>
             </div>
@@ -22,29 +32,35 @@
             @if ($notifications->isEmpty())
             <div class="flex-1 flex items-start justify-center pt-8 md:pt-12">
                 <div class="flex flex-col items-center">
-                    <img src="{{ asset('/images/notification.svg') }}" alt="Belum Ada Notifikasi" class="w-72 h-72 object-contain mb-4">
-                    <p class="text-base font-normal text-gray-600 mt-2" style="font-family: 'DM Serif Text', serif;">Belum Ada Notifikasi</p>
+                    <img src="{{ asset('/images/notification.svg') }}" alt="Belum Ada Notifikasi"
+                        class="w-72 h-72 object-contain mb-4">
+                    <p class="text-base font-normal text-gray-600 mt-2" style="font-family: 'DM Serif Text', serif;">
+                        Belum Ada Notifikasi</p>
                 </div>
             </div>
             @else
             <div class="flex-1 flex flex-col px-4 py-8 space-y-4">
                 @foreach ($notifications as $notification)
-                <div
-                    x-data="{ open: false }"
-                    @click="open = !open"
+                <div x-data="{ open: false }" @click="open = !open"
                     class="cursor-pointer bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md shadow-sm hover:bg-yellow-100 transition">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-sm text-gray-800" style="font-family: 'DM Serif Text', serif;">{{ $notification->data['message'] }}</p>
-                            <p class="text-xs text-gray-500 mt-1" style="font-family: 'DM Serif Text', serif;">{{ $notification->created_at }}</p>
+                            <p class="text-sm text-gray-800" style="font-family: 'DM Serif Text', serif;">
+                                {{ $notification->data['message'] }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1" style="font-family: 'DM Serif Text', serif;">
+                                {{ $notification->created_at }}
+                            </p>
                         </div>
                         <form action="{{ route('customer.notification.read', ['id' => $notification->id]) }}" method="POST">
                             @csrf
                             @method('PATCH')
-                            <button class="text-m text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">Mark as read</button>
+                            <button class="text-m text-blue-600 hover:underline"
+                                style="font-family: 'DM Serif Text', serif;">Mark as read</button>
                         </form>
                     </div>
-                    <div x-show="open" x-transition class="mt-2 text-xs text-gray-600" style="font-family: 'DM Serif Text', serif;">
+                    <div x-show="open" x-transition class="mt-2 text-xs text-gray-600"
+                        style="font-family: 'DM Serif Text', serif;">
                         @if(isset($notification->data['detail']))
                         <div>
                             <p class="mb-2">{{ $notification->data['detail'] }}</p>
@@ -74,8 +90,10 @@
                             <path d="M14 39.6H42V33H14V39.6ZM14 29.7H56V23.1H14V29.7ZM14 19.8H56V13.2H14V19.8ZM0 66V6.6C0 4.785 0.686 3.2318 2.058 1.9404C3.43 0.649 5.07733 0.0022 7 0H63C64.925 0 66.5735 0.6468 67.9455 1.9404C69.3175 3.234 70.0023 4.7872 70 6.6V46.2C70 48.015 69.3152 49.5693 67.9455 50.8629C66.5758 52.1565 64.9273 52.8022 63 52.8H14L0 66ZM11.025 46.2H63V6.6H7V49.9125L11.025 46.2Z" />
                         </svg>
                     </div>
-                    <p class="text-[#4871AD] text-lg font-normal" style="font-family: 'DM Serif Text', serif;">Chat Penjual</p>
-                    <p class="text-gray-500 mt-2 text-sm" style="font-family: 'DM Serif Text', serif;">Fitur chat penjual akan segera hadir</p>
+                    <p class="text-[#4871AD] text-lg font-normal" style="font-family: 'DM Serif Text', serif;">Chat
+                        Penjual</p>
+                    <p class="text-gray-500 mt-2 text-sm" style="font-family: 'DM Serif Text', serif;">Fitur chat
+                        penjual akan segera hadir</p>
                 </div>
             </div>
             @endif

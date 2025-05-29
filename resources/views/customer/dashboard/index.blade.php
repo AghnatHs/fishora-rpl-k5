@@ -36,7 +36,7 @@
             </div>
         </aside>
 
-        <!-- Main Content (Kanan) -->
+        <!-- Main Content -->
         <main class="flex-1 md:my-8 md:mr-8">
             <!-- Header Desktop -->
             <div class="p-4 justify-between items-center md:rounded-xl md:shadow-sm bg-white sticky top-0 z-20 border-b border-gray-200 hidden md:flex">

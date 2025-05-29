@@ -1,9 +1,8 @@
 <x-app-layout>
-    
     <!-- Mobile Layout (unchanged) -->
     <div class="lg:hidden">
         <!-- Main container -->
-        <div class="mx-auto max-w-md w-full min-h-screen bg-white lg:shadow-lg lg:my-0 overflow-hidden">
+        <div class="mx
             <!-- Fixed Top Navigation -->
             <div class="fixed top-0 left-0 right-0 bg-white z-20">
                 <div class="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
@@ -31,7 +30,6 @@
                 
                 @forelse ($cartOrders as $order)
                     @php
-                        // Group order lines by seller
                         $orderLinesBySeller = $order->orderLines->groupBy(function ($orderLine) {
                             return $orderLine->product->seller->id;
                         });
@@ -43,16 +41,14 @@
                         @endphp
                         
                         <!-- One card per shop -->
-                        <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-sm lg:mx-auto transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl">
+                        <div class="bg-[#4871AD] rounded-lg overflow-hidden shadow-md mb-4 lg:max-w-sm lg:mx-auto transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl active:scale-95">
                             <!-- Shop Name -->
                             <div class="px-4 pt-3 pb-1">
                                 <p class="font-medium text-white text-sm" style="font-family: 'DM Serif Text', serif;">{{ $seller->shop_name }}</p>
                             </div>
                             
-                            <!-- White divider line-->
                             <div class="border-t border-white/20 mx-4"></div>
                             
-                            <!-- Loop through products from this shop -->
                             @foreach ($sellerOrderLines as $index => $orderLine)
                                 <div class="px-4 py-3 flex items-center">
                                     <!-- Product Image -->
@@ -77,11 +73,11 @@
                                     <!-- Quantity Controls -->
                                     <div class="flex items-center ml-3">
                                         <!-- Decrement Button -->
-                                        <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}" class="quantity-form">
+                                        <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center relative transition-all duration-200 ease-in-out active:scale-95 hover:scale-110 hover:shadow-lg overflow-hidden" 
-                                                data-content="{{ $orderLine->quantity > 1 ? '-' : '-' }}" style="font-family: 'DM Serif Text', serif;">
+                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center hover:bg-gray-50 hover:scale-110 active:scale-90 transform transition-all duration-150 shadow-sm" 
+                                                style="font-family: 'DM Serif Text', serif;">
                                                 -
                                             </button>
                                         </form>
@@ -90,17 +86,16 @@
                                         <span class="mx-2 w-6 text-center text-white" style="font-family: 'DM Serif Text', serif;">{{ $orderLine->quantity }}</span>
                                         
                                         <!-- Increment Button -->
-                                        <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}" class="quantity-form">
+                                        <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}">
                                             @csrf
-                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center relative transition-all duration-200 ease-in-out active:scale-95 hover:scale-110 hover:shadow-lg overflow-hidden"
-                                                data-content="+" style="font-family: 'DM Serif Text', serif;">
+                                            <button type="submit" class="w-7 h-7 bg-white text-[#4871AD] font-bold rounded flex items-center justify-center hover:bg-gray-50 hover:scale-110 active:scale-90 transform transition-all duration-150 shadow-sm"
+                                                style="font-family: 'DM Serif Text', serif;">
                                                 +
                                             </button>
                                         </form>
                                     </div>
                                 </div>
                                 
-                                <!-- White divider line (except after last item) -->
                                 @if(!$loop->last)
                                     <div class="border-t border-white/20 mx-4"></div>
                                 @endif
@@ -126,7 +121,7 @@
                             <p class="font-medium" style="font-family: 'DM Serif Text', serif;">Total Rp{{ number_format($orderTotalPrice, 0, ',', '.') }}</p>
                         </div>
                         
-                        <a href="{{ route('customer.checkout.index') }}" class="bg-white text-[#4871AD] px-6 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors" style="font-family: 'DM Serif Text', serif;">
+                        <a href="{{ route('customer.checkout.index') }}" class="checkout-btn bg-white text-[#4871AD] px-6 py-2 rounded-md font-medium hover:bg-gray-100 transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95" style="font-family: 'DM Serif Text', serif;">
                             Checkout ({{ $cartOrders->first()->orderLines->sum('quantity') }})
                         </a>
                     </div>
@@ -205,7 +200,6 @@
             
             @forelse ($cartOrders as $order)
                 @php
-                    // Group order lines by seller
                     $orderLinesBySeller = $order->orderLines->groupBy(function ($orderLine) {
                         return $orderLine->product->seller->id;
                     });
@@ -245,10 +239,9 @@
                             </div>
                         </div>
                         
-                        <!-- Product Rows -->
                         <div class="divide-y divide-gray-200">
                             @foreach ($sellerOrderLines as $orderLine)
-                                <div class="cart-row px-6 py-4 transition-all duration-200">
+                                <div class="cart-row px-6 py-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 hover:bg-white">
                                     <div class="grid grid-cols-12 gap-4 items-center">
                                         <!-- Product Image -->
                                         <div class="col-span-1">
@@ -256,7 +249,7 @@
                                                 @if($orderLine->product->image_cover)
                                                     <img src="{{ Storage::url($orderLine->product->image_cover) }}" 
                                                          alt="{{ $orderLine->product->name }}" 
-                                                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                                                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 fade-in">
                                                 @else
                                                     <div class="w-full h-full flex items-center justify-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-400">
@@ -266,7 +259,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                                         <!-- Product Name -->
+
                         <div class="col-span-4">
                             <h3 class="text-lg font-semibold text-gray-900 hover:text-[#4871AD] transition-colors cursor-pointer" style="font-family: 'DM Serif Text', serif;">
                                 {{ $orderLine->product->name }}
@@ -284,11 +277,11 @@
                                         <div class="col-span-2">
                                             <div class="flex items-center space-x-3">
                                                 <!-- Decrement Button -->
-                                                <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}" class="quantity-form">
+                                                <form method="POST" action="{{ route('customer.remove-from-cart', ['order' => $order->id, 'product' => $orderLine->product->id]) }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="quantity-btn w-8 h-8 bg-[#4871AD] text-white font-bold rounded-full flex items-center justify-center hover:bg-[#365a8c] transition-all duration-200" 
-                                                        data-content="-" style="font-family: 'DM Serif Text', serif;">
+                                                    <button type="submit" class="w-8 h-8 bg-[#4871AD] text-white font-bold rounded-full flex items-center justify-center hover:bg-[#365a8c] hover:scale-110 active:scale-90 transform transition-all duration-150" 
+                                                        style="font-family: 'DM Serif Text', serif;">
                                                         −
                                                     </button>
                                                 </form>
@@ -299,10 +292,10 @@
                                                 </span>
                                                 
                                                 <!-- Increment Button -->
-                                                <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}" class="quantity-form">
+                                                <form method="POST" action="{{ route('customer.add-to-cart', ['product' => $orderLine->product->id]) }}">
                                                     @csrf
-                                                    <button type="submit" class="quantity-btn w-8 h-8 bg-[#4871AD] text-white font-bold rounded-full flex items-center justify-center hover:bg-[#365a8c] transition-all duration-200"
-                                                        data-content="+" style="font-family: 'DM Serif Text', serif;">
+                                                    <button type="submit" class="w-8 h-8 bg-[#4871AD] text-white font-bold rounded-full flex items-center justify-center hover:bg-[#365a8c] hover:scale-110 active:scale-90 transform transition-all duration-150"
+                                                        style="font-family: 'DM Serif Text', serif;">
                                                         +
                                                     </button>
                                                 </form>
@@ -372,7 +365,7 @@
                         </div>
                         
                         <a href="{{ route('customer.checkout.index') }}" 
-                           class="inline-flex items-center px-8 py-4 bg-[#4871AD] text-white font-medium rounded-lg hover:bg-[#365a8c] hover:scale-105 transition-all duration-200 shadow-lg" 
+                           class="checkout-btn inline-flex items-center px-8 py-4 bg-[#4871AD] text-white font-medium rounded-lg hover:bg-[#365a8c] hover:scale-105 transition-all duration-200 shadow-lg" 
                            style="font-family: 'DM Serif Text', serif;">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
@@ -385,112 +378,24 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Enhanced hover effects for desktop cart rows
-            document.querySelectorAll('.cart-row').forEach(row => {
-                row.addEventListener('mouseenter', function() {
-                    this.style.boxShadow = '0 4px 12px rgba(72, 113, 173, 0.15)';
-                    this.style.transform = 'translateY(-2px)';
-                });
-                
-                row.addEventListener('mouseleave', function() {
-                    this.style.boxShadow = 'none';
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-
-            // Enhanced mobile card animations
-            document.querySelectorAll('.mobile-cart-card').forEach(card => {
-                card.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.98)';
-                });
-                
-                card.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-
-            // Add ripple effect to mobile quantity buttons
-            document.querySelectorAll('.mobile-quantity-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-
-            // Enhanced quantity button animations
-            document.querySelectorAll('.quantity-btn, .mobile-quantity-btn').forEach(btn => {
-                btn.addEventListener('mousedown', function() {
-                    this.style.transform = 'scale(0.9)';
-                });
-                
-                btn.addEventListener('mouseup', function() {
-                    this.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
-                
-                btn.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-
-            // Smooth transitions for product images
-            document.querySelectorAll('.mobile-product-image img, .cart-row img').forEach(img => {
-                img.addEventListener('load', function() {
-                    this.style.opacity = '0';
-                    this.style.transition = 'opacity 0.3s ease';
-                    setTimeout(() => {
-                        this.style.opacity = '1';
-                    }, 100);
-                });
-            });
-
-            // Add pulse animation to checkout button
-            const checkoutBtn = document.querySelector('a[href*="checkout"]');
-            if (checkoutBtn) {
-                checkoutBtn.addEventListener('mouseenter', function() {
-                    this.classList.add('btn-pulse');
-                });
-                
-                checkoutBtn.addEventListener('mouseleave', function() {
-                    this.classList.remove('btn-pulse');
-                });
-            }
-        });
-    </script>
-
     <style>
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(72, 113, 173, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(72, 113, 173, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(72, 113, 173, 0); }
         }
-
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        
+        .checkout-btn:hover {
+            animation: pulse-animation 1.5s infinite;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </x-app-layout>

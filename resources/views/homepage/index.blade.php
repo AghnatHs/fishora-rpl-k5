@@ -7,7 +7,12 @@
 
     <!-- Search Navbar -->
     <div class="fixed top-0 left-0 right-0 bg-white z-20 py-2 lg:py-3 px-3 lg:px-4 shadow-md font-serif border-b border-[#e6eefd]">
-        <div class="max-w-md mx-auto flex items-center justify-center gap-2 lg:gap-6 lg:max-w-7xl" x-data="{ filterOpen: false, selectedCategory: '{{ request('category') ?? '' }}' }">
+        <div class="max-w-md mx-auto flex items-center justify-center gap-2 lg:gap-6 lg:max-w-7xl"
+            x-data="{ 
+                filterOpen: false, 
+                selectedCategory: '{{ request('category') ?? '' }}',
+                hideNavbar: false 
+             }"
             <!-- Logo Fishora (Desktop only) -->
             <div class="hidden lg:flex items-center flex-shrink-0">
                 <div class="flex items-center gap-2">
@@ -16,15 +21,19 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Kategori Dropdown -->
+
             <div class="relative flex-shrink-0">
                 <button type="button" @click="filterOpen = !filterOpen"
                     class="flex items-center justify-center gap-1 lg:gap-2 bg-[#FFF8F8] border-2 border-[#4871AD] text-[#4871AD] py-2 px-3 lg:px-4 rounded-[12px] hover:bg-[#e6eefd] transition-all min-w-[45px] lg:min-w-[180px]">
-                    <svg class="w-5 h-5 lg:w-7 lg:h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg>
+                    <svg class="w-5 h-5 lg:w-7 lg:h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="2" />
+                        <rect x="14" y="3" width="7" height="7" rx="2" />
+                        <rect x="14" y="14" width="7" height="7" rx="2" />
+                        <rect x="3" y="14" width="7" height="7" rx="2" />
+                    </svg>
                     <span class="hidden lg:inline font-serif text-base lg:text-lg" x-text="selectedCategory || 'Kategori'"></span>
                     <svg class="w-4 h-4 lg:w-6 lg:h-6 lg:ml-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M6 9l6 6 6-6"/>
+                        <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
                 <!-- Dropdown kategori -->
@@ -40,7 +49,6 @@
                     class="absolute left-0 mt-2 bg-[#FFF8F8] border-2 border-[#4871AD] rounded-[12px] z-[100] shadow-lg overflow-hidden flex flex-col w-80 lg:w-57 max-h-80">
                     <div class="overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-72">
                         <div class="py-2">
-                            <!-- Option to clear category filter -->
                             <div class="px-4 py-3 text-[#4871AD] hover:bg-gray-50 cursor-pointer flex justify-between items-center"
                                 :class="{ 'bg-gray-50': selectedCategory === '' }"
                                 @click="selectedCategory = ''; $refs.categoryInput.value = ''; filterOpen = false; $refs.searchForm.submit();">
@@ -67,14 +75,16 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Search Bar -->
             <form id="searchForm" x-ref="searchForm" method="GET" action="{{ route('homepage.index') }}" class="flex-1 max-w-lg">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Temukan ikan impianmu"
+                    @focus="hideNavbar = window.innerWidth < 1024 ? true : false"
+                    @blur="setTimeout(() => { hideNavbar = false }, 200)"
                     class="w-full px-3 py-2 lg:px-4 lg:py-3 border-2 border-[#4871AD] rounded-[12px] bg-[#FFF8F8] text-[#4871AD] font-serif focus:outline-none focus:ring-2 focus:ring-[#4871AD] transition-all text-sm lg:text-lg" />
                 <input type="hidden" name="category" x-ref="categoryInput" :value="selectedCategory">
             </form>
-            
+
             <!-- Tombol Cari -->
             <button type="submit" form="searchForm" class="flex items-center justify-center bg-[#4871AD] text-white rounded-[12px] px-3 py-2 lg:px-6 lg:py-3 hover:bg-[#365a8c] transition-all">
                 <i class="fas fa-search text-base lg:text-xl"></i>
@@ -126,7 +136,7 @@
         <div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-8 lg:max-w-7xl lg:mx-auto" id="products-container">
             @forelse ($products as $product)
             <a href="{{ route('homepage.show-product', compact('product')) }}"
-               class="block group rounded-xl shadow-sm border border-[#e6eefd] bg-white hover:shadow-xl hover:border-[#4871AD] hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                class="product-card block group rounded-xl shadow-sm border border-[#e6eefd] bg-white hover:shadow-xl hover:border-[#4871AD] hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                 <div class="aspect-square bg-gray-100 overflow-hidden flex items-center justify-center">
                     <img src="{{ Storage::url($product->image_cover) }}" alt="{{ $product->name }}"
                         class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
@@ -147,123 +157,61 @@
             @endforelse
         </div>
 
-        <!-- Load More Button - hanya tampil jika produk > 20 -->
-        @if ($products->total() > 20 && $products->hasMorePages())
+        @if ($products->hasMorePages())
         <div class="flex justify-center mt-8">
-            <button id="load-more-btn" onclick="loadMoreProducts()" 
+            <a href="{{ $products->nextPageUrl() }}"
                 class="inline-flex items-center gap-2 bg-[#4871AD] text-white px-6 py-3 rounded-lg font-serif font-medium hover:bg-[#365a8c] hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out group">
                 <span>Muat Lebih Banyak</span>
                 <i class="fas fa-chevron-down text-sm group-hover:animate-bounce"></i>
-            </button>
-            <div id="loading-spinner" class="hidden inline-flex items-center gap-2 text-[#4871AD] px-6 py-3">
-                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span class="font-serif">Memuat...</span>
-            </div>
+            </a>
         </div>
         @endif
 
-        <!-- Pagination (hanya untuk produk <= 20) -->
-        @if ($products->total() <= 20 && $products->hasPages())
+        <!-- Pagination -->
+        @if (!$products->hasMorePages() && $products->lastPage() > 1)
         <div class="flex flex-col items-center mt-8 space-y-2">
             {{ $products->links('pagination::tailwind') }}
         </div>
         @endif
     </div>
 
-    <!-- Load More JavaScript -->
-    <script>
-        let currentPage = {{ $products->currentPage() }};
-        let hasMorePages = {{ $products->hasMorePages() ? 'true' : 'false' }};
-        const totalProducts = {{ $products->total() }};
-        
-        function loadMoreProducts() {
-            if (!hasMorePages) return;
-            
-            const loadBtn = document.getElementById('load-more-btn');
-            const spinner = document.getElementById('loading-spinner');
-            
-            // Show loading state
-            loadBtn.classList.add('hidden');
-            spinner.classList.remove('hidden');
-            
-            // Prepare URL with current filters
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('page', currentPage + 1);
-            
-            fetch(window.location.pathname + '?' + urlParams.toString(), {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'text/html'
-                }
-            })
-            .then(response => response.text())
-            .then(html => {
-                // Parse the response to get products
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newProducts = doc.querySelectorAll('#products-container > a');
-                
-                if (newProducts.length > 0) {
-                    const container = document.getElementById('products-container');
-                    
-                    // Add each new product with animation
-                    newProducts.forEach((product, index) => {
-                        const clonedProduct = product.cloneNode(true);
-                        clonedProduct.style.opacity = '0';
-                        clonedProduct.style.transform = 'translateY(20px)';
-                        container.appendChild(clonedProduct);
-                        
-                        setTimeout(() => {
-                            clonedProduct.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                            clonedProduct.style.opacity = '1';
-                            clonedProduct.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    });
-                    
-                    currentPage++;
-                    
-                    // Check if there are more pages by looking for load more button in response
-                    const loadMoreInResponse = doc.getElementById('load-more-btn');
-                    if (!loadMoreInResponse) {
-                        hasMorePages = false;
-                        loadBtn.style.display = 'none';
-                        spinner.style.display = 'none';
-                    } else {
-                        loadBtn.classList.remove('hidden');
-                        spinner.classList.add('hidden');
-                    }
-                } else {
-                    hasMorePages = false;
-                    loadBtn.style.display = 'none';
-                    spinner.style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Error loading more products:', error);
-                loadBtn.classList.remove('hidden');
-                spinner.classList.add('hidden');
-                
-                // Show error message
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'text-red-500 text-center mt-4 font-serif text-sm';
-                errorDiv.textContent = 'Gagal memuat produk. Silakan coba lagi.';
-                spinner.parentNode.appendChild(errorDiv);
-                
-                setTimeout(() => errorDiv.remove(), 3000);
-            });
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-    </script>
+
+        .product-card {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .product-card:nth-child(2n) {
+            animation-delay: 0.1s;
+        }
+
+        .product-card:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+
+        .product-card:nth-child(4n) {
+            animation-delay: 0.3s;
+        }
+    </style>
 
     <!-- Bottom Navigation -->
     @if (!auth('admin')->check())
-    <div class="fixed bottom-0 left-0 right-0 bg-[#4871AD] text-white z-30">
+    <div id="bottom-navbar" class="fixed bottom-0 left-0 right-0 bg-[#4871AD] text-white z-30 transition-opacity duration-200"
+        :class="{'opacity-0 pointer-events-none': hideNavbar, 'opacity-100': !hideNavbar}">
         <div class="w-full max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto 
             @if(auth('customer')->check()) grid grid-cols-4 @else grid grid-cols-2 @endif text-center">
-            <!-- Beranda (selalu tampil) -->
+            <!-- Beranda -->
             <a href="{{ route('homepage.index') }}" class="py-2 flex flex-col items-center relative group transition-all">
                 <svg width="24" height="24" viewBox="0 0 99 99" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-110 transition-transform duration-300">
                     <path d="M0 99V33L49.5 0L99 33V99H61.875V60.5H37.125V99H0Z" />
@@ -272,28 +220,28 @@
                 <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t {{ Route::is('homepage.index') ? 'opacity-100' : 'opacity-0' }} group-hover:opacity-100 transition-opacity duration-300"></span>
             </a>
             @if(auth('customer')->check())
-                <!-- Transaksi (customer saja) -->
-                <a href="{{ route('customer.transactions') }}" class="py-2 flex flex-col items-center relative group transition-all">
-                    <svg width="24" height="24" viewBox="0 0 99 99" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-110 transition-transform duration-300">
-                        <path d="M0 99V0L8.25 7.425L16.5 0L24.75 7.425L33 0L41.25 7.425L49.5 0L57.75 7.425L66 0L74.25 7.425L82.5 0L90.75 7.425L99 0V99L90.75 91.575L82.5 99L74.25 91.575L66 99L57.75 91.575L49.5 99L41.25 91.575L33 99L24.75 91.575L16.5 99L8.25 91.575L0 99ZM16.5 74.25H82.5V64.35H16.5V74.25ZM16.5 54.45H82.5V44.55H16.5V54.45ZM16.5 34.65H82.5V24.75H16.5V34.65Z" />
-                    </svg>
-                    <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
-                    <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t {{ Route::is('customer.transactions') || Route::is('customer.transactions.*') ? 'opacity-100' : 'opacity-0' }} group-hover:opacity-100 transition-opacity duration-300"></span>
-                </a>
-                <!-- Kotak Masuk (customer saja) -->
-                <a href="{{ route('customer.inbox') }}" class="py-2 flex flex-col items-center relative group transition-all">
-                    <svg width="24" height="24" viewBox="0 0 99 99" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-110 transition-transform duration-300">
-                        <path d="M11 99C7.975 99 5.38633 97.9238 3.234 95.7715C1.08167 93.6192 0.00366667 91.0287 0 88V11C0 7.975 1.078 5.38633 3.234 3.234C5.39 1.08167 7.97867 0.00366667 11 0H88C91.025 0 93.6155 1.078 95.7715 3.234C97.9275 5.39 99.0037 7.97867 99 11V88C99 91.025 97.9238 93.6155 95.7715 95.7715C93.6192 97.9275 91.0287 99.0037 88 99H11ZM49.5 71.5C52.9833 71.5 56.1458 70.4917 58.9875 68.475C61.8292 66.4583 63.8 63.8 64.9 60.5H88V11H11V60.5H34.1C35.2 63.8 37.1708 66.4583 40.0125 68.475C42.8542 70.4917 46.0167 71.5 49.5 71.5Z" />
-                    </svg>
-                    <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Kotak Masuk
-                        @if (isset($notifications) && $notifications->count() > 0)
-                        <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
-                            {{ $notifications->count() }}
-                        </span>
-                        @endif
+            <!-- Transaksi -->
+            <a href="{{ route('customer.transactions') }}" class="py-2 flex flex-col items-center relative group transition-all">
+                <svg width="24" height="24" viewBox="0 0 99 99" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-110 transition-transform duration-300">
+                    <path d="M0 99V0L8.25 7.425L16.5 0L24.75 7.425L33 0L41.25 7.425L49.5 0L57.75 7.425L66 0L74.25 7.425L82.5 0L90.75 7.425L99 0V99L90.75 91.575L82.5 99L74.25 91.575L66 99L57.75 91.575L49.5 99L41.25 91.575L33 99L24.75 91.575L16.5 99L8.25 91.575L0 99ZM16.5 74.25H82.5V64.35H16.5V74.25ZM16.5 54.45H82.5V44.55H16.5V54.45ZM16.5 34.65H82.5V24.75H16.5V34.65Z" />
+                </svg>
+                <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Transaksi</span>
+                <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t {{ Route::is('customer.transactions') || Route::is('customer.transactions.*') ? 'opacity-100' : 'opacity-0' }} group-hover:opacity-100 transition-opacity duration-300"></span>
+            </a>
+            <!-- Kotak Masuk (customer saja) -->
+            <a href="{{ route('customer.inbox') }}" class="py-2 flex flex-col items-center relative group transition-all">
+                <svg width="24" height="24" viewBox="0 0 99 99" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-110 transition-transform duration-300">
+                    <path d="M11 99C7.975 99 5.38633 97.9238 3.234 95.7715C1.08167 93.6192 0.00366667 91.0287 0 88V11C0 7.975 1.078 5.38633 3.234 3.234C5.39 1.08167 7.97867 0.00366667 11 0H88C91.025 0 93.6155 1.078 95.7715 3.234C97.9275 5.39 99.0037 7.97867 99 11V88C99 91.025 97.9238 93.6155 95.7715 95.7715C93.6192 97.9275 91.0287 99.0037 88 99H11ZM49.5 71.5C52.9833 71.5 56.1458 70.4917 58.9875 68.475C61.8292 66.4583 63.8 63.8 64.9 60.5H88V11H11V60.5H34.1C35.2 63.8 37.1708 66.4583 40.0125 68.475C42.8542 70.4917 46.0167 71.5 49.5 71.5Z" />
+                </svg>
+                <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">Kotak Masuk
+                    @if (isset($notifications) && $notifications->count() > 0)
+                    <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
+                        {{ $notifications->count() }}
                     </span>
-                    <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t {{ Route::is('customer.inbox') ? 'opacity-100' : 'opacity-0' }} group-hover:opacity-100 transition-opacity duration-300"></span>
-                </a>
+                    @endif
+                </span>
+                <span class="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-white rounded-t {{ Route::is('customer.inbox') ? 'opacity-100' : 'opacity-0' }} group-hover:opacity-100 transition-opacity duration-300"></span>
+            </a>
             @endif
             <!-- Akun (semua role kecuali admin) -->
             <a href="@if(auth('seller')->check())

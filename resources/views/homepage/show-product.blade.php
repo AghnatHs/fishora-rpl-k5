@@ -102,49 +102,34 @@
                 <!-- Action Buttons  -->
                 <div class="fixed bottom-0 left-0 right-0 bg-white py-3 px-4 border-t border-gray-300 z-30 lg:static lg:border-none lg:bg-transparent lg:p-0">
                     <div class="w-full max-w-md mx-auto flex justify-between lg:max-w-none lg:mx-0 lg:gap-6">
-                        <a href="@auth('customer') # @else # @endauth" class="flex-1 mr-3 flex flex-col items-center text-[#4871AD] font-normal hover:bg-[#e6eefd] hover:scale-105 rounded-lg py-2 transition-all duration-200" style="font-family: 'DM Serif Text', serif;">
-                            <div class="text-2xl mb-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4871AD" class="w-8 h-8">
-                                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                                </svg>
-                            </div>
-                            <span class="text-sm">Chat</span>
-                        </a>
+                        <div class="flex-1 mr-3 h-16">
+                            <a href="@auth('customer') # @else # @endauth" class="h-full w-full flex flex-col items-center justify-center text-[#4871AD] font-normal hover:bg-[#e6eefd] rounded-lg py-2 transition-all duration-200" style="font-family: 'DM Serif Text', serif;">
+                                <div class="text-2xl mb-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4871AD" class="w-8 h-8">
+                                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm"> Chat Penjual </span>
+                            </a>
+                        </div>
                         @auth('customer')
-                            <form action="{{ route('customer.add-to-cart', compact('product')) }}" method="POST" class="flex-1 ml-3 cart-form">
-                                @csrf
-                                <button type="submit" class="w-full flex flex-col items-center text-[#4871AD] font-normal cart-button hover:bg-[#e6eefd] hover:scale-105 rounded-lg py-2 transition-all duration-200" data-content="Keranjang" style="font-family: 'DM Serif Text', serif;">
-                                    <div class="text-2xl mb-1 cart-icon-container">
-                                        <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
-                                    </div>
-                                    <span class="text-sm">Keranjang</span>
-                                </button>
-                            </form>
+                            <div class="flex-1 ml-3 h-16">
+                                <form action="{{ route('customer.add-to-cart', compact('product')) }}" method="POST" class="h-full w-full">
+                                    @csrf
+                                    <button type="submit" class="h-full w-full flex flex-col items-center justify-center text-[#4871AD] font-normal hover:bg-[#e6eefd] rounded-lg py-2 transition-all duration-200" style="font-family: 'DM Serif Text', serif;">
+                                        <div class="text-2xl mb-1 relative">
+                                            <svg width="24" height="24" viewBox="0 0 84 88" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
+                                                <path d="M41.6667 33.3333H50V20.8333H62.5V12.5H50V0H41.6667V12.5H29.1667V20.8333H41.6667M25 70.8333C20.4167 70.8333 16.6667 74.5833 16.6667 79.1667C16.6667 83.75 20.4167 87.5 25 87.5C29.5833 87.5 33.3333 83.75 33.3333 79.1667C33.3333 74.5833 29.5833 70.8333 25 70.8333ZM66.6667 70.8333C62.0833 70.8333 58.3333 74.5833 58.3333 79.1667C58.3333 83.75 62.0833 87.5 66.6667 87.5C71.25 87.5 75 83.75 75 79.1667C75 74.5833 71.25 70.8333 66.6667 70.8333ZM25.8333 57.5V57.0833L29.5833 50H60.4167C63.3333 50 66.25 48.3333 67.5 45.8333L83.75 16.6667L76.6667 12.5L60.4167 41.6667H31.25L13.75 4.16667H0V12.5H8.33333L23.3333 44.1667L17.5 54.1667C17.0833 55.4167 16.6667 56.6667 16.6667 58.3333C16.6667 62.9167 20.4167 66.6667 25 66.6667H75V58.3333H26.6667C26.25 58.3333 25.8333 57.9167 25.8333 57.5Z" fill="#4871AD"/>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm">Tambahkan ke Keranjang</span>
+                                    </button>
+                                </form>
+                            </div>
                         @endauth
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.cart-form').forEach(form => {
-                form.addEventListener('submit', function() {
-                    const button = this.querySelector('.cart-button');
-                    // Save the original HTML structure
-                    const originalHTML = `
-                        <div class="text-2xl mb-1 cart-icon-container">
-                            <i class="fas fa-shopping-cart text-[#4871AD] text-xl"></i>
-                        </div>
-                        <span class="text-sm">Keranjang</span>
-                    `;
-                    // Prevent default loading text by forcing the original HTML content
-                    setTimeout(function() {
-                        button.innerHTML = originalHTML;
-                    }, 0);
-                    button.disabled = true;
-                });
-            });
-        });
-    </script>
 </x-full-layout>
