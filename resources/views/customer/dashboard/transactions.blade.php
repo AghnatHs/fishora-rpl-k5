@@ -134,9 +134,12 @@
                         </div>
                         <div class="flex gap-2">
                             @if($activeTab == 'unpaid')
-                            <a href="#" class="px-5 py-2 bg-[#4871AD] text-white rounded-lg shadow hover:bg-[#365a8c] hover:scale-105 transition-all duration-200 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-[#4871AD]/50" style="font-family: 'DM Serif Text', serif;">
-                                Bayar Sekarang
-                            </a>
+                            <form action="{{ route('customer.transactions.pay', $transaction->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="px-5 py-2 bg-[#4871AD] text-white rounded-lg shadow hover:bg-[#365a8c] hover:scale-105 transition-all duration-200 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-[#4871AD]/50" style="font-family: 'DM Serif Text', serif;">
+                                    Bayar Sekarang
+                                </button>
+                            </form>
                             @elseif($activeTab == 'packed')
                             <a href="#" class="px-5 py-2 bg-[#4871AD] text-white rounded-lg shadow hover:bg-[#365a8c] hover:scale-105 transition-all duration-200 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-[#4871AD]/50" style="font-family: 'DM Serif Text', serif;">
                                 Lacak Pesanan

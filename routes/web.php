@@ -82,6 +82,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/transactions/completed', [TransactionController::class, 'completed'])->name('transactions.completed');
         
         Route::post('/transactions/unpaid/update', [TransactionController::class, 'updateUnpaid'])->name('transactions.unpaid.post');
+        Route::post('/transactions/{transaction}/pay', [TransactionController::class, 'pay'])->name('transactions.pay');
     });
 });
 

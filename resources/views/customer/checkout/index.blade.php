@@ -190,7 +190,7 @@
                             }
                         }
                     }
-                    $shipping = 0; // Gratis ongkir
+                    $shipping = 0;
                     $total = $subtotal + $shipping;
                     @endphp
                     <div class="space-y-2 sm:space-y-4 mb-2 sm:mb-4">

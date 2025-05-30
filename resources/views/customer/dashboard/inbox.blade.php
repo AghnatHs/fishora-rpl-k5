@@ -41,8 +41,10 @@
             @else
             <div class="flex-1 flex flex-col px-4 py-8 space-y-4">
                 @foreach ($notifications as $notification)
-                <div x-data="{ open: false }" @click="open = !open"
-                    class="cursor-pointer bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md shadow-sm hover:bg-yellow-100 transition">
+                <div 
+                    x-data="notificationItem({{ $notification->read_at ? 'true' : 'false' }}, '{{ route('customer.notification.read', ['id' => $notification->id]) }}')" 
+                @click="open = !open"
+                class="cursor-pointer bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md shadow-sm hover:bg-yellow-100 transition">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-sm text-gray-800" style="font-family: 'DM Serif Text', serif;">
@@ -52,12 +54,12 @@
                                 {{ $notification->created_at }}
                             </p>
                         </div>
-                        <form action="{{ route('customer.notification.read', ['id' => $notification->id]) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button class="text-m text-blue-600 hover:underline"
-                                style="font-family: 'DM Serif Text', serif;">Mark as read</button>
-                        </form>
+                        @if(!$notification->read_at)
+                            <button @click.stop="markAsRead($event)" class="text-m text-blue-600 hover:underline flex items-center self-center"
+                                style="font-family: 'DM Serif Text', serif;">Tandai dibaca</button>
+                        @else
+                            <span class="text-m text-green-600 flex items-center self-center" style="font-family: 'DM Serif Text', serif;">Sudah dibaca</span>
+                        @endif
                     </div>
                     <div x-show="open" x-transition class="mt-2 text-xs text-gray-600"
                         style="font-family: 'DM Serif Text', serif;">
@@ -65,17 +67,6 @@
                         <div>
                             <p class="mb-2">{{ $notification->data['detail'] }}</p>
                         </div>
-                        @endif
-                        @if(isset($notification->data['transaction_id']))
-                        <a href=""
-                            class="text-blue-600 hover:underline" style="font-family: 'DM Serif Text', serif;">
-                            Lihat Transaksi
-                        </a>
-                        @endif
-                        @if($notification->read_at)
-                        <span class="text-green-600">Sudah dibaca</span>
-                        @else
-                        <span class="text-yellow-600">Belum dibaca</span>
                         @endif
                     </div>
                 </div>
@@ -134,7 +125,7 @@
                         <span class="text-xs font-serif mt-0.5" style="font-family: 'DM Serif Text', serif;">
                             Kotak Masuk
                             @if ($notifications->count() > 0)
-                            <span class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
+                            <span id="notification-counter" class="ml-1 bg-red-500 text-white px-1 rounded-full text-[10px]">
                                 {{ $notifications->count() }}
                             </span>
                             @endif
@@ -159,4 +150,50 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('notificationItem', function(isReadInitial, readUrl) {
+                return {
+                    open: false,
+                    isRead: isReadInitial,
+                    markAsRead(event) {
+                        if (this.isRead) return;
+                        
+                        if (event) {
+                            event.stopPropagation();
+                        }
+                        
+                        fetch(readUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                _method: 'PATCH'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                this.isRead = true;
+                                
+                                // Update notification counter in bottom bar
+                                const counter = document.querySelector('#notification-counter');
+                                if (counter) {
+                                    const count = parseInt(counter.textContent.trim());
+                                    if (count > 1) {
+                                        counter.textContent = count - 1;
+                                    } else {
+                                        counter.remove();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>
