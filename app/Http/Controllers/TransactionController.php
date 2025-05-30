@@ -86,4 +86,15 @@ class TransactionController extends Controller
             'activeTab' => 'completed'
         ]);
     }
+
+    public function pay($id)
+    {
+        $transaction = \App\Models\Transaction::with('order')->findOrFail($id);
+        $order = $transaction->order;
+        $order->status_delivery = \App\Constants\Orders::STATUS_DELIVERY_PACKED;
+        $order->save();
+        $transaction->status = \App\Constants\Orders::TRANSACTION_STATUS_PAID;
+        $transaction->save();
+        return redirect()->route('customer.transactions.packed')->with('status', 'Pesanan sedang dikemas.');
+    }
 }
