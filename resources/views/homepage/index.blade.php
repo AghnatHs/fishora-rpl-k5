@@ -142,20 +142,38 @@
                         class="w-full h-full object-cover group-hover:scale-105 transition-all duration-300" />
                 </div>
                 <div class="flex flex-col gap-1 p-3 lg:p-4">
-                    <div class="flex items-center justify-between">
-                        <span class="text-base lg:text-lg font-bold text-[#4871AD] font-serif truncate group-hover:underline">{{ $product->name }}</span>
-                        <span class="text-base lg:text-lg font-bold text-[#4871AD] font-serif group-hover:text-[#365a8c] transition-all">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
-                    </div>
-                    <div class="items-center gap-2 mt-1">
-                        <i class="fas fa-store text-[#4871AD] text-xs"></i>
-                        <p class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</p>
+                    <!-- Mobile layout (stacked) -->
+                    <div class="flex flex-col lg:hidden">
+                        <span class="text-base font-bold text-[#4871AD] font-serif truncate group-hover:underline">{{ $product->name }}</span>
+                        <span class="text-base font-bold text-[#4871AD] font-serif group-hover:text-[#365a8c] transition-all mt-1">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-store text-[#4871AD] text-xs"></i>
+                            <p class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</p>
+                        </div>
                         @if ($product->stock == 0)
                         <p class="text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600">Stok Produk ini Habis!</p>
                         @elseif ($product->stock < 3)
                         <p class="text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600">Stok Produk ini sisa {{ $product->stock }} !</p>
                         @endif
-
                     </div>
+                    
+                    <!-- Desktop layout (side by side) -->
+                    <div class="hidden lg:flex items-center justify-between">
+                        <span class="text-lg font-bold text-[#4871AD] font-serif truncate group-hover:underline">{{ $product->name }}</span>
+                        <span class="text-lg font-bold text-[#4871AD] font-serif group-hover:text-[#365a8c] transition-all">Rp{{ number_format($product->price, 0, ',', '.') }}</span>
+                    </div>
+                    
+                    <!-- Desktop shop info -->
+                    <div class="hidden lg:flex items-center gap-2 mt-1">
+                        <i class="fas fa-store text-[#4871AD] text-xs"></i>
+                        <p class="text-xs text-gray-500 font-serif font-normal truncate group-hover:text-[#4871AD]">{{ $product->seller->shop_name }}</p>
+                    </div>
+
+                    @if ($product->stock == 0)
+                    <p class="hidden lg:block text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600 mt-1">Stok Produk ini Habis!</p>
+                    @elseif ($product->stock < 3)
+                    <p class="hidden lg:block text-xs text-red-500 font-serif font-normal truncate group-hover:text-red-600 mt-1">Stok Produk ini sisa {{ $product->stock }} !</p>
+                    @endif
                 </div>
             </a>
             @empty
